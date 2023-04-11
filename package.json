@@ -1,0 +1,31 @@
+{
+  "private": true,
+  "sideEffects": false,
+  "scripts": {
+    "build": "remix build",
+    "dev": "remix dev",
+    "clean": "rm -rf .cache node_modules build public/build api/_assets && yarn"
+  },
+  "dependencies": {
+    "@remix-run/express": "^1.15.0",
+    "@remix-run/node": "^1.14.3",
+    "@remix-run/react": "^1.14.3",
+    "@remix-run/serve": "^1.14.3",
+    "framer-motion": "^10.9.2",
+    "isbot": "latest",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@remix-run/dev": "^1.14.3",
+    "@remix-run/eslint-config": "^1.14.3",
+    "@types/react": "^18.0.25",
+    "@types/react-dom": "^18.0.11",
+    "eslint": "^8.28.0",
+    "tailwindcss": "^3.3.0",
+    "typescript": "^4.9.3"
+  },
+  "engines": {
+    "node": ">=14"
+  }
+}
