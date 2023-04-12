@@ -21,7 +21,7 @@ export const action: ActionFunction = async ({ request }: ActionArgs) => {
     values.password.length > 0 ? (values.password as string) : "";
   if (url && username && password) {
     try {
-      const f = await fetch(`${url}/wp-json/wp/v2/media?media_type=image`);
+      const f = await fetch(`${url}wp-json/wp/v2/media?media_type=image`);
       (await f.json()) as WPschema[];
       cookie.url = url;
       cookie.username = username;
@@ -62,7 +62,7 @@ export default function Home() {
         and add the zip file to plugins
       </p>
       <p>Step 3: Enter your wordpress url! </p>
-      <p>Remove any slashes ex: https://youtube.com</p>
+      <p>Add a slash after url ex: https://youtube.com/</p>
       <Form className="flex flex-col gap-2 mt-4" method="post">
         <input
           name="url"

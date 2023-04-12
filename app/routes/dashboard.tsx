@@ -20,27 +20,21 @@ export async function action({ request }: ActionArgs) {
       password: cookie.password,
     };
 
-    const tokenFetch = await fetch(
-      "https://test.skibikehike.se/wp-json/jwt-auth/v1/token",
-      {
-        headers: { "Content-Type": "application/json" },
-        method: "POST",
-        body: JSON.stringify(user),
-      }
-    );
+    const tokenFetch = await fetch(`${cookie.url}wp-json/jwt-auth/v1/token`, {
+      headers: { "Content-Type": "application/json" },
+      method: "POST",
+      body: JSON.stringify(user),
+    });
     const tokenData = await tokenFetch.json();
     const token = tokenData.token;
-    const f = await fetch(
-      `https://test.skibikehike.se/wp-json/wp/v2/media/${values.id}`,
-      {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(obj),
-      }
-    );
+    const f = await fetch(`${cookie.url}wp-json/wp/v2/media/${values.id}`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(obj),
+    });
     const data = await f.json();
     console.log("CHANGED", data);
   }
