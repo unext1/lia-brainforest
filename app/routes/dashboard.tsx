@@ -13,7 +13,6 @@ import {
 import { useState } from "react";
 import { type WPschema } from "~/types";
 import { wordpressCookie } from "~/cookie";
-import { useEffect } from "react";
 
 export async function action({ request }: ActionArgs) {
   const formData = await request.formData();
@@ -126,8 +125,6 @@ const Dashboard = () => {
 
   const transition = useTransition();
   const busy = transition.state === "submitting";
-
-  useEffect(() => {}, [selectedImage]);
 
   return (
     <div className="container pb-20 mx-auto max-w-7xl">
