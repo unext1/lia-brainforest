@@ -1,13 +1,19 @@
-import { Form, useActionData, useLoaderData } from "@remix-run/react";
+import {
+  Form,
+  useActionData,
+  useLoaderData,
+  useTransition,
+} from "@remix-run/react";
 import {
   type LoaderArgs,
   json,
   type ActionArgs,
   redirect,
 } from "@remix-run/node";
-import { useEffect, useState } from "react";
-import { WPschema } from "~/types";
+import { useState } from "react";
+import { type WPschema } from "~/types";
 import { wordpressCookie } from "~/cookie";
+import { useEffect } from "react";
 
 export async function action({ request }: ActionArgs) {
   const formData = await request.formData();
@@ -42,6 +48,7 @@ export async function action({ request }: ActionArgs) {
     });
     const data = await f.json();
     console.log("CHANGED", data);
+    return json(data.title.rendered);
   }
 
   if (action == "GENERATE") {
@@ -90,11 +97,12 @@ export async function loader({ params, request }: LoaderArgs) {
   if (!cookie) return redirect("/setup");
   try {
     const f = await fetch(
-      `${cookie.url}wp-json/wp/v2/media?media_type=image&per_page=10&page=2`
+      `${cookie.url}wp-json/wp/v2/media?media_type=image&per_page=10&page=1`
     );
+    console.log(cookie.url);
     const data = (await f.json()) as WPschema[];
-    return json({ media: data });
-  } catch (err) {
+    return json({ data });
+  } catch (err: any) {
     if (err.code === "ERR_INVALID_URL")
       return {
         error_message: "Invalid Url, try entering your url in home page.",
@@ -104,19 +112,28 @@ export async function loader({ params, request }: LoaderArgs) {
 }
 
 const Dashboard = () => {
-  const data = useLoaderData<typeof loader>();
+  const { data, error_message } = useLoaderData<{
+    data: WPschema[];
+    error_message: string;
+  }>();
+
   const labels = useActionData();
 
   const [selectedImageId, setSelectedImageId] = useState<number>();
   const selectedImage = selectedImageId
-    ? data?.media?.find((image) => image.id == selectedImageId)
+    ? data.find((image) => image.id == selectedImageId)
     : null;
+
+  const transition = useTransition();
+  const busy = transition.state === "submitting";
+
+  useEffect(() => {}, [selectedImage]);
 
   return (
     <div className="container pb-20 mx-auto max-w-7xl">
-      {data.error_message ? <h2>Error {data.error_message}</h2> : ""}
+      {error_message ? <h2>Error {error_message}</h2> : ""}
       <div className="container grid gap-5 py-20 mx-auto md:grid-cols-4 lg:grid-cols-6 gap-y-20">
-        {data?.media?.map((image) => (
+        {data.map((image) => (
           <div key={image.id} className="">
             <img
               src={image.source_url}
@@ -206,7 +223,7 @@ const Dashboard = () => {
                 value="CHANGE"
                 className=" w-fit  sm:px-12 sm:py-2.5 mx-auto mt-2  text-xs px-6 py-1.5 md:text-sm font-bold text-white uppercase bg-red-500 rounded-lg"
               >
-                Change in Wordpress
+                {!busy ? "Change in Wordpress" : "Pushing..."}
               </button>
             ) : (
               <button
@@ -215,7 +232,7 @@ const Dashboard = () => {
                 value="GENERATE"
                 className=" w-fit  sm:px-12 sm:py-2.5 mx-auto mt-2  text-xs px-6 py-1.5 md:text-sm font-bold text-white uppercase bg-red-500 rounded-lg"
               >
-                Generate Text
+                {!busy ? "Generate Text" : "Generating..."}
               </button>
             )}
           </Form>
