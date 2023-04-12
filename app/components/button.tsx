@@ -28,5 +28,3 @@ const Btn = ({
 };
 
 export default Btn;
-
-// <Btn title='Try it' link href='/dashboard' />
