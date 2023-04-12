@@ -45,7 +45,7 @@ const isValidUrl = (urlString: string) => {
     return false;
   }
 };
-export default function Home() {
+export default function Setup() {
   const actionData = useActionData();
   return (
     <div className="flex flex-col items-center justify-center font-mono">

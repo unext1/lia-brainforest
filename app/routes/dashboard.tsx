@@ -1,5 +1,10 @@
 import { Form, useActionData, useLoaderData } from "@remix-run/react";
-import { type LoaderArgs, json, type ActionArgs } from "@remix-run/node";
+import {
+  type LoaderArgs,
+  json,
+  type ActionArgs,
+  redirect,
+} from "@remix-run/node";
 import { useEffect, useState } from "react";
 import { WPschema } from "~/types";
 import { wordpressCookie } from "~/cookie";
@@ -81,7 +86,8 @@ export async function action({ request }: ActionArgs) {
 
 export async function loader({ params, request }: LoaderArgs) {
   const cookieHeader = request.headers.get("Cookie");
-  const cookie = (await wordpressCookie.parse(cookieHeader)) || {};
+  const cookie = await wordpressCookie.parse(cookieHeader);
+  if (!cookie) return redirect("/setup");
   try {
     const f = await fetch(
       `${cookie.url}wp-json/wp/v2/media?media_type=image&per_page=10&page=2`
