@@ -1,31 +1,39 @@
 import { Form, useActionData, useLoaderData } from "@remix-run/react";
 import { type LoaderArgs, json, type ActionArgs } from "@remix-run/node";
 import { useEffect, useState } from "react";
-
-interface WPschema {
-  id: number;
-  date: number;
-  title: {
-    rendered: string;
-  };
-  source_url: string;
-  mime_type: string;
-}
+import { WPschema } from "~/types";
+import { wordpressCookie } from "~/cookie";
 
 export async function action({ request }: ActionArgs) {
   const formData = await request.formData();
   const values = Object.fromEntries(formData);
   const action = formData.get("_action");
+  const cookieHeader = request.headers.get("Cookie");
+  const cookie = (await wordpressCookie.parse(cookieHeader)) || {};
   let labels;
   if (action == "CHANGE") {
-    const token = process.env.WP_TOKEN;
     const obj = {
       title: values.title,
     };
+    const user = {
+      username: cookie.username,
+      password: cookie.password,
+    };
+
+    const tokenFetch = await fetch(
+      "https://test.skibikehike.se/wp-json/jwt-auth/v1/token",
+      {
+        headers: { "Content-Type": "application/json" },
+        method: "POST",
+        body: JSON.stringify(user),
+      }
+    );
+    const tokenData = await tokenFetch.json();
+    const token = tokenData.token;
     const f = await fetch(
       `https://test.skibikehike.se/wp-json/wp/v2/media/${values.id}`,
       {
-        method: "PUT",
+        method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
@@ -34,7 +42,6 @@ export async function action({ request }: ActionArgs) {
       }
     );
     const data = await f.json();
-
     console.log("CHANGED", data);
   }
 
@@ -69,38 +76,47 @@ export async function action({ request }: ActionArgs) {
     const data = await f.json();
     console.log("GENERATED");
 
-    labels = data.responses[0].labelAnnotations.map(
+    labels = data?.responses[0]?.labelAnnotations?.map(
       (label: any) => label.description
     );
+    console.log(labels);
   }
 
   return json(labels);
 }
 
-export async function loader(params: LoaderArgs) {
-  const f = await fetch(
-    "https://test.skibikehike.se/wp-json/wp/v2/media?media_type=image"
-  );
-  const data = (await f.json()) as WPschema[];
-  return json(data);
+export async function loader({ params, request }: LoaderArgs) {
+  const cookieHeader = request.headers.get("Cookie");
+  const cookie = (await wordpressCookie.parse(cookieHeader)) || {};
+  try {
+    const f = await fetch(
+      `${cookie.url}wp-json/wp/v2/media?media_type=image&per_page=10&page=2`
+    );
+    const data = (await f.json()) as WPschema[];
+    return json({ media: data });
+  } catch (err) {
+    if (err.code === "ERR_INVALID_URL")
+      return {
+        error_message: "Invalid Url, try entering your url in home page.",
+      };
+    return null;
+  }
 }
 
 const Dashboard = () => {
   const data = useLoaderData<typeof loader>();
   const labels = useActionData();
 
-  console.log(labels);
   const [selectedImageId, setSelectedImageId] = useState<number>();
   const selectedImage = selectedImageId
-    ? data.find((image) => image.id == selectedImageId)
+    ? data?.media?.find((image) => image.id == selectedImageId)
     : null;
-
-  console.log(data);
 
   return (
     <div className="container pb-20 mx-auto max-w-7xl">
+      {data.error_message ? <h2>Error {data.error_message}</h2> : ""}
       <div className="container grid gap-5 py-20 mx-auto md:grid-cols-4 lg:grid-cols-6 gap-y-20">
-        {data.map((image) => (
+        {data?.media?.map((image) => (
           <div key={image.id} className="">
             <img
               src={image.source_url}
