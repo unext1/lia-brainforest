@@ -25,9 +25,7 @@ export default function App() {
   return (
     <>
       <Document>
-        <div className="container px-5 mx-auto">
-          <Outlet />
-        </div>
+        <Outlet />
       </Document>
     </>
   );
