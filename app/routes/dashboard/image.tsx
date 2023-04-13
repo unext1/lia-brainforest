@@ -3,7 +3,7 @@ import { Link, Outlet, useLoaderData, useNavigation } from "@remix-run/react";
 import { wordpressCookie } from "~/cookie";
 import { type WPschema } from "~/types";
 
-export async function loader({ params, request }: LoaderArgs) {
+export async function loader({ request }: LoaderArgs) {
   const cookieHeader = request.headers.get("Cookie");
   const cookie = await wordpressCookie.parse(cookieHeader);
   if (!cookie) return redirect("/setup");

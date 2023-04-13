@@ -64,6 +64,7 @@ const ImageForm = () => {
   // const labels = useActionData();
   const navigation = useNavigation();
   const fetcher = useFetcher();
+  console.log(error_message);
 
   return (
     <div className="max-h-screen">
