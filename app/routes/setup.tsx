@@ -2,8 +2,10 @@ import {
   redirect,
   type ActionArgs,
   type ActionFunction,
+  LoaderFunction,
+  LoaderArgs,
 } from "@remix-run/node";
-import { Form, useActionData } from "@remix-run/react";
+import { Form, useActionData, useLoaderData } from "@remix-run/react";
 import { wordpressCookie } from "~/cookie";
 import { type WPschema } from "~/types";
 export const action: ActionFunction = async ({ request }: ActionArgs) => {
@@ -40,6 +42,16 @@ export const action: ActionFunction = async ({ request }: ActionArgs) => {
   const urlError = `${url ? "" : "url not valid"}`;
   return { error_message: [usernameError, passwordError, urlError] };
 };
+export const loader: LoaderFunction = async ({ request }: LoaderArgs) => {
+  const cookieHeader = request.headers.get("Cookie");
+  const cookie = (await wordpressCookie.parse(cookieHeader)) || null;
+
+  if (!cookie) return { cookie: null };
+  if (!cookie.url) return { url: null, username: null };
+  if (!cookie.username) return { url: null, username: null };
+
+  return { url: cookie.url, username: cookie.username };
+};
 const isValidUrl = (urlString: string) => {
   try {
     return Boolean(new URL(urlString)) && !urlString.endsWith("/");
@@ -49,6 +61,7 @@ const isValidUrl = (urlString: string) => {
 };
 export default function Setup() {
   const actionData = useActionData();
+  const loaderData = useLoaderData();
   return (
     <div className="flex flex-col items-center justify-center font-mono">
       <h2 className="text-2xl font-semibold leading-10 ">
@@ -65,30 +78,37 @@ export default function Setup() {
       </p>
       <p>Step 3: Enter your wordpress url! </p>
       <p>Add a slash after url ex: https://youtube.com/</p>
-      <Form className="flex flex-col gap-2 mt-4" method="post">
-        <input
-          name="url"
-          className="border rounded-sm"
-          placeholder="wordpress url"
-        />
-        <input
-          name="username"
-          className="border rounded-sm"
-          placeholder="username"
-        />
-        <input
-          name="password"
-          type="password"
-          className="border rounded-sm "
-          placeholder="password"
-        />
-        <button
-          className=" w-fit flex sm:px-12 sm:py-2.5 mx-auto mt-8  text-xs px-6 py-1.5 md:text-sm font-bold text-white uppercase bg-blue-500 rounded-lg"
-          type="submit"
-        >
-          Log in
-        </button>
-      </Form>
+      {!loaderData.cookie ? (
+        <Form className="flex flex-col gap-2 mt-4" method="post">
+          <input
+            name="url"
+            className="border rounded-sm"
+            placeholder={loaderData.url ? loaderData.url : "wordpress url"}
+          />
+          <input
+            name="username"
+            className="border rounded-sm"
+            placeholder={loaderData.username ? loaderData.username : "username"}
+          />
+          <input
+            name="password"
+            type="password"
+            className="border rounded-sm "
+            placeholder="password"
+          />
+          <button
+            className=" w-fit flex sm:px-12 sm:py-2.5 mx-auto mt-8  text-xs px-6 py-1.5 md:text-sm font-bold text-white uppercase bg-blue-500 rounded-lg"
+            type="submit"
+          >
+            Log in
+          </button>
+        </Form>
+      ) : (
+        <h5>
+          Hi there, you are already setup! But feel free to check the steps
+          again.
+        </h5>
+      )}
       <div>
         {actionData?.error_message?.map((message: any, id: any) => (
           <p key={id}>{message}</p>

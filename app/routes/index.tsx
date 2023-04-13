@@ -1,3 +1,4 @@
+import { Link } from "@remix-run/react";
 import Btn from "~/components/button";
 import InfoCards from "~/components/infoCards";
 
@@ -50,7 +51,7 @@ export default function Index() {
               ipsum dolor sit amet consectetur adipisicing elit.
             </p>
 
-            <Btn title="Try it" link href="/dashboard" />
+            <Btn title="Setup" link href="/setup" />
           </div>
         </div>
       </div>
