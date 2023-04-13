@@ -6,11 +6,10 @@ import { type WPschema } from "~/types";
 export async function loader({ params, request }: LoaderArgs) {
   const cookieHeader = request.headers.get("Cookie");
   const cookie = await wordpressCookie.parse(cookieHeader);
-  const { id } = params;
   if (!cookie) return redirect("/setup");
   try {
     const f = await fetch(
-      `${cookie.url}wp-json/wp/v2/media?media_type=image&per_page=10&page=1`
+      `${cookie.url}wp-json/wp/v2/media?media_type=image&per_page=20&page=1`
     );
     console.log(cookie.url);
     const data = (await f.json()) as WPschema[];
@@ -34,22 +33,23 @@ const LayoutImage = () => {
 
   return (
     <div>
-      {error_message ? <h2>Error {error_message}</h2> : ""}
-      <div className="container flex gap-10 pb-20 mx-auto max-w-7xl">
-        <div className="container grid max-w-[400px] h-screen grid-cols-2 col-span-1 gap-5 py-20 mx-auto overflow-y-scroll gap-y-20">
+      <div className="container gap-10 pb-20 mx-auto max-w-7xl ">
+        <div className="container flex gap-5 py-10 mx-auto overflow-x-scroll gap-x-20 snap-mandatory snap-x">
           {data.map((image) => (
-            <div key={image.id} className="">
+            <div key={image.id} className="flex-shrink-0 snap-center">
               <Link to={`/dashboard/image/${image.id}`}>
                 <img
                   src={image.source_url}
                   alt={image.source_url}
-                  className="object-scale-down w-32 h-36"
+                  className="object-scale-down h-32 w-36"
                 />
               </Link>
             </div>
           ))}
         </div>
         <div className="flex-1" key={navigation.location?.pathname}>
+          {error_message ? <h2>Error {error_message}</h2> : ""}
+
           <Outlet />
         </div>
       </div>
