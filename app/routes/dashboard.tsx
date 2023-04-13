@@ -1,21 +1,5 @@
-import {
-  Form,
-  Link,
-  Outlet,
-  useActionData,
-  useLoaderData,
-  useNavigation,
-  useTransition,
-} from "@remix-run/react";
-import {
-  type LoaderArgs,
-  json,
-  type ActionArgs,
-  redirect,
-} from "@remix-run/node";
+import { Link, Outlet } from "@remix-run/react";
 import { Fragment, useState } from "react";
-import { type WPschema } from "~/types";
-import { wordpressCookie } from "~/cookie";
 import { Dialog, Transition } from "@headlessui/react";
 
 const navigation = [
@@ -32,42 +16,8 @@ function classNames(...classes: any) {
   return classes.filter(Boolean).join(" ");
 }
 
-export async function loader({ params, request }: LoaderArgs) {
-  const cookieHeader = request.headers.get("Cookie");
-  const cookie = await wordpressCookie.parse(cookieHeader);
-  if (!cookie) return redirect("/setup");
-  try {
-    const f = await fetch(
-      `${cookie.url}wp-json/wp/v2/media?media_type=image&per_page=10&page=1`
-    );
-    console.log(cookie.url);
-    const data = (await f.json()) as WPschema[];
-    return json({ data });
-  } catch (err: any) {
-    if (err.code === "ERR_INVALID_URL")
-      return {
-        error_message: "Invalid Url, try entering your url in home page.",
-      };
-    return null;
-  }
-}
-
 const Dashboard = () => {
-  const { data, error_message } = useLoaderData<{
-    data: WPschema[];
-    error_message: string;
-  }>();
   const [sidebarOpen, setSidebarOpen] = useState(false);
-
-  const labels = useActionData();
-
-  const [selectedImageId, setSelectedImageId] = useState<number>();
-  const selectedImage = selectedImageId
-    ? data.find((image) => image.id == selectedImageId)
-    : null;
-
-  const transition = useNavigation();
-  const busy = transition.state === "submitting";
 
   return (
     <>
