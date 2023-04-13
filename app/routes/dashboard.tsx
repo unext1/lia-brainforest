@@ -81,13 +81,13 @@ export async function action({ request }: ActionArgs) {
     const data = await f.json();
     console.log("GENERATED");
 
-    labels = data?.responses[0]?.labelAnnotations?.map(
+    const labels = data?.responses[0]?.labelAnnotations?.map(
       (label: any) => label.description
     );
     console.log(labels);
+    return json(labels);
   }
-
-  return json(labels);
+  return {};
 }
 
 export async function loader({ params, request }: LoaderArgs) {
