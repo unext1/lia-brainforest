@@ -63,56 +63,72 @@ export default function Setup() {
   const actionData = useActionData();
   const loaderData = useLoaderData();
   return (
-    <div className="flex flex-col items-center justify-center font-mono">
-      <h2 className="text-2xl font-semibold leading-10 ">
-        Image To Text Using Wordpress Api!
-      </h2>
-      <h4>Steps</h4>
-      <p>Step 1: Install WP Rest Api Plugin in wordpress plugins.</p>
-      <p>
-        Step 2: Press the{" "}
-        <a className="text-blue-400" href="/jwt-secret-plugin.zip" download>
-          download link
-        </a>{" "}
-        and add the zip file to plugins
-      </p>
-      <p>Step 3: Enter your wordpress url! </p>
-      <p>Add a slash after url ex: https://youtube.com/</p>
-      {!loaderData.cookie ? (
-        <Form className="flex flex-col gap-2 mt-4" method="post">
-          <input
-            name="url"
-            className="border rounded-sm"
-            placeholder={loaderData.url ? loaderData.url : "wordpress url"}
-          />
-          <input
-            name="username"
-            className="border rounded-sm"
-            placeholder={loaderData.username ? loaderData.username : "username"}
-          />
-          <input
-            name="password"
-            type="password"
-            className="border rounded-sm "
-            placeholder="password"
-          />
-          <button
-            className="w-fit duration-150 transform hover:scale-105 flex sm:px-12 sm:py-2.5 mx-auto mt-8  text-xs px-6 py-1.5 md:text-sm font-bold text-white uppercase bg-blue-500 rounded-lg"
-            type="submit"
-          >
-            Log in
-          </button>
-        </Form>
-      ) : (
-        <h5>
-          Hi there, you are already setup! But feel free to check the steps
-          again.
-        </h5>
-      )}
-      <div>
-        {actionData?.error_message?.map((message: any, id: any) => (
-          <p key={id}>{message}</p>
-        ))}
+    <div className="flex flex-col items-center justify-center gap-10 pt-6 mx-10 font-mono md:items-start md:flex-row md:justify-start ">
+      <div className=" max-w-[50%] min-h-[200px] flex-1">
+        <h2 className="text-2xl font-semibold leading-10 ">Getting started</h2>
+        <p>Step 1: Install WP Rest Api Plugin in wordpress plugins.</p>
+        <p>
+          Step 2: Press the{" "}
+          <a className="text-blue-400" href="/jwt-secret-plugin.zip" download>
+            download link
+          </a>{" "}
+          and add the zip file to plugins
+        </p>
+        <p>Step 3: Enter your wordpress url, username and password </p>
+        <img
+          src="/setup illustration.png"
+          alt="illustration of setup"
+          className="hidden md:block"
+        />
+      </div>
+      <div className=" min-h-[200px] max-w-xs ">
+        {!loaderData.cookie ? (
+          <Form className="flex flex-col gap-2 " method="post">
+            <h4 className="text-xl font-semibold">Connect your wordpress</h4>
+            <input
+              name="url"
+              className="mt-2 border rounded-sm"
+              placeholder={loaderData.url ? loaderData.url : "wordpress url"}
+            />
+            <input
+              name="username"
+              className="border rounded-sm"
+              placeholder={
+                loaderData.username ? loaderData.username : "username"
+              }
+            />
+            <input
+              name="password"
+              type="password"
+              className="border rounded-sm "
+              placeholder="password"
+            />
+            <button
+              className="w-fit duration-150 transform hover:scale-105 flex sm:px-12 sm:py-2.5 mx-auto mt-2  text-xs px-6 py-1.5 md:text-sm font-bold text-white uppercase bg-blue-500 rounded-lg"
+              type="submit"
+            >
+              Log in
+            </button>
+          </Form>
+        ) : (
+          <h5>
+            Hi there, you are already setup! But feel free to check the steps
+            again.
+          </h5>
+        )}
+        {
+          <div className="mt-10 text-sm ">
+            <p className="">
+              *NOTE* We do not use your username and password for anything
+              except changing the wordpress image SEO.
+            </p>
+          </div>
+        }
+        <div>
+          {actionData?.error_message?.map((message: any, id: any) => (
+            <p key={id}>{message}</p>
+          ))}
+        </div>
       </div>
     </div>
   );
