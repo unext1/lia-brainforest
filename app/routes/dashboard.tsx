@@ -10,7 +10,7 @@ import {
   type ActionArgs,
   redirect,
 } from "@remix-run/node";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { type WPschema } from "~/types";
 import { wordpressCookie } from "~/cookie";
 
@@ -20,7 +20,7 @@ export async function action({ request }: ActionArgs) {
   const action = formData.get("_action");
   const cookieHeader = request.headers.get("Cookie");
   const cookie = (await wordpressCookie.parse(cookieHeader)) || {};
-  let labels;
+
   if (action == "CHANGE") {
     const obj = {
       title: values.title,
@@ -36,6 +36,7 @@ export async function action({ request }: ActionArgs) {
       body: JSON.stringify(user),
     });
     const tokenData = await tokenFetch.json();
+
     const token = tokenData.token;
     const f = await fetch(`${cookie.url}wp-json/wp/v2/media/${values.id}`, {
       method: "POST",
@@ -68,24 +69,28 @@ export async function action({ request }: ActionArgs) {
       ],
     };
 
-    const f = await fetch(
-      `https://vision.googleapis.com/v1/images:annotate?key=${process.env.API_KEY}`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(requestData),
-      }
-    );
-    const data = await f.json();
-    console.log("GENERATED");
+    try {
+      const f = await fetch(
+        `https://vision.googleapis.com/v1/images:annotate?key=${process.env.API_KEY}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(requestData),
+        }
+      );
+      const data = await f.json();
+      console.log("GENERATED");
 
-    const labels = data?.responses[0]?.labelAnnotations?.map(
-      (label: any) => label.description
-    );
-    console.log(labels);
-    return json(labels);
+      const labels = data?.responses[0]?.labelAnnotations?.map(
+        (label: any) => label.description
+      );
+      return json(labels);
+    } catch (error) {
+      console.log(error);
+      return {};
+    }
   }
   return {};
 }
