@@ -2,8 +2,7 @@ import {
   redirect,
   type ActionArgs,
   type ActionFunction,
-  LoaderFunction,
-  LoaderArgs,
+  type LoaderFunction,
 } from "@remix-run/node";
 import { Form, useActionData, useLoaderData } from "@remix-run/react";
 import { wordpressCookie } from "~/cookie";
@@ -55,7 +54,7 @@ export const action: ActionFunction = async ({ request }: ActionArgs) => {
   const urlError = `${url ? "" : "url not valid"}`;
   return { error_message: [usernameError, passwordError, urlError] };
 };
-export const loader: LoaderFunction = async ({ request }: LoaderArgs) => {
+export const loader: LoaderFunction = async ({ request }) => {
   const cookieHeader = request.headers.get("Cookie");
   const cookie = (await wordpressCookie.parse(cookieHeader)) || null;
 

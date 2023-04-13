@@ -7,10 +7,12 @@
     "clean": "rm -rf .cache node_modules build public/build api/_assets && yarn"
   },
   "dependencies": {
+    "@headlessui/react": "^1.7.14",
     "@remix-run/express": "^1.15.0",
     "@remix-run/node": "^1.14.3",
     "@remix-run/react": "^1.14.3",
     "@remix-run/serve": "^1.14.3",
+    "@tailwindcss/forms": "^0.5.3",
     "framer-motion": "^10.9.2",
     "isbot": "latest",
     "react": "^18.2.0",

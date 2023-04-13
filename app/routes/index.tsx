@@ -1,4 +1,3 @@
-import { Link } from "@remix-run/react";
 import Btn from "~/components/button";
 import InfoCards from "~/components/infoCards";
 
