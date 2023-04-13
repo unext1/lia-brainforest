@@ -2,6 +2,7 @@ import {
   Form,
   useActionData,
   useLoaderData,
+  useNavigation,
   useTransition,
 } from "@remix-run/react";
 import {
@@ -128,7 +129,7 @@ const Dashboard = () => {
     ? data.find((image) => image.id == selectedImageId)
     : null;
 
-  const transition = useTransition();
+  const transition = useNavigation();
   const busy = transition.state === "submitting";
 
   return (
