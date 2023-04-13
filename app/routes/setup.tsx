@@ -25,15 +25,28 @@ export const action: ActionFunction = async ({ request }: ActionArgs) => {
     try {
       const f = await fetch(`${url}wp-json/wp/v2/media?media_type=image`);
       (await f.json()) as WPschema[];
+      const user = {
+        username,
+        password,
+      };
+      const tokenFetch = await fetch(`${url}wp-json/jwt-auth/v1/token`, {
+        headers: { "Content-Type": "application/json" },
+        method: "POST",
+        body: JSON.stringify(user),
+      });
+      const tokenData = await tokenFetch.json();
+      cookie.token = tokenData.token;
       cookie.url = url;
-      cookie.username = username;
-      cookie.password = password;
+      //CREATE TOKEN HERE
+      //cookie.username = username;
+      //cookie.password = password;
       return redirect("/dashboard", {
         headers: {
           "Set-Cookie": await wordpressCookie.serialize(cookie),
         },
       });
     } catch (err) {
+      console.error(err);
       return { error_message: "url is not a wordpress url." };
     }
   }
