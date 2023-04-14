@@ -37,7 +37,8 @@ export async function action({ request }: ActionArgs) {
     const labels = data?.responses[0]?.labelAnnotations?.map(
       (label: any) => label.description
     );
-    return json(labels);
+
+    return json({ tags: labels, description: "" });
   } catch (error) {
     return {};
   }

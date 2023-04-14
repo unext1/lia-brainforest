@@ -6,4 +6,7 @@ export interface WPschema {
   };
   source_url: string;
   mime_type: string;
+  description: {
+    rendered: string;
+  };
 }
