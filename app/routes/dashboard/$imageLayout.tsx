@@ -11,6 +11,7 @@ export async function loader({ request, params }: LoaderArgs) {
 
   if (!cookie) return redirect("/setup");
   try {
+    //CHECK PARAMS AND FETCH DIFFERENTLY.
     const f = await fetch(
       `${cookie.url}wp-json/wp/v2/media?media_type=image&per_page=20&page=1`
     );
