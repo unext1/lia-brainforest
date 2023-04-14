@@ -39,20 +39,45 @@ export async function action({ request }: ActionArgs) {
 export async function loader({ params, request }: LoaderArgs) {
   const cookieHeader = request.headers.get("Cookie");
   const cookie = await wordpressCookie.parse(cookieHeader);
-
+  if (!cookie) return redirect("/setup");
   const { img } = params;
 
-  if (!cookie) return redirect("/setup");
   try {
     const f = await fetch(`${cookie.url}wp-json/wp/v2/media/${img}`);
     const data = (await f.json()) as WPschema;
+
+    const fetchText = await fetch(
+      "https://northeurope.api.cognitive.microsoft.com/vision/v3.2/describe?maxCandidates=1&language=en&model-version=latest",
+      {
+        method: "POST",
+        headers: {
+          "Ocp-Apim-Subscription-Key": process.env
+            .AZURE_SUBSCRIPTION_KEY as string,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          url: data.source_url,
+        }),
+      }
+    );
+    const aiText = await fetchText.json();
+
+    if (!aiText.description) return json({ tags: "", description: "" });
+    const aiTextDescription: string = aiText.description.captions
+      ? aiText.description.captions.map((caption: any) => caption.text)
+      : "";
+
     const htmlDescription = data.description.rendered;
     const description =
       htmlDescription.split("</p>").length > 1
         ? htmlDescription.split("</p>")[1].slice(4)
         : "";
-    console.log("desc, ", description);
-    return json({ data: { ...data, description: { rendered: description } } });
+
+    return json({
+      tags: aiText.description.tags,
+      description: aiTextDescription,
+      data: { ...data, description: { rendered: description } },
+    });
   } catch (err: any) {
     if (err.code === "ERR_INVALID_URL")
       return {
@@ -62,15 +87,18 @@ export async function loader({ params, request }: LoaderArgs) {
   }
 }
 const ImageForm = () => {
-  const { data, error_message } = useLoaderData<{
+  const { data, error_message, tags, description } = useLoaderData<{
+    tags: any;
+    description: any;
     data: WPschema;
     error_message: string;
   }>();
 
+  console.log(tags, description);
   // const labels = useActionData();
   const navigation = useNavigation();
-  const fetcher = useFetcher();
-  console.log("client side: ", fetcher.data);
+  // const fetcher = useFetcher();
+
   return (
     <div className="max-h-screen">
       <div className="p-20 mt-20 bg-gray-100 rounded-3xl">
@@ -79,7 +107,7 @@ const ImageForm = () => {
             <div className="mb-10 text-lg max-w-[50%] font-semibold">
               {data?.title.rendered.replace(/,/g, " ")}
             </div>
-            <fetcher.Form method="post" action="/api/generateAzure">
+            {/* <fetcher.Form method="post" action="/api/generateAzure">
               <input name="id" type="hidden" defaultValue={data?.id} />
               <input
                 name="image"
@@ -95,7 +123,7 @@ const ImageForm = () => {
               >
                 Generate Text
               </button>
-            </fetcher.Form>
+            </fetcher.Form> */}
           </div>
           <img
             src={
@@ -127,9 +155,7 @@ const ImageForm = () => {
                   className="px-3 min-h-[100px] rounded-lg resize-none"
                   name="title"
                   placeholder="Not Generated"
-                  defaultValue={
-                    fetcher.data ? fetcher.data.tags.toString() : ""
-                  }
+                  defaultValue={tags ? tags : ""}
                 />
               </div>
               <div className="flex flex-col">
@@ -149,7 +175,9 @@ const ImageForm = () => {
                   className="px-3 min-h-[100px] rounded-lg resize-none"
                   name="description"
                   placeholder="Not Generated"
-                  defaultValue={fetcher.data ? fetcher.data.description : ""}
+                  defaultValue={
+                    description ? description : "Failed to generate"
+                  }
                 />
               </div>
               <div className="flex flex-col">
@@ -169,7 +197,9 @@ const ImageForm = () => {
                   className="px-3 min-h-[100px] rounded-lg resize-none"
                   name="alt-tag"
                   placeholder="Not generated"
-                  defaultValue={fetcher.data ? fetcher.data.description : ""}
+                  defaultValue={
+                    description ? description : "Failed to generate"
+                  }
                 />
               </div>
             </div>

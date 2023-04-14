@@ -1,4 +1,4 @@
-import { ActionFunction, json } from "@remix-run/node";
+import { type ActionFunction, json } from "@remix-run/node";
 
 export const action: ActionFunction = async ({ request }) => {
   try {
@@ -22,9 +22,8 @@ export const action: ActionFunction = async ({ request }) => {
     const data = await f.json();
 
     if (!data.description) return json({ tags: "", description: "" });
-    console.log(data.description);
     const description: string = data.description.captions
-      ? data.description.captions.map((caption) => caption.text)
+      ? data.description.captions.map((caption: any) => caption.text)
       : "";
     return json({
       tags: data.description.tags,
