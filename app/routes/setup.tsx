@@ -37,8 +37,7 @@ export const action: ActionFunction = async ({ request }: ActionArgs) => {
       cookie.token = tokenData.token;
       cookie.url = url;
       //CREATE TOKEN HERE
-      //cookie.username = username;
-      //cookie.password = password;
+
       return redirect("/dashboard", {
         headers: {
           "Set-Cookie": await wordpressCookie.serialize(cookie),
@@ -58,6 +57,10 @@ export const loader: LoaderFunction = async ({ request }) => {
   const cookieHeader = request.headers.get("Cookie");
   const cookie = (await wordpressCookie.parse(cookieHeader)) || null;
 
+  if (cookie !== null) {
+    return redirect("/dashboard");
+  }
+
   return { url: cookie ? cookie.url : false, cookie: cookie ? true : false };
 };
 const isValidUrl = (urlString: string) => {
@@ -71,27 +74,147 @@ export default function Setup() {
   const actionData = useActionData();
   const loaderData = useLoaderData();
   return (
-    <div className="h-full ">
-      <div className=" max-h-[600px] md:h-[520px] flex flex-col items-center justify-center gap-10 pt-6 mx-10 font-mono md:items-start md:flex-row md:justify-start ">
+    <div className="h-screen ">
+      <div className="grid h-full grid-cols-1 gap-20 p-10 lg:grid-cols-2">
+        <div className="flex flex-col justify-center w-full h-full p-20 bg-gray-100 rounded-lg ">
+          <h2 className="text-3xl font-semibold tracking-wide">
+            Before you start.
+          </h2>
+          <p className="mt-3 text-sm ">
+            Step 1: Install
+            <a
+              href="https://sv.wordpress.org/plugins/jwt-authentication-for-wp-rest-api/"
+              className="mx-1 text-blue-400"
+            >
+              WP Rest Api Plugin
+            </a>
+            in wordpress plugins.
+          </p>
+          <p className="mt-3 text-sm ">
+            Step 2: Download our
+            <a
+              className="mx-1 text-blue-400"
+              href="/jwt-secret-plugin.zip"
+              download
+            >
+              jwt secret plugin
+            </a>
+            and add the zip file to plugins
+          </p>
+          <p className="mt-3 text-sm ">
+            Step 3: Enter your wordpress url, username and password{" "}
+          </p>
+          <img
+            src="https://envisage.nz/wp-content/uploads/2020/09/web-design-hero1.png"
+            alt="illustration of setup"
+            className="mt-6 "
+          />
+        </div>
+        <div className="flex flex-col justify-center h-full px-40">
+          <h2 className="text-3xl font-semibold tracking-wide">
+            Setup your account.
+          </h2>
+          <p className="mt-2 text-sm text-gray-400">
+            Lorem ipsum dolor sit amet consectetur, adipisicing elit.
+            Repellendus animi hic maiores laudantium corrupti nostrum
+          </p>
+
+          <Form method="post" className="mt-4">
+            <div className="flex flex-col w-full gap-2">
+              <div className="mt-4 ">
+                <label
+                  htmlFor="name"
+                  className="block text-sm font-medium leading-6 text-gray-900"
+                >
+                  Wordpress Url
+                </label>
+                <div className="relative mt-1">
+                  <input
+                    name="url"
+                    type="text"
+                    className="peer block w-full border-0 bg-gray-50 py-1.5 text-gray-900 focus:ring-0 sm:text-sm sm:leading-6"
+                    placeholder={loaderData.url ? loaderData.url : "url"}
+                  />
+                  <div
+                    className="absolute inset-x-0 bottom-0 border-t border-gray-300 peer-focus:border-t-2 peer-focus:border-red-500"
+                    aria-hidden="true"
+                  />
+                </div>
+              </div>
+              <div className="mt-4 ">
+                <label
+                  htmlFor="name"
+                  className="block text-sm font-medium leading-6 text-gray-900"
+                >
+                  Username
+                </label>
+                <div className="relative mt-1">
+                  <input
+                    name="username"
+                    type="text"
+                    className="peer block w-full border-0 bg-gray-50 py-1.5 text-gray-900 focus:ring-0 sm:text-sm sm:leading-6"
+                    placeholder={
+                      loaderData.username ? loaderData.username : "username"
+                    }
+                  />
+                  <div
+                    className="absolute inset-x-0 bottom-0 border-t border-gray-300 peer-focus:border-t-2 peer-focus:border-red-500"
+                    aria-hidden="true"
+                  />
+                </div>
+              </div>
+              <div className="mt-4 ">
+                <label
+                  htmlFor="name"
+                  className="block text-sm font-medium leading-6 text-gray-900"
+                >
+                  Password
+                </label>
+                <div className="relative mt-1">
+                  <input
+                    name="password"
+                    type="password"
+                    className="peer block w-full border-0 bg-gray-50 py-1.5 text-gray-900 focus:ring-0 sm:text-sm sm:leading-6"
+                    placeholder="password"
+                  />
+                  <div
+                    className="absolute inset-x-0 bottom-0 border-t border-gray-300 peer-focus:border-t-2 peer-focus:border-red-500"
+                    aria-hidden="true"
+                  />
+                </div>
+              </div>
+
+              <button
+                className="w-full duration-150 transform hover:scale-95 sm:px-16 sm:py-2.5 mt-2 text-xs px-6 py-1.5 md:text-sm font-bold text-white uppercase bg-red-500 rounded-lg"
+                type="submit"
+              >
+                Log in
+              </button>
+            </div>
+          </Form>
+        </div>
+      </div>
+
+      {/* <div className=" max-h-[600px] md:h-[520px] flex flex-col items-center justify-center gap-10 pt-6 mx-10 font-mono md:items-start md:flex-row md:justify-start ">
         <div className=" md:max-w-[50%] min-h-[200px] h-ful rounded-lg pl-4 py-4 pb-8 md:py-0 md:pb-0 flex-col flex">
           <h2 className="text-2xl font-semibold leading-10 ">
             Getting started
           </h2>
           <p>
-            Step 1: Install{" "}
+            Step 1: Install
             <a
               href="https://sv.wordpress.org/plugins/jwt-authentication-for-wp-rest-api/"
               className="text-blue-400"
             >
               WP Rest Api Plugin
-            </a>{" "}
+            </a>
             in wordpress plugins.
           </p>
           <p>
-            Step 2: Download our{" "}
+            Step 2: Download our
             <a className="text-blue-400" href="/jwt-secret-plugin.zip" download>
               jwt secret plugin
-            </a>{" "}
+            </a>
             and add the zip file to plugins
           </p>
           <p>Step 3: Enter your wordpress url, username and password </p>
@@ -134,7 +257,6 @@ export default function Setup() {
             <div className="mt-2">
               <h5 className="text-lg font-semibold">Hi there,</h5>
               <p>
-                {" "}
                 you are already setup! But feel free to check the steps again.
               </p>
             </div>
@@ -157,7 +279,7 @@ export default function Setup() {
             ))}
           </div>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 }
