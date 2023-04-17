@@ -1,11 +1,21 @@
 import { Link, NavLink, Outlet, useLocation } from "@remix-run/react";
 import { Fragment, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
+import { wordpressCookie } from "~/cookie";
+import { type LoaderArgs, redirect } from "@remix-run/node";
 
 const navigation = [
   { name: "Dashboard", href: "/dashboard" },
   { name: "Images", href: "/dashboard/image" },
 ];
+
+export async function loader({ request }: LoaderArgs) {
+  const cookieHeader = request.headers.get("Cookie");
+  const cookie = await wordpressCookie.parse(cookieHeader);
+
+  if (!cookie) return redirect("/setup");
+  return {};
+}
 
 function classNames(...classes: any) {
   return classes.filter(Boolean).join(" ");
