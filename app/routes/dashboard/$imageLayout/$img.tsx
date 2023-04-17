@@ -32,6 +32,7 @@ export async function action({ request }: ActionArgs) {
     body: JSON.stringify(obj),
   });
   const data = await f.json();
+  console.log(data);
   console.log("CHANGED", data);
   return {};
 }
@@ -45,7 +46,7 @@ export async function loader({ params, request }: LoaderArgs) {
   try {
     const f = await fetch(`${cookie.url}wp-json/wp/v2/media/${img}`);
     const data = (await f.json()) as WPschema;
-
+    console.log(data);
     const fetchText = await fetch(
       "https://northeurope.api.cognitive.microsoft.com/vision/v3.2/describe?maxCandidates=1&language=en&model-version=latest",
       {

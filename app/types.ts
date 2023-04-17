@@ -9,4 +9,6 @@ export interface WPschema {
   description: {
     rendered: string;
   };
+  ai_generated_text: string;
+  ai_generated_date: string;
 }

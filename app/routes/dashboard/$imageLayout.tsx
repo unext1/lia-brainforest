@@ -1,6 +1,6 @@
 import { type LoaderArgs, redirect, json } from "@remix-run/node";
 import { Link, Outlet, useLoaderData, useNavigation } from "@remix-run/react";
-import { Images } from "~/components/image";
+import { Images } from "~/components/images";
 import { wordpressCookie } from "~/cookie";
 import { type WPschema } from "~/types";
 
@@ -10,20 +10,27 @@ export async function loader({ request, params }: LoaderArgs) {
   const { imageLayout } = params;
 
   if (!cookie) return redirect("/setup");
+  //NOTE CHANGE THE ROUTE HERE
+  const filter = ["editedimage", "image", "editimage"].includes(
+    imageLayout as string
+  );
+  if (!filter) return redirect("/dashboard/image");
   try {
     //CHECK PARAMS AND FETCH DIFFERENTLY.
     const f = await fetch(
       `${cookie.url}wp-json/wp/v2/media?media_type=image&per_page=20&page=1`
     );
-    console.log(cookie.url);
     const data = (await f.json()) as WPschema[];
+    console.log(data);
+    /* console.log(data.map((img) => img.meta)); */
     return json({ data });
   } catch (err: any) {
     if (err.code === "ERR_INVALID_URL")
       return {
         error_message: "Invalid Url, try entering your url in home page.",
       };
-    return null;
+    console.error(err.message);
+    return { error_message: "error" };
   }
 }
 
