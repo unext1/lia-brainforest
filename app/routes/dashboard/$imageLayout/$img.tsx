@@ -61,6 +61,7 @@ export async function loader({ params, request }: LoaderArgs) {
         }),
       }
     );
+
     const aiText = await fetchText.json();
 
     if (!aiText.description) return json({ tags: "", description: "" });

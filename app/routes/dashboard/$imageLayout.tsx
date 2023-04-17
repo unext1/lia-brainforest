@@ -1,5 +1,10 @@
 import { type LoaderArgs, redirect, json } from "@remix-run/node";
-import { Link, Outlet, useLoaderData, useNavigation } from "@remix-run/react";
+import {
+  Outlet,
+  useLoaderData,
+  useNavigation,
+  useParams,
+} from "@remix-run/react";
 import { Images } from "~/components/images";
 import { wordpressCookie } from "~/cookie";
 import { type WPschema } from "~/types";
@@ -42,7 +47,6 @@ export async function loader({ request, params }: LoaderArgs) {
       return {
         error_message: "Invalid Url, try entering your url in home page.",
       };
-    console.error(err.message);
     return { error_message: "error" };
   }
 }
@@ -54,11 +58,12 @@ const LayoutImage = () => {
   }>();
 
   const navigation = useNavigation();
+  const params = useParams();
 
   return (
     <div>
       <Images
-        route={routes[1]}
+        route={params.imageLayout as string}
         data={data}
         error_message={error_message}
         navigation={navigation}
