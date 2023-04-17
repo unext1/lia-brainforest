@@ -1,18 +1,40 @@
+import { Link } from "@remix-run/react";
 import Btn from "~/components/button";
 import InfoCards from "~/components/infoCards";
+import Navbar from "~/components/navbar";
 
 export default function Index() {
   return (
     <>
+      <Navbar />
       <div className="py-20 bg-black ">
         <div className="container mx-auto max-w-7xl">
-          <div>
+          <div className="grid grid-cols-2 gap-20 py-32">
+            <div className="leading-tight tracking-wide text-white text-8xl">
+              Lorem ipsum dolor sit amet
+            </div>
+            <div className="my-auto">
+              <p className="w-4/5 mb-6 text-gray-300 ">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit
+                ipsum ducimus ipsa maiores, error totam doloremque illum
+                corrupti perferendis
+              </p>
+
+              <Link
+                to="/setup"
+                className="w-fit duration-150 transform hover:scale-105  sm:px-10 sm:py-3.5   text-xs px-6 py-2 font-bold text-white  bg-red-500 rounded-lg"
+              >
+                Start Now
+              </Link>
+            </div>
+          </div>
+          {/* <div>
             <img
-              className="mb-10 opacity-95 rounded-3xl"
+              className="mb-10 rounded-3xl"
               src="https://www.upgrad.com/blog/wp-content/uploads/2019/11/118-banner.png"
               alt=""
             />
-          </div>
+          </div> */}
         </div>
       </div>
       <div className="container px-5 pb-40 mx-auto max-w-7xl">
@@ -28,14 +50,14 @@ export default function Index() {
 
         <InfoCards
           alignRight={false}
-          title="Create a share vision."
+          title="Save Time."
           description="Lorem ipsum dolor, sit amet consectetur adipisicing elit. Officia ea quos, iste culpa nam eligendi aliquam Lorem ipsum
             dolor, sit amet consectetur adipisicing elit. Officia ea quos,
             iste culpa nam eligendi aliquam Lorem ipsum dolor, sit amet"
         />
         <InfoCards
           alignRight
-          title="Something different."
+          title="Create a share vision."
           description="Lorem ipsum dolor, sit amet consectetur adipisicing elit. Officia ea quos, iste culpa nam eligendi aliquam Lorem ipsum
             dolor, sit amet consectetur adipisicing elit. Officia ea quos,
             iste culpa nam eligendi aliquam Lorem ipsum dolor, sit amet"

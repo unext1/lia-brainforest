@@ -1,6 +1,6 @@
 import { Link } from "@remix-run/react";
-import { ReactNode } from "react";
-import { WPschema } from "~/types";
+import { type ReactNode } from "react";
+import { type WPschema } from "~/types";
 
 export const Images = ({
   data,
