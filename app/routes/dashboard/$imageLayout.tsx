@@ -1,7 +1,11 @@
 import { type LoaderArgs, redirect, json } from "@remix-run/node";
 import {
+  Form,
+  Link,
   Outlet,
   useLoaderData,
+  useLocation,
+  useNavigate,
   useNavigation,
   useParams,
 } from "@remix-run/react";
@@ -12,6 +16,10 @@ export const routes = ["editedimages", "images", "uneditedimages"];
 export async function loader({ request, params }: LoaderArgs) {
   const cookieHeader = request.headers.get("Cookie");
   const cookie = await wordpressCookie.parse(cookieHeader);
+  const url = new URL(request.url);
+
+  const page = Number(url.searchParams.get("page")) || 1;
+
   const { imageLayout } = params;
 
   if (!cookie) return redirect("/setup");
@@ -25,7 +33,9 @@ export async function loader({ request, params }: LoaderArgs) {
   try {
     //CHECK PARAMS AND FETCH DIFFERENTLY.
     const f = await fetch(
-      `${cookie.url}wp-json/wp/v2/media?media_type=image&per_page=20&page=1`
+      `${
+        cookie.url
+      }wp-json/wp/v2/media?media_type=image&per_page=20&page=${Number(page)}`
     );
     const data = (await f.json()) as WPschema[];
     /* console.log(data.map((img) => img.meta)); */
@@ -33,15 +43,15 @@ export async function loader({ request, params }: LoaderArgs) {
       const editedData = data.filter(
         (image) => image.ai_generated_text === "1"
       );
-      return json({ data: editedData });
+      return json({ data: editedData, currentPage: page });
     }
     if (filter.route === routes[2]) {
       const uneditedData = data.filter(
         (image) => image.ai_generated_text !== "1"
       );
-      return json({ data: uneditedData });
+      return json({ data: uneditedData, currentPage: page });
     }
-    if (filter.route === routes[1]) return json({ data });
+    if (filter.route === routes[1]) return json({ data, currentPage: page });
   } catch (err: any) {
     if (err.code === "ERR_INVALID_URL")
       return {
@@ -52,13 +62,17 @@ export async function loader({ request, params }: LoaderArgs) {
 }
 
 const LayoutImage = () => {
-  const { data, error_message } = useLoaderData<{
+  const { data, error_message, currentPage } = useLoaderData<{
     data: WPschema[];
     error_message: string;
+    currentPage: number;
   }>();
+
+  console.log(currentPage + "CurrentPage");
 
   const navigation = useNavigation();
   const params = useParams();
+  const location = useLocation();
 
   return (
     <div>
@@ -68,6 +82,16 @@ const LayoutImage = () => {
         error_message={error_message}
         navigation={navigation}
       >
+        <div>
+          <Link
+            to={`${location.pathname}?page=${currentPage - 1}`}
+            className={Number(currentPage) <= 1 ? "hidden" : "block"}
+          >
+            Previous
+          </Link>
+          <Link to={`${location.pathname}?page=${currentPage + 1}`}>Next</Link>
+        </div>
+
         <Outlet />
       </Images>
     </div>
