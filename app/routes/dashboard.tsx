@@ -6,7 +6,9 @@ import { type LoaderArgs, redirect } from "@remix-run/node";
 
 const navigation = [
   { name: "Dashboard", href: "/dashboard" },
-  { name: "Images", href: "/dashboard/image" },
+  { name: "All Images", href: "/dashboard/images" },
+  { name: "Unedited Images", href: "/dashboard/uneditedimages" },
+  { name: "Edited Images", href: "/dashboard/editedimages" },
 ];
 
 export async function loader({ request }: LoaderArgs) {

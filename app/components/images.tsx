@@ -7,11 +7,13 @@ export const Images = ({
   navigation,
   error_message,
   children,
+  route,
 }: {
   data: WPschema[];
   navigation: any;
   error_message: string;
   children: ReactNode;
+  route: string;
 }) => {
   return (
     <div className="container gap-10 pb-20 mx-auto max-w-7xl ">
@@ -23,7 +25,7 @@ export const Images = ({
                 image.ai_generated_text ? "bg-green-500" : "bg-red-500"
               }`}
             ></div>
-            <Link to={`/dashboard/image/${image.id}`}>
+            <Link to={`/dashboard/${route}/${image.id}`}>
               <img
                 src={image.source_url}
                 alt={image.source_url}

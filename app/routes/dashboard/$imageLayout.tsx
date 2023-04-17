@@ -3,7 +3,7 @@ import { Link, Outlet, useLoaderData, useNavigation } from "@remix-run/react";
 import { Images } from "~/components/images";
 import { wordpressCookie } from "~/cookie";
 import { type WPschema } from "~/types";
-
+export const routes = ["editedimages", "images", "uneditedimages"];
 export async function loader({ request, params }: LoaderArgs) {
   const cookieHeader = request.headers.get("Cookie");
   const cookie = await wordpressCookie.parse(cookieHeader);
@@ -11,19 +11,32 @@ export async function loader({ request, params }: LoaderArgs) {
 
   if (!cookie) return redirect("/setup");
   //NOTE CHANGE THE ROUTE HERE
-  const filter = ["editedimage", "image", "editimage"].includes(
-    imageLayout as string
-  );
-  if (!filter) return redirect("/dashboard/image");
+  const filter = {
+    isRoute: routes.includes(imageLayout as string),
+    route: routes.filter((route) => route === (imageLayout as string))[0],
+  };
+  if (!filter.isRoute) return redirect("/dashboard/image");
+
   try {
     //CHECK PARAMS AND FETCH DIFFERENTLY.
     const f = await fetch(
       `${cookie.url}wp-json/wp/v2/media?media_type=image&per_page=20&page=1`
     );
     const data = (await f.json()) as WPschema[];
-    console.log(data);
     /* console.log(data.map((img) => img.meta)); */
-    return json({ data });
+    if (filter.route === routes[0]) {
+      const editedData = data.filter(
+        (image) => image.ai_generated_text === "1"
+      );
+      return json({ data: editedData });
+    }
+    if (filter.route === routes[2]) {
+      const uneditedData = data.filter(
+        (image) => image.ai_generated_text !== "1"
+      );
+      return json({ data: uneditedData });
+    }
+    if (filter.route === routes[1]) return json({ data });
   } catch (err: any) {
     if (err.code === "ERR_INVALID_URL")
       return {
@@ -44,7 +57,12 @@ const LayoutImage = () => {
 
   return (
     <div>
-      <Images data={data} error_message={error_message} navigation={navigation}>
+      <Images
+        route={routes[1]}
+        data={data}
+        error_message={error_message}
+        navigation={navigation}
+      >
         <Outlet />
       </Images>
     </div>
