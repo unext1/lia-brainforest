@@ -1,5 +1,5 @@
 import { LoaderArgs, json } from "@remix-run/node";
-import { Link } from "@remix-run/react";
+import { Form, Link } from "@remix-run/react";
 import { wordpressCookie } from "~/cookie";
 
 export async function loader({ request, params }: LoaderArgs) {
@@ -28,9 +28,13 @@ const Settings = () => {
             </Link>
           </div>
           <div>
-            <Link to="/dashboard/settings" className="font-semibold">
+            {/* <Link to="/dashboard/settings" className="font-semibold">
+              
               Logout
-            </Link>
+            </Link> */}
+            <Form method="post" action="/logout">
+              <button type="submit">Logout</button>
+            </Form>
           </div>
         </div>
         <div className="col-span-3 p-10 mt-20 bg-gray-100 rounded-xl">

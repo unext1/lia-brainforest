@@ -119,12 +119,12 @@ const Dashboard = () => {
                         </div>
 
                         <div className="mt-auto ">
-                          <a
-                            href="/link"
+                          <Link
+                            to="/dashboard/settings"
                             className="flex p-2 -mx-2 text-sm font-semibold leading-6 text-gray-700 rounded-md outline-none focus:outline-none group gap-x-3 hover:bg-gray-100 hover:text-red-500"
                           >
                             ICON Settings
-                          </a>
+                          </Link>
                         </div>
                       </div>
                     </nav>
@@ -174,7 +174,7 @@ const Dashboard = () => {
                 <div className="mt-auto">
                   <Link
                     onClick={() => setSidebarOpen(!sidebarOpen)}
-                    to="/setup"
+                    to="/dashboard/settings"
                     className="flex p-2 -mx-2 text-sm font-semibold leading-6 text-gray-700 rounded-md group gap-x-3 hover:bg-gray-100 hover:text-red-500"
                   >
                     <svg
