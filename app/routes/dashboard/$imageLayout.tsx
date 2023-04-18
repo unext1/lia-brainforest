@@ -46,15 +46,16 @@ export async function loader({ request, params }: LoaderArgs) {
       const editedData = data.filter(
         (image) => image.ai_generated_text === "1"
       );
-      return json({ data: editedData, currentPage: page });
+      return json({ data: editedData, currentPage: page, totalPages });
     }
     if (filter.route === routes[2]) {
       const uneditedData = data.filter(
         (image) => image.ai_generated_text !== "1"
       );
-      return json({ data: uneditedData, currentPage: page });
+      return json({ data: uneditedData, currentPage: page, totalPages });
     }
-    if (filter.route === routes[1]) return json({ data, currentPage: page });
+    if (filter.route === routes[1])
+      return json({ data, currentPage: page, totalPages });
   } catch (err: any) {
     if (err.code === "ERR_INVALID_URL")
       return {
@@ -65,13 +66,14 @@ export async function loader({ request, params }: LoaderArgs) {
 }
 
 const LayoutImage = () => {
-  const { data, error_message, currentPage } = useLoaderData<{
+  const { data, error_message, currentPage, totalPages } = useLoaderData<{
     data: WPschema[];
     error_message: string;
     currentPage: number;
+    totalPages: number;
   }>();
 
-  console.log(currentPage + "CurrentPage");
+  console.log(totalPages + "totalPages");
 
   const navigation = useNavigation();
   const params = useParams();
@@ -92,7 +94,12 @@ const LayoutImage = () => {
           >
             Previous
           </Link>
-          <Link to={`${location.pathname}?page=${currentPage + 1}`}>Next</Link>
+          <Link
+            to={`${location.pathname}?page=${currentPage + 1}`}
+            className={Number(currentPage) >= totalPages ? "hidden" : "block"}
+          >
+            Next
+          </Link>
         </div>
 
         <Outlet />
