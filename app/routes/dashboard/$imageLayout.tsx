@@ -37,6 +37,9 @@ export async function loader({ request, params }: LoaderArgs) {
         cookie.url
       }wp-json/wp/v2/media?media_type=image&per_page=20&page=${Number(page)}`
     );
+
+    const totalPages = f.headers.get("x-wp-totalpages");
+    const totalImages = f.headers.get("x-wp-total");
     const data = (await f.json()) as WPschema[];
     /* console.log(data.map((img) => img.meta)); */
     if (filter.route === routes[0]) {

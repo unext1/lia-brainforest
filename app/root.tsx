@@ -35,7 +35,7 @@ export default function App() {
 export function ErrorBoundary({ error }: { error: Error }) {
   console.error(error);
   return (
-    <Document title="Error!">
+    <Document title="Error">
       <div>
         <h1>There was an error</h1>
         <p>{error.message}</p>
