@@ -1,28 +1,19 @@
-import {
-  type LoaderArgs,
-  redirect,
-  json,
-  type ActionArgs,
-} from "@remix-run/node";
-import {
-  Form,
-  useFetcher,
-  useLoaderData,
-  useNavigation,
-} from "@remix-run/react";
+import { type LoaderArgs, json, type ActionArgs } from "@remix-run/node";
+import { Form, useLoaderData, useNavigation } from "@remix-run/react";
 import { wordpressCookie } from "~/cookie";
 import { type WPschema } from "~/types";
 
 export async function action({ request }: ActionArgs) {
   const formData = await request.formData();
   const values = Object.fromEntries(formData);
-
   const cookieHeader = request.headers.get("Cookie");
   const cookie = (await wordpressCookie.parse(cookieHeader)) || {};
+
   const obj = {
     title: values.title,
     description: values.description,
   };
+
   const f = await fetch(`${cookie.url}wp-json/wp/v2/media/${values.id}`, {
     method: "POST",
     headers: {
@@ -32,21 +23,20 @@ export async function action({ request }: ActionArgs) {
     body: JSON.stringify(obj),
   });
   const data = await f.json();
-  console.log(data);
-  console.log("CHANGED", data);
+  console.log("Got Data");
   return {};
 }
 
 export async function loader({ params, request }: LoaderArgs) {
   const cookieHeader = request.headers.get("Cookie");
   const cookie = await wordpressCookie.parse(cookieHeader);
-  if (!cookie) return redirect("/setup");
   const { img } = params;
 
+  console.log("LOADER");
   try {
     const f = await fetch(`${cookie.url}wp-json/wp/v2/media/${img}`);
     const data = (await f.json()) as WPschema;
-    console.log(data);
+    console.log(`${cookie.url}wp-json/wp/v2/media/${img}`);
     const fetchText = await fetch(
       "https://northeurope.api.cognitive.microsoft.com/vision/v3.2/describe?maxCandidates=1&language=en&model-version=latest",
       {
@@ -64,12 +54,15 @@ export async function loader({ params, request }: LoaderArgs) {
 
     const aiText = await fetchText.json();
 
-    if (!aiText.description) return json({ tags: "", description: "" });
+    console.log(aiText.description.tags);
+
+    if (!aiText) return json({ tags: "", description: "" });
     const aiTextDescription: string = aiText.description.captions
       ? aiText.description.captions.map((caption: any) => caption.text)
       : "";
 
     const htmlDescription = data.description.rendered;
+
     const description =
       htmlDescription.split("</p>").length > 1
         ? htmlDescription.split("</p>")[1].slice(4)
@@ -104,28 +97,29 @@ const ImageForm = () => {
   return (
     <div className="max-h-screen">
       <div className="p-20 mt-20 bg-gray-100 rounded-3xl">
+        {error_message}
         <div className="w-full">
           <div className="flex justify-between gap-20">
             <div className="mb-10 text-lg max-w-[50%] font-semibold">
               {data?.title.rendered.replace(/,/g, " ")}
             </div>
             {/* <fetcher.Form method="post" action="/api/generateAzure">
-              <input name="id" type="hidden" defaultValue={data?.id} />
-              <input
-                name="image"
-                type="hidden"
-                defaultValue={data?.source_url}
-              />
-
-              <button
-                type="submit"
-                name="_action"
-                value="GENERATE"
-                className=" w-fit sm:px-12 sm:py-2.5 mx-auto mt-2 text-xs px-6 py-1.5 md:text-sm font-bold text-white uppercase bg-red-500 rounded-lg"
-              >
-                Generate Text
-              </button>
-            </fetcher.Form> */}
+                <input name="id" type="hidden" defaultValue={data?.id} />
+                <input
+                  name="image"
+                  type="hidden"
+                  defaultValue={data?.source_url}
+                />
+  
+                <button
+                  type="submit"
+                  name="_action"
+                  value="GENERATE"
+                  className=" w-fit sm:px-12 sm:py-2.5 mx-auto mt-2 text-xs px-6 py-1.5 md:text-sm font-bold text-white uppercase bg-red-500 rounded-lg"
+                >
+                  Generate Text
+                </button>
+              </fetcher.Form> */}
           </div>
           <img
             src={
@@ -206,25 +200,25 @@ const ImageForm = () => {
               </div>
             </div>
             {/* <div className="relative flex items-start ">
-              <div className="flex-1 min-w-0 text-sm leading-6">
-                <label htmlFor="comments" className="font-medium text-gray-900">
-                  Change in Wordpress
-                </label>
-                <p id="checkbox" className="text-sm text-gray-500">
-                  This Ai Generated text will be changed on your wordpress image
-                  alt input.
-                </p>
-              </div>
-              <div className="flex items-center h-6 my-auto ml-3">
-                <input
-                  id="comments"
-                  aria-describedby="checkbox"
-                  name="comments"
-                  type="checkbox"
-                  className="w-4 h-4 my-auto text-indigo-600 border-gray-300 rounded focus:ring-indigo-600"
-                />
-              </div>
-            </div> */}
+                <div className="flex-1 min-w-0 text-sm leading-6">
+                  <label htmlFor="comments" className="font-medium text-gray-900">
+                    Change in Wordpress
+                  </label>
+                  <p id="checkbox" className="text-sm text-gray-500">
+                    This Ai Generated text will be changed on your wordpress image
+                    alt input.
+                  </p>
+                </div>
+                <div className="flex items-center h-6 my-auto ml-3">
+                  <input
+                    id="comments"
+                    aria-describedby="checkbox"
+                    name="comments"
+                    type="checkbox"
+                    className="w-4 h-4 my-auto text-indigo-600 border-gray-300 rounded focus:ring-indigo-600"
+                  />
+                </div>
+              </div> */}
             <input name="id" type="hidden" defaultValue={data?.id} />
             <input name="image" type="hidden" defaultValue={data?.source_url} />
             <button

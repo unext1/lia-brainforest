@@ -1,4 +1,4 @@
-import { Link } from "@remix-run/react";
+import { Link, useSearchParams } from "@remix-run/react";
 import { type ReactNode } from "react";
 import { type WPschema } from "~/types";
 
@@ -7,14 +7,15 @@ export const Images = ({
   navigation,
   error_message,
   children,
-  route,
 }: {
   data: WPschema[];
   navigation: any;
   error_message: string;
   children: ReactNode;
-  route: string;
 }) => {
+  const [searchParams] = useSearchParams();
+  const page = Number(searchParams.get("page"));
+  const imageType = searchParams.get("image_type");
   return (
     <div className="container gap-10 pb-20 mx-auto max-w-7xl ">
       <div className="container flex gap-5 py-10 mx-auto overflow-x-scroll gap-x-20 snap-mandatory snap-x">
@@ -25,7 +26,9 @@ export const Images = ({
                 image.ai_generated_text ? "bg-green-500" : "bg-red-500"
               }`}
             ></div>
-            <Link to={`/dashboard/${route}/${image.id}`}>
+            <Link
+              to={`/dashboard/images/${image.id}?page=${page}&image_type=${imageType}`}
+            >
               <img
                 src={image.source_url}
                 alt={image.source_url}
