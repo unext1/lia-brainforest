@@ -9,6 +9,7 @@ import {
   useNavigation,
   useParams,
 } from "@remix-run/react";
+import { Filter } from "~/components/filter";
 import { Images } from "~/components/images";
 import { wordpressCookie } from "~/cookie";
 import { type WPschema } from "~/types";
@@ -97,6 +98,7 @@ const LayoutImage = () => {
 
   return (
     <div>
+      <Filter />
       <Images
         route={params.imageLayout as string}
         data={data}
