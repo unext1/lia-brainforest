@@ -43,6 +43,7 @@ export async function loader({ request }: LoaderArgs) {
     const totalPages = f.headers.get("x-wp-totalpages");
 
     const data = (await f.json()) as WPschema[];
+    console.log(data);
 
     return json({ data: data, currentPage: page, totalPages, imgType });
   } catch (err: any) {
@@ -70,11 +71,7 @@ const LayoutImage = () => {
   return (
     <div>
       <Form action="/dashboard/images">
-        <input
-          type="hidden"
-          name="page"
-          value={currentPage ? currentPage : 1}
-        />
+        <input type="hidden" name="page" value="1" />
         <label htmlFor="image_type">Image Type</label>
         <select name="image_type">
           <option value="all">All Images</option>

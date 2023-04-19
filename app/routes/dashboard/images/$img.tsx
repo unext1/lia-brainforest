@@ -23,7 +23,7 @@ export async function action({ request }: ActionArgs) {
     body: JSON.stringify(obj),
   });
   const data = await f.json();
-  console.log("Got Data");
+  console.log("Got Data", data);
   return {};
 }
 
