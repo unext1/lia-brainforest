@@ -12,6 +12,7 @@ import {
 import { Images } from "~/components/images";
 import { wordpressCookie } from "~/cookie";
 import { type WPschema } from "~/types";
+const TOTAL_IMAGES_PER_PAGE = 20;
 export const routes = ["editedimages", "images", "uneditedimages"];
 export async function loader({ request, params }: LoaderArgs) {
   const cookieHeader = request.headers.get("Cookie");
@@ -28,31 +29,46 @@ export async function loader({ request, params }: LoaderArgs) {
     isRoute: routes.includes(imageLayout as string),
     route: routes.filter((route) => route === (imageLayout as string))[0],
   };
-  if (!filter.isRoute) return redirect("/dashboard/image");
+  if (!filter.isRoute) return redirect("/dashboard/images");
 
   try {
     //CHECK PARAMS AND FETCH DIFFERENTLY.
     const f = await fetch(
       `${
         cookie.url
-      }wp-json/wp/v2/media?media_type=image&per_page=20&page=${Number(page)}`
+      }wp-json/wp/v2/media?media_type=image&per_page=${TOTAL_IMAGES_PER_PAGE}&page=${Number(
+        page
+      )}${
+        filter.route === routes[0]
+          ? `&ai_generated_text=1`
+          : filter.route === routes[2]
+          ? `&ai_generated_text=3`
+          : ``
+      }`
     );
-
+    console.log(f.url);
     const totalPages = f.headers.get("x-wp-totalpages");
-    const totalImages = f.headers.get("x-wp-total");
+
     const data = (await f.json()) as WPschema[];
+    /* console.log(data); */
     /* console.log(data.map((img) => img.meta)); */
     if (filter.route === routes[0]) {
-      const editedData = data.filter(
+      /* const editedData = data.filter(
         (image) => image.ai_generated_text === "1"
-      );
-      return json({ data: editedData, currentPage: page, totalPages });
+      ); */
+      /* const totalPages = Math.floor(editedData.length / TOTAL_IMAGES_PER_PAGE); */
+
+      return json({ data: data, currentPage: page, totalPages });
     }
     if (filter.route === routes[2]) {
-      const uneditedData = data.filter(
+      /* const uneditedData = data.filter(
         (image) => image.ai_generated_text !== "1"
       );
-      return json({ data: uneditedData, currentPage: page, totalPages });
+      const totalPages = Math.floor(
+        uneditedData.length / TOTAL_IMAGES_PER_PAGE
+      ); */
+      /*  console.log(uneditedData.length); */
+      return json({ data: data, currentPage: page, totalPages });
     }
     if (filter.route === routes[1])
       return json({ data, currentPage: page, totalPages });
@@ -87,16 +103,22 @@ const LayoutImage = () => {
         error_message={error_message}
         navigation={navigation}
       >
-        <div>
+        <div className="flex flex-row justify-between">
           <Link
             to={`${location.pathname}?page=${currentPage - 1}`}
-            className={Number(currentPage) <= 1 ? "hidden" : "block"}
+            className={Number(currentPage) <= 1 ? "invisible" : "block"}
           >
             Previous
           </Link>
+          <div>
+            {currentPage} {totalPages > 0 ? "/" : ""}{" "}
+            {totalPages > 0 ? totalPages : ""}
+          </div>
           <Link
             to={`${location.pathname}?page=${currentPage + 1}`}
-            className={Number(currentPage) >= totalPages ? "hidden" : "block"}
+            className={
+              Number(currentPage) >= totalPages ? "invisible" : "block"
+            }
           >
             Next
           </Link>
