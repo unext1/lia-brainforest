@@ -20,7 +20,8 @@ export async function loader({ request }: LoaderArgs) {
 
   const pageParam = searchParam.get("page");
   const imgType = searchParam.get("image_type");
-
+  const startDate = searchParam.get("startdate");
+  const endDate = searchParam.get("enddate");
   const page = pageParam ? Number(pageParam) : 1;
 
   try {
@@ -43,7 +44,14 @@ export async function loader({ request }: LoaderArgs) {
     const totalPages = f.headers.get("x-wp-totalpages");
 
     const data = (await f.json()) as WPschema[];
-    console.log(data);
+    console.log(
+      data.map((image) => {
+        return {
+          ai_generated_date: new Date(parseInt(image.ai_generated_date) * 1000),
+          modified: image.modified,
+        };
+      })
+    );
 
     return json({ data: data, currentPage: page, totalPages, imgType });
   } catch (err: any) {
@@ -78,6 +86,8 @@ const LayoutImage = () => {
           <option value="edited">Edited Images</option>
           <option value="unedited">Unedited Images</option>
         </select>
+        <input type="date" name="startdate" />
+        <input type="date" name="enddate" />
         <button type="submit">Submit</button>
       </Form>
       <Images data={data} error_message={error_message} navigation={navigation}>

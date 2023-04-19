@@ -11,4 +11,5 @@ export interface WPschema {
   };
   ai_generated_text: string;
   ai_generated_date: string;
+  modified: string;
 }
