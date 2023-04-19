@@ -1,8 +1,14 @@
-import { Link, NavLink, Outlet, useLocation } from "@remix-run/react";
+import {
+  Link,
+  NavLink,
+  Outlet,
+  useLoaderData,
+  useLocation,
+} from "@remix-run/react";
 import { Fragment, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { wordpressCookie } from "~/cookie";
-import { type LoaderArgs, redirect } from "@remix-run/node";
+import { type LoaderArgs, redirect, json } from "@remix-run/node";
 
 const navigation = [
   { name: "Dashboard", href: "/dashboard" },
@@ -16,7 +22,7 @@ export async function loader({ request }: LoaderArgs) {
   const cookie = await wordpressCookie.parse(cookieHeader);
 
   if (!cookie) return redirect("/setup");
-  return {};
+  return json(cookie);
 }
 
 function classNames(...classes: any) {
@@ -25,7 +31,7 @@ function classNames(...classes: any) {
 
 const Dashboard = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-
+  const cookie = useLoaderData();
   return (
     <>
       <div>
@@ -80,12 +86,12 @@ const Dashboard = () => {
                       </button>
                     </div>
                   </Transition.Child>
-                  {/* Sidebar component, swap this element with another sidebar if you like */}
                   <div className="flex flex-col px-6 pb-4 overflow-y-auto bg-white grow gap-y-5">
-                    <div className="flex items-center h-16 shrink-0">
+                    <div className="flex flex-col justify-center h-16 shrink-0">
                       <h1 className="text-lg font-semibold tracking-wide">
                         AI APP
                       </h1>
+                      <h4 className="text-sm text-gray-600">{cookie.title}</h4>
                     </div>
                     <nav className="flex flex-col flex-1">
                       <div className="flex flex-col flex-1 gap-y-7">
@@ -158,8 +164,9 @@ const Dashboard = () => {
         <div className="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
           {/* Sidebar component, swap this element with another sidebar if you like */}
           <div className="flex flex-col px-6 pb-4 overflow-y-auto bg-white border-r border-gray-200 grow gap-y-5">
-            <div className="flex items-center h-16 shrink-0">
+            <div className="flex flex-col justify-center h-16 shrink-0">
               <h1 className="text-lg font-semibold tracking-wide">AI APP</h1>
+              <h4 className="text-sm text-gray-600">{cookie.title}</h4>
             </div>
             <nav className="flex flex-col flex-1">
               <div className="flex flex-col flex-1 gap-y-7">
