@@ -4,8 +4,9 @@ import {
   type ActionArgs,
   type ActionFunction,
   type LoaderFunction,
+  json,
 } from "@remix-run/node";
-import { Form, useActionData, useLoaderData } from "@remix-run/react";
+import { Form, useActionData } from "@remix-run/react";
 import { wordpressCookie } from "~/cookie";
 import { type WPschema } from "~/types";
 
@@ -47,11 +48,22 @@ export const action: ActionFunction = async ({ request }: ActionArgs) => {
         }
       );
       const titleData = await titleFetch.json();
+      console.log(tokenData);
+      console.log(titleData);
+      if (tokenData.code)
+        if (tokenData.code === "[jwt_auth] incorrect_password")
+          return json({
+            error_password: "incorrect password",
+          });
+        else {
+          return json({
+            error_username: "incorrect username",
+          });
+        }
 
       cookie.title = titleData.title;
       cookie.token = tokenData.token;
       cookie.url = url;
-      //CREATE TOKEN HERE
 
       return redirect("/dashboard", {
         headers: {
@@ -59,13 +71,13 @@ export const action: ActionFunction = async ({ request }: ActionArgs) => {
         },
       });
     } catch (err) {
-      return { error_message: "url is not a wordpress url." };
+      console.log(err);
+      return { error_url: "incorrect url" };
     }
   }
-  const usernameError = `${username.length > 0 ? "" : "username not set"}`;
-  const passwordError = `${password.length > 0 ? "" : "password not set"}`;
-  const urlError = `${url ? "" : "url not valid"}`;
-  return { error_message: [usernameError, passwordError, urlError] };
+
+  const urlError = `${url ? "" : "incorrect url"}`;
+  return { error_url: urlError };
 };
 export const loader: LoaderFunction = async ({ request }) => {
   const cookieHeader = request.headers.get("Cookie");
@@ -75,17 +87,18 @@ export const loader: LoaderFunction = async ({ request }) => {
     return redirect("/dashboard");
   }
 
-  return { url: cookie ? cookie.url : false, cookie: cookie ? true : false };
+  return null;
 };
 const isValidUrl = (urlString: string) => {
   try {
-    return Boolean(new URL(urlString)) && !urlString.endsWith("/");
+    return Boolean(new URL(urlString));
   } catch (e) {
     return false;
   }
 };
 export default function Setup() {
-  const loaderData = useLoaderData();
+  const data = useActionData();
+  console.log(data);
   return (
     <div className="h-screen ">
       <div className="grid h-full grid-cols-1 gap-20 p-10 lg:grid-cols-2">
@@ -146,13 +159,19 @@ export default function Setup() {
                     name="url"
                     type="text"
                     className="peer block w-full border-0 bg-gray-50 py-1.5 text-gray-900 focus:ring-0 sm:text-sm sm:leading-6"
-                    placeholder={loaderData.url ? loaderData.url : "url"}
                   />
                   <div
                     className="absolute inset-x-0 bottom-0 border-t border-gray-300 peer-focus:border-t-2 peer-focus:border-red-500"
                     aria-hidden="true"
                   />
                 </div>
+                <p
+                  className={`${
+                    data?.error_url ? "block" : "hidden"
+                  } mt-1 text-red-500 `}
+                >
+                  {data?.error_url}
+                </p>
               </div>
               <div className="mt-4 ">
                 <label
@@ -166,15 +185,19 @@ export default function Setup() {
                     name="username"
                     type="text"
                     className="peer block w-full border-0 bg-gray-50 py-1.5 text-gray-900 focus:ring-0 sm:text-sm sm:leading-6"
-                    placeholder={
-                      loaderData.username ? loaderData.username : "username"
-                    }
                   />
                   <div
                     className="absolute inset-x-0 bottom-0 border-t border-gray-300 peer-focus:border-t-2 peer-focus:border-red-500"
                     aria-hidden="true"
                   />
                 </div>
+                <p
+                  className={`${
+                    data?.error_username ? "block" : "hidden"
+                  } mt-1 text-red-500 `}
+                >
+                  {data?.error_username}
+                </p>
               </div>
               <div className="mt-4 ">
                 <label
@@ -188,13 +211,19 @@ export default function Setup() {
                     name="password"
                     type="password"
                     className="peer block w-full border-0 bg-gray-50 py-1.5 text-gray-900 focus:ring-0 sm:text-sm sm:leading-6"
-                    placeholder="password"
                   />
                   <div
                     className="absolute inset-x-0 bottom-0 border-t border-gray-300 peer-focus:border-t-2 peer-focus:border-red-500"
                     aria-hidden="true"
                   />
                 </div>
+                <p
+                  className={`${
+                    data?.error_password ? "block" : "hidden"
+                  } mt-1 text-red-500 `}
+                >
+                  {data?.error_password}
+                </p>
               </div>
 
               <button
@@ -207,6 +236,10 @@ export default function Setup() {
           </Form>
         </div>
       </div>
+      {/*  <div
+        className="flex justify-end gap-2"
+        dangerouslySetInnerHTML={{ __html: data ? data.error_message : null }}
+      ></div> */}
     </div>
   );
 }

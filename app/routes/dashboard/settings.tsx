@@ -1,8 +1,8 @@
-import { LoaderArgs, json } from "@remix-run/node";
-import { Form, Link, useLoaderData } from "@remix-run/react";
+import { type LoaderArgs, json } from "@remix-run/node";
+import { Form, NavLink, Outlet } from "@remix-run/react";
 import { wordpressCookie } from "~/cookie";
 
-export async function loader({ request, params }: LoaderArgs) {
+export async function loader({ request }: LoaderArgs) {
   const cookieHeader = request.headers.get("Cookie");
   const cookie = await wordpressCookie.parse(cookieHeader);
 
@@ -10,35 +10,47 @@ export async function loader({ request, params }: LoaderArgs) {
 }
 
 const Settings = () => {
-  const cookie = useLoaderData();
   return (
     <div>
       <h1 className="text-2xl font-bold">Settings</h1>
+      <div className="flex mt-4 max-w-max">
+        <NavLink
+          to="/dashboard/settings/profile"
+          className={({ isActive }) =>
+            isActive
+              ? "border-b-red-500 px-4 font-semibold border-b-2 "
+              : " px-4 font-semibold  "
+          }
+        >
+          Profile
+        </NavLink>
 
-      <div className="grid grid-cols-4 gap-20">
-        <div className="p-10 mt-20 space-y-2 bg-gray-100 rounded-xl">
-          <div>
-            <Link to="/dashboard/settings" className="font-semibold">
-              Profile
-            </Link>
-          </div>
-          <div>
-            <Link to="/dashboard/settings" className="font-semibold">
-              Setup
-            </Link>
-          </div>
-        </div>
-        <div className="col-span-3 p-10 mt-20 bg-gray-100 rounded-xl">
-          <h2 className="font-semibold">Account details</h2>
-          <div>
-            <p className="font-medium ">Wordpress url </p>
-            <p className="p-1 border rounded-sm shadow-inner max-w-max">
-              {cookie.url}
-            </p>
-          </div>
-        </div>
+        <NavLink
+          to="/dashboard/settings/setup"
+          className={({ isActive }) =>
+            isActive
+              ? "border-b-red-500 px-4 font-semibold border-b-2 "
+              : " px-4 font-semibold  "
+          }
+        >
+          Setup
+        </NavLink>
+
+        <NavLink
+          to="/dashboard/settings/workspaces"
+          className={({ isActive }) =>
+            isActive
+              ? "border-b-red-500 px-4 font-semibold border-b-2 "
+              : " px-4 font-semibold  "
+          }
+        >
+          Workspaces
+        </NavLink>
       </div>
-      <div className="absolute bottom-5 right-10">
+      <div className="col-span-3 p-10 mt-20 bg-gray-100 rounded-xl">
+        <Outlet />
+      </div>
+      <div className="flex justify-end pt-4">
         <Form method="post" action="/logout">
           <button type="submit">Logout</button>
         </Form>
