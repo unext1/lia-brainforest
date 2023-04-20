@@ -60,8 +60,6 @@ export async function loader({ request, params }: LoaderArgs) {
       data: data,
       currentPage: page,
       totalPages,
-      imgType,
-      urlParams,
     });
   } catch (err: any) {
     if (err.code === "ERR_INVALID_URL")
@@ -73,16 +71,13 @@ export async function loader({ request, params }: LoaderArgs) {
 }
 
 const LayoutImage = () => {
-  const { data, error_message, currentPage, totalPages, urlParams } =
-    useLoaderData<{
-      data: WPschema[];
-      error_message: string;
-      currentPage: number;
-      totalPages: number;
-      urlParams: string;
-    }>();
+  const { data, error_message, currentPage, totalPages } = useLoaderData<{
+    data: WPschema[];
+    error_message: string;
+    currentPage: number;
+    totalPages: number;
+  }>();
 
-  const navigation = useNavigation();
   const { search } = useLocation();
 
   const params = Object.fromEntries(new URLSearchParams(search).entries());
@@ -102,7 +97,7 @@ const LayoutImage = () => {
         <input type="date" name="before" />
         <button type="submit">Submit</button>
       </Form>
-      <Images data={data} error_message={error_message} navigation={navigation}>
+      <Images data={data} error_message={error_message} navigation={search}>
         <div className="flex flex-row justify-between">
           <Link
             to={`/dashboard/images?${new URLSearchParams({

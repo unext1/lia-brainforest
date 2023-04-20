@@ -13,9 +13,6 @@ export const Images = ({
   error_message: string;
   children: ReactNode;
 }) => {
-  const [searchParams] = useSearchParams();
-  const page = Number(searchParams.get("page"));
-  const imageType = searchParams.get("image_type");
   return (
     <div className="container gap-10 pb-20 mx-auto max-w-7xl ">
       <div className="container flex gap-5 py-10 mx-auto overflow-x-scroll gap-x-20 snap-mandatory snap-x">
@@ -26,9 +23,7 @@ export const Images = ({
                 image.ai_generated_text ? "bg-green-500" : "bg-red-500"
               }`}
             ></div>
-            <Link
-              to={`/dashboard/images/${image.id}?page=${page}&image_type=${imageType}`}
-            >
+            <Link to={`/dashboard/images/${image.id}?${navigation}`}>
               <img
                 src={image.source_url}
                 alt={image.source_url}

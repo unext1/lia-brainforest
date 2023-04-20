@@ -23,7 +23,6 @@ export async function action({ request }: ActionArgs) {
     body: JSON.stringify(obj),
   });
   const data = await f.json();
-  console.log("Got Data", data);
   return {};
 }
 
@@ -32,11 +31,9 @@ export async function loader({ params, request }: LoaderArgs) {
   const cookie = await wordpressCookie.parse(cookieHeader);
   const { img } = params;
 
-  console.log("LOADER");
   try {
     const f = await fetch(`${cookie.url}wp-json/wp/v2/media/${img}`);
     const data = (await f.json()) as WPschema;
-    console.log(`${cookie.url}wp-json/wp/v2/media/${img}`);
     const fetchText = await fetch(
       "https://northeurope.api.cognitive.microsoft.com/vision/v3.2/describe?maxCandidates=1&language=en&model-version=latest",
       {
@@ -87,7 +84,6 @@ const ImageForm = () => {
     error_message: string;
   }>();
 
-  console.log(tags, description);
   // const labels = useActionData();
   const navigation = useNavigation();
   // const fetcher = useFetcher();
