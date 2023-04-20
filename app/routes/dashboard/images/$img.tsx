@@ -54,8 +54,6 @@ export async function loader({ params, request }: LoaderArgs) {
 
     const aiText = await fetchText.json();
 
-    console.log(aiText.description.tags);
-
     if (!aiText) return json({ tags: "", description: "" });
     const aiTextDescription: string = aiText.description.captions
       ? aiText.description.captions.map((caption: any) => caption.text)

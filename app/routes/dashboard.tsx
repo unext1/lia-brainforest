@@ -1,10 +1,4 @@
-import {
-  Link,
-  NavLink,
-  Outlet,
-  useLoaderData,
-  useLocation,
-} from "@remix-run/react";
+import { Link, NavLink, Outlet, useLoaderData } from "@remix-run/react";
 import { Fragment, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { wordpressCookie } from "~/cookie";

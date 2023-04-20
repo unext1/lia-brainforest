@@ -16,7 +16,9 @@
     "framer-motion": "^10.9.2",
     "isbot": "latest",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "zod": "^3.21.4",
+    "zodix": "^0.4.0"
   },
   "devDependencies": {
     "@remix-run/dev": "^1.14.3",

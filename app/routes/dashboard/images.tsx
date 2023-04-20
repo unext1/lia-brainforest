@@ -7,53 +7,62 @@ import {
   useLocation,
   useNavigation,
 } from "@remix-run/react";
+import { z } from "zod";
+import { zx } from "zodix";
 import { Images } from "~/components/images";
 import { wordpressCookie } from "~/cookie";
 import { type WPschema } from "~/types";
 
 const TOTAL_IMAGES_PER_PAGE = 20;
 
-export async function loader({ request }: LoaderArgs) {
+export async function loader({ request, params }: LoaderArgs) {
   const cookieHeader = request.headers.get("Cookie");
   const cookie = await wordpressCookie.parse(cookieHeader);
-  const searchParam = new URL(request.url).searchParams;
 
-  const pageParam = searchParam.get("page");
-  const imgType = searchParam.get("image_type");
-  const startDate = searchParam.get("startdate");
-  const endDate = searchParam.get("enddate");
+  const res = zx.parseQuerySafe(request, {
+    page: z.string().optional(),
+    search: z.string().optional(),
+    ai_generated_text: z.string().optional(),
+    after: z
+      .string()
+      .optional()
+      .transform((value) => value && new Date(value).toISOString()),
+    before: z
+      .string()
+      .optional()
+      .transform((value) => value && new Date(value).toISOString()),
+  });
+
+  let urlParams;
+  if (res.success) {
+    urlParams = new URLSearchParams(
+      Object.entries(res.data).filter(([_, v]) => v)
+    ).toString();
+  }
+
+  const searchParams = new URL(request.url).searchParams;
+
+  const pageParam = searchParams.get("page");
+  const imgType = searchParams.get("ai_generated_text");
+
   const page = pageParam ? Number(pageParam) : 1;
 
   try {
     const f = await fetch(
-      `${
-        cookie.url
-      }wp-json/wp/v2/media?media_type=image&per_page=${TOTAL_IMAGES_PER_PAGE}&page=${Number(
-        page
-      )}&ai_generated_text=${
-        imgType
-          ? imgType === "all"
-            ? "0"
-            : imgType === "edited"
-            ? "1"
-            : "2"
-          : "0"
-      }`
+      `${cookie.url}wp-json/wp/v2/media?media_type=image&per_page=${TOTAL_IMAGES_PER_PAGE}&${urlParams}`
     );
 
     const totalPages = f.headers.get("x-wp-totalpages");
 
     const data = (await f.json()) as WPschema[];
-    console.log(
-      data.map((image) => {
-        return {
-          ai_generated_date: new Date(parseInt(image.ai_generated_date) * 1000),
-          modified: image.modified,
-        };
-      })
-    );
 
-    return json({ data: data, currentPage: page, totalPages, imgType });
+    return json({
+      data: data,
+      currentPage: page,
+      totalPages,
+      imgType,
+      urlParams,
+    });
   } catch (err: any) {
     if (err.code === "ERR_INVALID_URL")
       return {
@@ -64,50 +73,59 @@ export async function loader({ request }: LoaderArgs) {
 }
 
 const LayoutImage = () => {
-  const { data, error_message, currentPage, totalPages, imgType } =
+  const { data, error_message, currentPage, totalPages, urlParams } =
     useLoaderData<{
       data: WPschema[];
       error_message: string;
       currentPage: number;
       totalPages: number;
-      imgType: string;
+      urlParams: string;
     }>();
 
   const navigation = useNavigation();
-  const location = useLocation();
+  const { search } = useLocation();
+
+  const params = Object.fromEntries(new URLSearchParams(search).entries());
 
   return (
     <div>
       <Form action="/dashboard/images">
         <input type="hidden" name="page" value="1" />
-        <label htmlFor="image_type">Image Type</label>
-        <select name="image_type">
-          <option value="all">All Images</option>
-          <option value="edited">Edited Images</option>
-          <option value="unedited">Unedited Images</option>
+        <input type="text" name="search" />
+        <label htmlFor="ai_generated_text">Image Type</label>
+        <select name="ai_generated_text">
+          <option value="0">All Images</option>
+          <option value="1">Edited Images</option>
+          <option value="2">Unedited Images</option>
         </select>
-        <input type="date" name="startdate" />
-        <input type="date" name="enddate" />
+        <input type="date" name="after" />
+        <input type="date" name="before" />
         <button type="submit">Submit</button>
       </Form>
       <Images data={data} error_message={error_message} navigation={navigation}>
         <div className="flex flex-row justify-between">
           <Link
-            to={`${location.pathname}?page=${currentPage - 1}${
-              imgType ? `&image_type=${imgType}` : ""
-            }`}
+            to={`/dashboard/images?${new URLSearchParams({
+              ...params,
+              page: params?.page
+                ? Math.max(Number(params.page) - 1, 1).toString()
+                : "1",
+            })}`}
             className={Number(currentPage) <= 1 ? "invisible" : "block"}
           >
             Previous
           </Link>
           <div>
-            {currentPage} {totalPages > 0 ? "/" : ""}{" "}
+            {currentPage} {totalPages > 0 ? "/" : ""}
             {totalPages > 0 ? totalPages : ""}
           </div>
           <Link
-            to={`${location.pathname}?page=${currentPage + 1}${
-              imgType ? `&image_type=${imgType}` : ""
-            }`}
+            to={`/dashboard/images?${new URLSearchParams({
+              ...params,
+              page: params?.page
+                ? Math.min(Number(params.page) + 1).toString()
+                : "1",
+            })}`}
             className={
               Number(currentPage) >= totalPages ? "invisible" : "block"
             }
