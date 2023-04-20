@@ -23,7 +23,7 @@ export const Images = ({
                 image.ai_generated_text ? "bg-green-500" : "bg-red-500"
               }`}
             ></div>
-            <Link to={`/dashboard/images/${image.id}?${navigation}`}>
+            <Link to={`/dashboard/images/${image.id}${navigation}`}>
               <img
                 src={image.source_url}
                 alt={image.source_url}

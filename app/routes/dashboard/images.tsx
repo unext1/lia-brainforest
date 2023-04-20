@@ -119,7 +119,7 @@ const LayoutImage = () => {
               ...params,
               page: params?.page
                 ? Math.min(Number(params.page) + 1).toString()
-                : "1",
+                : "2",
             })}`}
             className={
               Number(currentPage) >= totalPages ? "invisible" : "block"
