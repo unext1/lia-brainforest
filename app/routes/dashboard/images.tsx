@@ -5,8 +5,6 @@ import {
   Outlet,
   useLoaderData,
   useLocation,
-  useNavigation,
-  useParams,
 } from "@remix-run/react";
 import { z } from "zod";
 import { zx } from "zodix";
@@ -16,7 +14,7 @@ import { type WPschema } from "~/types";
 
 const TOTAL_IMAGES_PER_PAGE = 20;
 
-export async function loader({ request, params }: LoaderArgs) {
+export async function loader({ request }: LoaderArgs) {
   const cookieHeader = request.headers.get("Cookie");
   const cookie = await wordpressCookie.parse(cookieHeader);
 
@@ -44,7 +42,6 @@ export async function loader({ request, params }: LoaderArgs) {
   const searchParams = new URL(request.url).searchParams;
 
   const pageParam = searchParams.get("page");
-  const imgType = searchParams.get("ai_generated_text");
 
   const page = pageParam ? Number(pageParam) : 1;
 

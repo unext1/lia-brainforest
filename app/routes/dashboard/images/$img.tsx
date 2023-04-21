@@ -97,30 +97,9 @@ const ImageForm = () => {
             <div className="mb-10 text-lg max-w-[50%] font-semibold">
               {data?.title.rendered.replace(/,/g, " ")}
             </div>
-            {/* <fetcher.Form method="post" action="/api/generateAzure">
-                <input name="id" type="hidden" defaultValue={data?.id} />
-                <input
-                  name="image"
-                  type="hidden"
-                  defaultValue={data?.source_url}
-                />
-  
-                <button
-                  type="submit"
-                  name="_action"
-                  value="GENERATE"
-                  className=" w-fit sm:px-12 sm:py-2.5 mx-auto mt-2 text-xs px-6 py-1.5 md:text-sm font-bold text-white uppercase bg-red-500 rounded-lg"
-                >
-                  Generate Text
-                </button>
-              </fetcher.Form> */}
           </div>
           <img
-            src={
-              /*  data.mime_type != "application/pdf" */
-              data?.source_url
-              /* "https://static.vecteezy.com/system/resources/previews/005/337/799/original/icon-image-not-found-free-vector.jpg" */
-            }
+            src={data?.source_url}
             alt={data?.source_url}
             className="w-1/3 mx-auto rounded-3xl"
           />
@@ -194,25 +173,25 @@ const ImageForm = () => {
               </div>
             </div>
             {/* <div className="relative flex items-start ">
-                <div className="flex-1 min-w-0 text-sm leading-6">
-                  <label htmlFor="comments" className="font-medium text-gray-900">
-                    Change in Wordpress
-                  </label>
-                  <p id="checkbox" className="text-sm text-gray-500">
-                    This Ai Generated text will be changed on your wordpress image
-                    alt input.
-                  </p>
-                </div>
-                <div className="flex items-center h-6 my-auto ml-3">
-                  <input
-                    id="comments"
-                    aria-describedby="checkbox"
-                    name="comments"
-                    type="checkbox"
-                    className="w-4 h-4 my-auto text-indigo-600 border-gray-300 rounded focus:ring-indigo-600"
-                  />
-                </div>
-              </div> */}
+              <div className="flex-1 min-w-0 text-sm leading-6">
+                <label htmlFor="comments" className="font-medium text-gray-900">
+                  Change in Wordpress
+                </label>
+                <p id="checkbox" className="text-sm text-gray-500">
+                  This Ai Generated text will be changed on your wordpress image
+                  alt input.
+                </p>
+              </div>
+              <div className="flex items-center h-6 my-auto ml-3">
+                <input
+                  id="comments"
+                  aria-describedby="checkbox"
+                  name="comments"
+                  type="checkbox"
+                  className="w-4 h-4 my-auto text-indigo-600 border-gray-300 rounded focus:ring-indigo-600"
+                />
+              </div>
+            </div> */}
             <input name="id" type="hidden" defaultValue={data?.id} />
             <input name="image" type="hidden" defaultValue={data?.source_url} />
             <button

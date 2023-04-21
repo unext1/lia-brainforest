@@ -1,4 +1,4 @@
-import { Link, useSearchParams } from "@remix-run/react";
+import { Link } from "@remix-run/react";
 import { type ReactNode } from "react";
 import { type WPschema } from "~/types";
 
