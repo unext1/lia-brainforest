@@ -23,6 +23,9 @@ export const action: ActionFunction = async ({ request }: ActionArgs) => {
     (values.username as string).length > 0 ? (values.username as string) : "";
   const password =
     (values.password as string).length > 0 ? (values.password as string) : "";
+  if (!url) return json({ error_url: "incorrect url" });
+  if (!username) return json({ error_username: "incorrect username" });
+  if (!password) return json({ error_password: "incorrect password" });
   if (url && username && password) {
     try {
       const f = await fetch(`${url}wp-json/wp/v2/media?media_type=image`);
@@ -75,9 +78,6 @@ export const action: ActionFunction = async ({ request }: ActionArgs) => {
       return { error_url: "incorrect url" };
     }
   }
-
-  const urlError = `${url ? "" : "incorrect url"}`;
-  return { error_url: urlError };
 };
 export const loader: LoaderFunction = async ({ request }) => {
   const cookieHeader = request.headers.get("Cookie");

@@ -6,7 +6,7 @@ import { type LoaderArgs, redirect, json } from "@remix-run/node";
 
 const navigation = [
   { name: "Dashboard", href: "/dashboard" },
-  { name: "All Images", href: "/dashboard/images" },
+  { name: "All Images", href: "/dashboard/images?page=1" },
 ];
 
 export async function loader({ request }: LoaderArgs) {
@@ -113,7 +113,7 @@ const Dashboard = () => {
 
                         <div className="mt-auto ">
                           <Link
-                            to="/dashboard/settings"
+                            to="/dashboard/settings/profile"
                             className="flex p-2 -mx-2 text-sm font-semibold leading-6 text-gray-700 rounded-md outline-none focus:outline-none group gap-x-3 hover:bg-gray-100 hover:text-red-500"
                           >
                             <svg
@@ -187,7 +187,7 @@ const Dashboard = () => {
                 <div className="mt-auto">
                   <Link
                     onClick={() => setSidebarOpen(!sidebarOpen)}
-                    to="/dashboard/settings"
+                    to="/dashboard/settings/profile"
                     className="flex p-2 -mx-2 text-sm font-semibold leading-6 text-gray-700 rounded-md group gap-x-3 hover:bg-gray-100 hover:text-red-500"
                   >
                     <svg

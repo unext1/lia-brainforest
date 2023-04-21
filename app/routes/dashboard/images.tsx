@@ -6,6 +6,7 @@ import {
   useLoaderData,
   useLocation,
   useNavigation,
+  useParams,
 } from "@remix-run/react";
 import { z } from "zod";
 import { zx } from "zodix";
@@ -79,6 +80,7 @@ const LayoutImage = () => {
   }>();
 
   const { search } = useLocation();
+  const { img } = useParams();
 
   const params = Object.fromEntries(new URLSearchParams(search).entries());
 
@@ -100,12 +102,14 @@ const LayoutImage = () => {
       <Images data={data} error_message={error_message} navigation={search}>
         <div className="flex flex-row justify-between">
           <Link
-            to={`/dashboard/images?${new URLSearchParams({
-              ...params,
-              page: params?.page
-                ? Math.max(Number(params.page) - 1, 1).toString()
-                : "1",
-            })}`}
+            to={`/dashboard/images${img ? `/${img}` : ""}?${new URLSearchParams(
+              {
+                ...params,
+                page: params?.page
+                  ? Math.max(Number(params.page) - 1, 1).toString()
+                  : "1",
+              }
+            )}`}
             className={Number(currentPage) <= 1 ? "invisible" : "block"}
           >
             Previous
@@ -115,12 +119,14 @@ const LayoutImage = () => {
             {totalPages > 0 ? totalPages : ""}
           </div>
           <Link
-            to={`/dashboard/images?${new URLSearchParams({
-              ...params,
-              page: params?.page
-                ? Math.min(Number(params.page) + 1).toString()
-                : "1",
-            })}`}
+            to={`/dashboard/images${img ? `/${img}` : ""}?${new URLSearchParams(
+              {
+                ...params,
+                page: params?.page
+                  ? Math.min(Number(params.page) + 1).toString()
+                  : "1",
+              }
+            )}`}
             className={
               Number(currentPage) >= totalPages ? "invisible" : "block"
             }
