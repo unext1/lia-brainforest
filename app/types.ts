@@ -13,3 +13,9 @@ export interface WPschema {
   ai_generated_date: string;
   modified: string;
 }
+
+export type Navigation = {
+  name: string;
+  href: string;
+  svg: JSX.Element;
+}[];
