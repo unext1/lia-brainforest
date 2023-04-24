@@ -7,6 +7,7 @@ import {
   json,
 } from "@remix-run/node";
 import { Form, useActionData } from "@remix-run/react";
+import { SetupComponent } from "~/components/setup";
 import { wordpressCookie } from "~/cookie";
 import { type WPschema } from "~/types";
 
@@ -99,40 +100,7 @@ export default function Setup() {
   return (
     <div className="h-screen ">
       <div className="grid h-full grid-cols-1 gap-20 p-10 lg:grid-cols-2">
-        <div className="flex flex-col justify-center w-full h-full p-20 bg-gray-100 rounded-lg ">
-          <h2 className="text-3xl font-semibold tracking-wide">
-            Before you start.
-          </h2>
-          <p className="mt-3 text-sm ">
-            Step 1: Install
-            <a
-              href="https://sv.wordpress.org/plugins/jwt-authentication-for-wp-rest-api/"
-              className="mx-1 text-blue-400"
-            >
-              WP Rest Api Plugin
-            </a>
-            in wordpress plugins.
-          </p>
-          <p className="mt-3 text-sm ">
-            Step 2: Download our
-            <a
-              className="mx-1 text-blue-400"
-              href="/jwt-secret-plugin.zip"
-              download
-            >
-              jwt secret plugin
-            </a>
-            and add the zip file to plugins
-          </p>
-          <p className="mt-3 text-sm ">
-            Step 3: Enter your wordpress url, username and password{" "}
-          </p>
-          <img
-            src="https://envisage.nz/wp-content/uploads/2020/09/web-design-hero1.png"
-            alt="illustration of setup"
-            className="mt-6 "
-          />
-        </div>
+        <SetupComponent />
         <div className="flex flex-col justify-center h-full px-40">
           <h2 className="text-3xl font-semibold tracking-wide">
             Setup your account.

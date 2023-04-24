@@ -149,7 +149,6 @@ const Dashboard = () => {
 
         {/* Static sidebar for desktop */}
         <div className="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
-          {/* Sidebar component, swap this element with another sidebar if you like */}
           <div className="flex flex-col px-6 pb-4 overflow-y-auto bg-white border-r border-gray-200 grow gap-y-5">
             <div className="flex flex-col justify-center h-16 shrink-0">
               <h1 className="text-lg font-semibold tracking-wide">AI APP</h1>
