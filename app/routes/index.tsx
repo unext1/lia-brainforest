@@ -28,13 +28,6 @@ export default function Index() {
               </Link>
             </div>
           </div>
-          {/* <div>
-            <img
-              className="mb-10 rounded-3xl"
-              src="https://www.upgrad.com/blog/wp-content/uploads/2019/11/118-banner.png"
-              alt=""
-            />
-          </div> */}
         </div>
       </div>
       <div className="container px-5 pb-40 mx-auto max-w-7xl">

@@ -14,16 +14,19 @@ export async function action({ request }: ActionArgs) {
     description: values.description,
   };
 
-  const f = await fetch(`${cookie.url}wp-json/wp/v2/media/${values.id}`, {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${cookie.token}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(obj),
-  });
-  const data = await f.json();
-  return {};
+  const response = await fetch(
+    `${cookie.url}wp-json/wp/v2/media/${values.id}`,
+    {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${cookie.token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(obj),
+    }
+  );
+  const data = await response.json();
+  return json(data);
 }
 
 export async function loader({ params, request }: LoaderArgs) {
@@ -32,9 +35,11 @@ export async function loader({ params, request }: LoaderArgs) {
   const { img } = params;
 
   try {
-    const f = await fetch(`${cookie.url}wp-json/wp/v2/media/${img}`);
-    const data = (await f.json()) as WPschema;
-    const fetchText = await fetch(
+    const imageResponse = await fetch(
+      `${cookie.url}wp-json/wp/v2/media/${img}`
+    );
+    const data = (await imageResponse.json()) as WPschema;
+    const aiResponse = await fetch(
       "https://northeurope.api.cognitive.microsoft.com/vision/v3.2/describe?maxCandidates=1&language=en&model-version=latest",
       {
         method: "POST",
@@ -49,7 +54,7 @@ export async function loader({ params, request }: LoaderArgs) {
       }
     );
 
-    const aiText = await fetchText.json();
+    const aiText = await aiResponse.json();
 
     if (!aiText) return json({ tags: "", description: "" });
     const aiTextDescription: string = aiText.description.captions
@@ -84,9 +89,7 @@ const ImageForm = () => {
     error_message: string;
   }>();
 
-  // const labels = useActionData();
   const navigation = useNavigation();
-  // const fetcher = useFetcher();
 
   return (
     <div className="max-h-screen">

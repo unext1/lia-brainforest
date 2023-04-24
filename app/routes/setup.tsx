@@ -15,7 +15,6 @@ export const action: ActionFunction = async ({ request }: ActionArgs) => {
   const values = Object.fromEntries(formData);
   const cookieHeader = request.headers.get("Cookie");
   const cookie = (await wordpressCookie.parse(cookieHeader)) || {};
-  /* const urlExists = ; */
   const url = isValidUrl(values.url as string)
     ? new URL(values.url as string)
     : "";
@@ -34,13 +33,13 @@ export const action: ActionFunction = async ({ request }: ActionArgs) => {
         username,
         password,
       };
-      const tokenFetch = await fetch(`${url}wp-json/jwt-auth/v1/token`, {
+      const tokenResponse = await fetch(`${url}wp-json/jwt-auth/v1/token`, {
         headers: { "Content-Type": "application/json" },
         method: "POST",
         body: JSON.stringify(user),
       });
-      const tokenData = await tokenFetch.json();
-      const titleFetch = await fetch(
+      const tokenData = await tokenResponse.json();
+      const titleResponse = await fetch(
         `${url}wp-json/wp/v2/settings?context=view`,
         {
           headers: {
@@ -50,9 +49,8 @@ export const action: ActionFunction = async ({ request }: ActionArgs) => {
           method: "GET",
         }
       );
-      const titleData = await titleFetch.json();
-      console.log(tokenData);
-      console.log(titleData);
+      const titleData = await titleResponse.json();
+
       if (tokenData.code)
         if (tokenData.code === "[jwt_auth] incorrect_password")
           return json({
@@ -74,7 +72,6 @@ export const action: ActionFunction = async ({ request }: ActionArgs) => {
         },
       });
     } catch (err) {
-      console.log(err);
       return { error_url: "incorrect url" };
     }
   }
@@ -98,7 +95,7 @@ const isValidUrl = (urlString: string) => {
 };
 export default function Setup() {
   const data = useActionData();
-  console.log(data);
+
   return (
     <div className="h-screen ">
       <div className="grid h-full grid-cols-1 gap-20 p-10 lg:grid-cols-2">

@@ -38,22 +38,15 @@ export async function loader({ request }: LoaderArgs) {
       Object.entries(res.data).filter(([_, v]) => v)
     ).toString();
   }
-
   const searchParams = new URL(request.url).searchParams;
-
   const pageParam = searchParams.get("page");
-
   const page = pageParam ? Number(pageParam) : 1;
-
   try {
-    const f = await fetch(
+    const imageResponse = await fetch(
       `${cookie.url}wp-json/wp/v2/media?media_type=image&per_page=${TOTAL_IMAGES_PER_PAGE}&${urlParams}`
     );
-
-    const totalPages = f.headers.get("x-wp-totalpages");
-
-    const data = (await f.json()) as WPschema[];
-
+    const totalPages = imageResponse.headers.get("x-wp-totalpages");
+    const data = (await imageResponse.json()) as WPschema[];
     return json({
       data: data,
       currentPage: page,
