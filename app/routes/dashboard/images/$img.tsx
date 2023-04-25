@@ -1,5 +1,6 @@
 import { type LoaderArgs, json, type ActionArgs } from "@remix-run/node";
 import { Form, useLoaderData, useNavigation } from "@remix-run/react";
+import { ImageComponent } from "~/components/imageform";
 import { wordpressCookie } from "~/cookie";
 import { type WPschema } from "~/types";
 
@@ -110,100 +111,12 @@ const ImageForm = () => {
 
         <div className="my-auto">
           <Form method="post">
-            <div className="grid grid-cols-2 gap-10 mt-10 mb-6">
-              <div className="flex flex-col">
-                <label htmlFor="title">Wordpress title</label>
-                <textarea
-                  className="px-3 min-h-[100px] rounded-lg resize-none"
-                  name="title"
-                  placeholder="No title yet.."
-                  defaultValue={data?.title.rendered}
-                  readOnly
-                />
-              </div>
-              <div className="flex flex-col">
-                <label htmlFor="title">Generated title</label>
-                <textarea
-                  className="px-3 min-h-[100px] rounded-lg resize-none"
-                  name="title"
-                  placeholder="Not Generated"
-                  defaultValue={tags ? tags : ""}
-                />
-              </div>
-              <div className="flex flex-col">
-                <label htmlFor="description">Wordpress description</label>
-                <textarea
-                  className="px-3 min-h-[100px] rounded-lg resize-none"
-                  name="description"
-                  placeholder="No description yet.. "
-                  defaultValue={data?.description.rendered}
-                  readOnly
-                />
-              </div>
-              <div className="flex flex-col">
-                <label htmlFor="description">Generated description</label>
-
-                <textarea
-                  className="px-3 min-h-[100px] rounded-lg resize-none"
-                  name="description"
-                  placeholder="Not Generated"
-                  defaultValue={
-                    description ? description : "Failed to generate"
-                  }
-                />
-              </div>
-              <div className="flex flex-col">
-                <label htmlFor="title">Wordpress alt tag</label>
-                <textarea
-                  className="px-3 min-h-[100px] rounded-lg resize-none"
-                  name="alt-tag"
-                  placeholder="No alt tag yet.. "
-                  defaultValue={data?.description.rendered}
-                  readOnly
-                />
-              </div>
-              <div className="flex flex-col">
-                <label htmlFor="alt-tag">Generated alt tag</label>
-
-                <textarea
-                  className="px-3 min-h-[100px] rounded-lg resize-none"
-                  name="alt-tag"
-                  placeholder="Not generated"
-                  defaultValue={
-                    description ? description : "Failed to generate"
-                  }
-                />
-              </div>
-            </div>
-            {/* <div className="relative flex items-start ">
-              <div className="flex-1 min-w-0 text-sm leading-6">
-                <label htmlFor="comments" className="font-medium text-gray-900">
-                  Change in Wordpress
-                </label>
-                <p id="checkbox" className="text-sm text-gray-500">
-                  This Ai Generated text will be changed on your wordpress image
-                  alt input.
-                </p>
-              </div>
-              <div className="flex items-center h-6 my-auto ml-3">
-                <input
-                  id="comments"
-                  aria-describedby="checkbox"
-                  name="comments"
-                  type="checkbox"
-                  className="w-4 h-4 my-auto text-indigo-600 border-gray-300 rounded focus:ring-indigo-600"
-                />
-              </div>
-            </div> */}
-            <input name="id" type="hidden" defaultValue={data?.id} />
-            <input name="image" type="hidden" defaultValue={data?.source_url} />
-            <button
-              type="submit"
-              value="GENERATE"
-              className=" w-fit  sm:px-12 sm:py-2.5 mx-auto mt-2  text-xs px-6 py-1.5 md:text-sm font-bold text-white uppercase bg-red-500 rounded-lg"
-            >
-              {navigation.state === "submitting" ? "Saving.." : "Save"}
-            </button>
+            <ImageComponent
+              tags={tags}
+              data={data}
+              navigation={navigation}
+              description={description}
+            />
           </Form>
         </div>
       </div>
