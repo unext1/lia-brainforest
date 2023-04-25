@@ -1,5 +1,10 @@
 import { type LoaderArgs, json, type ActionArgs } from "@remix-run/node";
-import { Form, useLoaderData, useNavigation } from "@remix-run/react";
+import {
+  Form,
+  useActionData,
+  useLoaderData,
+  useNavigation,
+} from "@remix-run/react";
 import { ImageComponent } from "~/components/imageform";
 import { wordpressCookie } from "~/cookie";
 import { type WPschema } from "~/types";
@@ -15,19 +20,27 @@ export async function action({ request }: ActionArgs) {
     description: values.description,
   };
 
-  const response = await fetch(
-    `${cookie.url}wp-json/wp/v2/media/${values.id}`,
-    {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${cookie.token}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(obj),
-    }
-  );
-  const data = await response.json();
-  return json(data);
+  try {
+    const response = await fetch(
+      `${cookie.url}wp-json/wp/v2/media/${values.id}`,
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${cookie.token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(obj),
+      }
+    );
+    const data = await response.json();
+    if (data.code === "jwt_auth_invalid_token") {
+      return json({ errormessage: data });
+    } else return json(data);
+  } catch (error) {
+    console.log(error);
+    console.log("THIS WAS ERRORRR");
+    return json({ errormessage: error });
+  }
 }
 
 export async function loader({ params, request }: LoaderArgs) {
@@ -90,8 +103,11 @@ const ImageForm = () => {
     error_message: string;
   }>();
 
+  const actionData = useActionData();
+
   const navigation = useNavigation();
 
+  console.log(actionData, "ACTIONDATA");
   return (
     <div className="max-h-screen">
       <div className="p-20 mt-20 bg-gray-100 rounded-3xl">
@@ -118,6 +134,9 @@ const ImageForm = () => {
               description={description}
             />
           </Form>
+          {actionData && actionData.errormessage
+            ? actionData.errormessage.code
+            : null}
         </div>
       </div>
     </div>

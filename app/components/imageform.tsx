@@ -1,5 +1,5 @@
-import { Form } from "@remix-run/react";
-import { Navigation, WPschema } from "~/types";
+import { useNavigation } from "@remix-run/react";
+import { type WPschema } from "~/types";
 
 export const ImageComponent = ({
   navigation,
@@ -22,6 +22,7 @@ export const ImageComponent = ({
             name="title"
             placeholder="No title yet.."
             defaultValue={data?.title.rendered}
+            key={navigation.location}
             readOnly
           />
         </div>
@@ -31,6 +32,7 @@ export const ImageComponent = ({
             className="px-3 min-h-[100px] rounded-lg resize-none"
             name="title"
             placeholder="Not Generated"
+            key={navigation.location}
             defaultValue={tags ? tags : ""}
           />
         </div>
@@ -40,6 +42,7 @@ export const ImageComponent = ({
             className="px-3 min-h-[100px] rounded-lg resize-none"
             name="description"
             placeholder="No description yet.. "
+            key={navigation.location}
             defaultValue={data?.description.rendered}
             readOnly
           />
@@ -60,6 +63,7 @@ export const ImageComponent = ({
             className="px-3 min-h-[100px] rounded-lg resize-none"
             name="alt-tag"
             placeholder="No alt tag yet.. "
+            key={navigation.location}
             defaultValue={data?.description.rendered}
             readOnly
           />
