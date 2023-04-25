@@ -98,7 +98,7 @@ export default function Setup() {
 
   return (
     <div className="h-screen ">
-      <div className="grid h-full grid-cols-1 gap-20 p-10 lg:grid-cols-2">
+      <div className="grid h-full grid-cols-1 gap-20 p-6 lg:grid-cols-2">
         <SetupComponent />
         <div className="flex flex-col justify-center h-full px-40">
           <h2 className="text-3xl font-semibold tracking-wide">

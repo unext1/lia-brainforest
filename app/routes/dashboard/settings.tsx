@@ -47,7 +47,7 @@ const Settings = () => {
           Workspaces
         </NavLink>
       </div>
-      <div className="col-span-3 p-10 bg-gray-100 rounded-xl">
+      <div className="col-span-3 px-10 pt-2 mt-2 bg-gray-100 rounded-xl">
         <Outlet />
       </div>
     </div>
