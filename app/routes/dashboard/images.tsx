@@ -73,10 +73,10 @@ const LayoutImage = () => {
   const { search, pathname } = useLocation();
 
   const params = Object.fromEntries(new URLSearchParams(search).entries());
-  const scrollableRef = useRef(null);
+  const scrollableRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    scrollableRef.current.scrollTo(0, 0);
+    scrollableRef?.current?.scrollTo(0, 0);
   }, [currentPage]);
   return (
     <div>

@@ -1,5 +1,5 @@
 import { type LoaderArgs, json } from "@remix-run/node";
-import { Form, NavLink, Outlet } from "@remix-run/react";
+import { NavLink, Outlet } from "@remix-run/react";
 import { wordpressCookie } from "~/cookie";
 
 export async function loader({ request }: LoaderArgs) {
