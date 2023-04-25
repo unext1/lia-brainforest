@@ -1,5 +1,4 @@
 import { Link } from "@remix-run/react";
-import { DashboardItem } from "./dashboardItem";
 import { NavList } from "./NavList";
 
 export const Sidebar = ({

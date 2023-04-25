@@ -1,6 +1,5 @@
-import { redirect, type ActionArgs, json } from "@remix-run/node";
-import { useActionData } from "@remix-run/react";
-import { useEffect } from "react";
+import { redirect, type ActionArgs } from "@remix-run/node";
+
 import { wordpressCookie } from "~/cookie";
 
 export const action = async ({ request }: ActionArgs) => {

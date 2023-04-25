@@ -1,8 +1,7 @@
-import { Link, NavLink } from "@remix-run/react";
-import { Sidebar } from "./sidebar";
-import React, { Fragment, useState } from "react";
+import { Link } from "@remix-run/react";
+import React, { Fragment } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-import { Navigation } from "~/types";
+import { type Navigation } from "~/types";
 import { NavList } from "./NavList";
 export const MobileSidebar = ({
   setState,

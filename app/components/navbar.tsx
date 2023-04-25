@@ -1,5 +1,4 @@
 import { Link } from "@remix-run/react";
-import Button from "./button";
 
 const Navbar = () => {
   return (

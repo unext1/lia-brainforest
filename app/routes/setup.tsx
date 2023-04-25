@@ -1,4 +1,3 @@
-//Description: This is the setup page for the app. It is used to setup the wordpress url, username and password.
 import {
   redirect,
   type ActionArgs,
