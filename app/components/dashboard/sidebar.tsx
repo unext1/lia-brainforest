@@ -1,4 +1,4 @@
-import { Link } from "@remix-run/react";
+import { Form, Link } from "@remix-run/react";
 import { NavList } from "./NavList";
 
 export const Sidebar = ({
@@ -46,6 +46,30 @@ export const Sidebar = ({
                   </svg>
                   <div className="my-auto">Settings</div>
                 </Link>
+                <Form
+                  action="/logout"
+                  method="post"
+                  className="flex p-2 -mx-2 text-sm font-semibold leading-6 text-gray-700 rounded-md outline-none focus:outline-none group gap-x-3 hover:bg-gray-100 hover:text-red-500"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    className="w-[18px] h-[18px] my-auto"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M6 18L18 6M6 6l12 12"
+                    />
+                  </svg>
+
+                  <button type="submit" className="my-auto">
+                    Logout
+                  </button>
+                </Form>
               </div>
             </div>
           </nav>

@@ -50,11 +50,6 @@ const Settings = () => {
       <div className="col-span-3 p-10 bg-gray-100 rounded-xl">
         <Outlet />
       </div>
-      <div className="flex justify-end pt-4">
-        <Form method="post" action="/logout">
-          <button type="submit">Logout</button>
-        </Form>
-      </div>
     </div>
   );
 };

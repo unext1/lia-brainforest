@@ -1,21 +1,23 @@
 import { Link } from "@remix-run/react";
-import { type ReactNode } from "react";
+import { forwardRef, type ReactNode } from "react";
 import { type WPschema } from "~/types";
 
-export const Images = ({
-  data,
-  navigation,
-  error_message,
-  children,
-}: {
+type Props = {
   data: WPschema[];
   navigation: any;
   error_message: string;
   children: ReactNode;
-}) => {
+};
+const Images = forwardRef<HTMLDivElement, Props>(function Images(
+  { data, navigation, error_message, children },
+  ref
+) {
   return (
     <div className="container gap-10 pb-20 mx-auto max-w-7xl ">
-      <div className="container flex gap-5 py-10 mx-auto overflow-x-scroll gap-x-20 snap-mandatory snap-x">
+      <div
+        ref={ref}
+        className="container flex gap-5 py-10 mx-auto overflow-x-scroll gap-x-20 snap-mandatory snap-x"
+      >
         {data?.map((image) => (
           <div key={image.id} className="relative flex-shrink-0 snap-center">
             <div
@@ -40,4 +42,6 @@ export const Images = ({
       </div>
     </div>
   );
-};
+});
+
+export { Images };

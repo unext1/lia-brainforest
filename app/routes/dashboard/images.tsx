@@ -6,6 +6,7 @@ import {
   useLoaderData,
   useLocation,
 } from "@remix-run/react";
+import { useEffect, useRef } from "react";
 import { z } from "zod";
 import { zx } from "zodix";
 import { Images } from "~/components/images";
@@ -72,7 +73,11 @@ const LayoutImage = () => {
   const { search, pathname } = useLocation();
 
   const params = Object.fromEntries(new URLSearchParams(search).entries());
+  const scrollableRef = useRef(null);
 
+  useEffect(() => {
+    scrollableRef.current.scrollTo(0, 0);
+  }, [currentPage]);
   return (
     <div>
       <Form action="/dashboard/images">
@@ -88,7 +93,12 @@ const LayoutImage = () => {
         <input type="date" name="before" />
         <button type="submit">Submit</button>
       </Form>
-      <Images data={data} error_message={error_message} navigation={search}>
+      <Images
+        ref={scrollableRef}
+        data={data}
+        error_message={error_message}
+        navigation={search}
+      >
         <div className="flex flex-row justify-between">
           <Link
             to={`${pathname}?${new URLSearchParams({
