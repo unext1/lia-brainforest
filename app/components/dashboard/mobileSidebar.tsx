@@ -102,7 +102,7 @@ export const MobileSidebar = ({
                         <div className="my-auto">Settings</div>
                       </Link>
                       <Form
-                        action="/logout"
+                        action="/wordpress-logout"
                         method="post"
                         className="flex p-2 -mx-2 text-sm font-semibold leading-6 text-gray-700 rounded-md outline-none focus:outline-none group gap-x-3 hover:bg-gray-100 hover:text-red-500"
                       >

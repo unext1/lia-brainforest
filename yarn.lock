@@ -6302,6 +6302,29 @@ remark-rehype@^9.0.0:
     mdast-util-to-hast "^11.0.0"
     unified "^10.0.0"
 
+remix-auth-google@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/remix-auth-google/-/remix-auth-google-1.2.0.tgz#1cb78a74fe781537f083c5066a6ae05fc15a3efd"
+  integrity sha512-llyrtOt8vk503XlAoEdGuEmrHRACFOP13yPVn92VkrcogTUyALzuy8ky2O1/FSJ7Q2+B0di5yMiCF4IYD/Yn4g==
+  dependencies:
+    remix-auth-oauth2 "^1.1.0"
+
+remix-auth-oauth2@^1.1.0:
+  version "1.6.0"
+  resolved "https://registry.yarnpkg.com/remix-auth-oauth2/-/remix-auth-oauth2-1.6.0.tgz#347db1c9bfac934ca6e90288c917cbba711021bd"
+  integrity sha512-HnMgdKn/+LIKHYlbxys14g9cUMGvzMS9mbopAfnntIYWBC8MOfUy6uYyyoWJNqm3HriAE/MiEUaTnlz3B0c7uQ==
+  dependencies:
+    debug "^4.3.4"
+    remix-auth "^3.4.0"
+    uuid "^8.3.2"
+
+remix-auth@^3.4.0:
+  version "3.4.0"
+  resolved "https://registry.yarnpkg.com/remix-auth/-/remix-auth-3.4.0.tgz#a3cd4455477f6c60f6cf1bad0ae119101a6d8ff8"
+  integrity sha512-VRliJo9VRAS4sSYgMjYbi7rYRixPWU2Tb8PFZb06OIj0nONK/1KRzHf2+Y6VGZeIacepLVgan6g2IUJjayE2rQ==
+  dependencies:
+    uuid "^8.3.2"
+
 "require-like@>= 0.1.1":
   version "0.1.2"
   resolved "https://registry.npmjs.org/require-like/-/require-like-0.1.2.tgz"
@@ -7211,6 +7234,11 @@ utils-merge@1.0.1:
   version "1.0.1"
   resolved "https://registry.npmjs.org/utils-merge/-/utils-merge-1.0.1.tgz"
   integrity sha512-pMZTvIkT1d+TFGvDOqodOclx0QWkkgi6Tdoa8gC8ffGAAqz9pzPTZWAybbsHHoED/ztMtkv/VoYTYyShUn81hA==
+
+uuid@^8.3.2:
+  version "8.3.2"
+  resolved "https://registry.yarnpkg.com/uuid/-/uuid-8.3.2.tgz#80d5b5ced271bb9af6c445f21a1a04c606cefbe2"
+  integrity sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==
 
 uvu@^0.5.0:
   version "0.5.6"
