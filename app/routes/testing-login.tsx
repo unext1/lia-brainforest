@@ -1,17 +1,23 @@
-import { redirect } from "@remix-run/node";
+import { LoaderFunction, redirect } from "@remix-run/node";
 import { Form, useLoaderData, useRevalidator } from "@remix-run/react";
-import { createBrowserClient } from "@supabase/auth-helpers-remix";
+import {
+  createBrowserClient,
+  createServerClient,
+} from "@supabase/auth-helpers-remix";
 import { useEffect, useState } from "react";
 
-import type { LoaderArgs } from "@remix-run/node";
 import type { ActionArgs } from "@remix-run/node";
+import { authCookie, wordpressCookie } from "~/cookie";
 
 export async function action({ request }: ActionArgs) {
+  const response = new Response();
   const formData = await request.formData();
   const { _action } = Object.fromEntries(formData);
-  const supabase = createBrowserClient(
+
+  const supabase = createServerClient(
     process.env.SUPABASE_URL!,
-    process.env.SUPABASE_ANON_KEY!
+    process.env.SUPABASE_ANON_KEY!,
+    { request, response }
   );
   if (_action === "login") {
     const signIn = await supabase.auth.signInWithOAuth({
@@ -34,7 +40,12 @@ export async function action({ request }: ActionArgs) {
   }
   return {};
 }
-export const loader = () => {
+export const loader: LoaderFunction = async ({ request }) => {
+  const cookieHeader = request.headers.get("Cookie");
+  const cookie = (await authCookie.parse(cookieHeader)) || {};
+
+  console.log(cookie);
+
   const env = {
     SUPABASE_URL: process.env.SUPABASE_URL!,
     SUPABASE_ANON_KEY: process.env.SUPABASE_ANON_KEY!,
@@ -51,6 +62,19 @@ const TestingLog = () => {
   const handleLogout = async () => {
     await supabase.auth.signOut();
   };
+
+  // const revalidator = useRevalidator();
+
+  // useEffect(() => {
+  //   const {
+  //     data: { subscription },
+  //   } = supabase.auth.onAuthStateChange(() => {
+  //     revalidator.revalidate();
+  //   });
+  //   return () => {
+  //     subscription.unsubscribe();
+  //   };
+  // }, [supabase, revalidator]);
 
   return (
     <div>
