@@ -1,7 +1,6 @@
 import { GraphQLClient } from "graphql-request";
 import jwt from "jsonwebtoken";
 
-import { z } from "zod";
 import { env } from "./env.server";
 
 const HASURA_URL = `${env.HASURA_GRAPHQL_URL}/v1/graphql`;
@@ -18,6 +17,16 @@ export const createHasuraToken = (userId: string | undefined): string => {
     algorithm: env.HASURA_GRAPHQL_JWT_SECRET.type,
   });
 };
+
+export const hasuraAdminClient = new GraphQLClient(
+  `${env.HASURA_GRAPHQL_URL}/v1/graphql`,
+  {
+    method: "post",
+    headers: {
+      "x-hasura-admin-secret": env.HASURA_GRAPHQL_ADMIN_SECRET,
+    },
+  }
+);
 
 export const hasuraClient = (token: string) => {
   const headers = token ? { Authorization: `Bearer ${token}` } : undefined;

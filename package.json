@@ -3,7 +3,8 @@
   "sideEffects": false,
   "scripts": {
     "build": "remix build",
-    "dev": "remix dev",
+    "codegen": "graphql-codegen --require dotenv/config --config .graphqlrc.yml --watch",
+    "dev": "concurrently 'remix dev' 'yarn codegen'",
     "clean": "rm -rf .cache node_modules build public/build api/_assets && yarn"
   },
   "dependencies": {
@@ -13,8 +14,12 @@
     "@remix-run/react": "^1.14.3",
     "@remix-run/serve": "^1.14.3",
     "@tailwindcss/forms": "^0.5.3",
+    "dotenv": "^16.0.3",
     "framer-motion": "^10.9.2",
+    "graphql": "^16.6.0",
+    "graphql-request": "^6.0.0",
     "isbot": "latest",
+    "jsonwebtoken": "^9.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "remix-auth": "^3.4.0",
@@ -23,11 +28,16 @@
     "zodix": "^0.4.0"
   },
   "devDependencies": {
+    "@graphql-codegen/cli": "^3.3.1",
+    "@graphql-codegen/client-preset": "^3.0.1",
     "@remix-run/dev": "^1.14.3",
     "@remix-run/eslint-config": "^1.14.3",
+    "@types/jsonwebtoken": "^9.0.1",
     "@types/react": "^18.0.25",
     "@types/react-dom": "^18.0.11",
+    "concurrently": "^8.0.1",
     "eslint": "^8.28.0",
+    "graphql-config": "^4.5.0",
     "tailwindcss": "^3.3.0",
     "typescript": "^4.9.3"
   },

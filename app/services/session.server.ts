@@ -1,4 +1,12 @@
 import { createCookieSessionStorage } from "@remix-run/node";
+
+export type User = {
+  id: string | null;
+  email: string;
+  name: string;
+  token: string;
+};
+
 export const sessionStorage = createCookieSessionStorage({
   cookie: {
     name: "_session",
