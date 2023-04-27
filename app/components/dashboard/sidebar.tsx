@@ -2,12 +2,10 @@ import { Form, Link } from "@remix-run/react";
 import { NavList } from "./NavList";
 
 export const Sidebar = ({
-  cookie,
   navigation,
   setState,
   state,
 }: {
-  cookie: any;
   navigation: { name: string; href: string; svg: JSX.Element }[];
   setState: React.Dispatch<React.SetStateAction<boolean>>;
   state: boolean;
@@ -18,7 +16,7 @@ export const Sidebar = ({
         <div className="flex flex-col px-6 pb-4 overflow-y-auto bg-white border-r border-gray-200 grow gap-y-5">
           <div className="flex flex-col justify-center h-16 shrink-0">
             <h1 className="text-lg font-semibold tracking-wide">AI APP</h1>
-            <h4 className="text-sm text-gray-600">{cookie.title}</h4>
+            <h4 className="text-sm text-gray-600">Welcome</h4>
           </div>
           <nav className="flex flex-col flex-1">
             <div className="flex flex-col flex-1 gap-y-7">

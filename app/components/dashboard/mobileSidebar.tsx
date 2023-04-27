@@ -7,12 +7,10 @@ export const MobileSidebar = ({
   setState,
   state,
   navigation,
-  cookie,
 }: {
   setState: React.Dispatch<React.SetStateAction<boolean>>;
   state: boolean;
   navigation: Navigation;
-  cookie: any;
 }) => {
   return (
     <Transition.Root show={state} as={Fragment}>
@@ -67,7 +65,7 @@ export const MobileSidebar = ({
                   <h1 className="text-lg font-semibold tracking-wide">
                     AI APP
                   </h1>
-                  <h4 className="text-sm text-gray-600">{cookie.title}</h4>
+                  <h4 className="text-sm text-gray-600">Welcome</h4>
                 </div>
                 <nav className="flex flex-col flex-1">
                   <div className="flex flex-col flex-1 gap-y-7">

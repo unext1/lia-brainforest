@@ -1,9 +1,10 @@
+import { json, type DataFunctionArgs } from "@remix-run/node";
 import { Outlet, useLoaderData } from "@remix-run/react";
 import { useState } from "react";
-import { wordpressCookie } from "~/cookie";
-import { type LoaderArgs, redirect, json } from "@remix-run/node";
-import { Sidebar } from "~/components/dashboard/sidebar";
 import { MobileSidebar } from "~/components/dashboard/mobileSidebar";
+import { Sidebar } from "~/components/dashboard/sidebar";
+import { requireUser } from "~/services/auth.server";
+
 const navigation = [
   {
     name: "Dashboard",
@@ -37,16 +38,16 @@ const navigation = [
   },
 ];
 
-export async function loader({ request }: LoaderArgs) {
-  const cookieHeader = request.headers.get("Cookie");
-  const cookie = await wordpressCookie.parse(cookieHeader);
+export const loader = async ({ request }: DataFunctionArgs) => {
+  const user = await requireUser(request);
 
-  if (!cookie) return redirect("/setup");
-  return json(cookie);
-}
+  return json(user);
+};
 const Dashboard = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const cookie = useLoaderData();
+  const user = useLoaderData<typeof loader>();
+  console.log(user);
+
   return (
     <>
       <div>
@@ -54,10 +55,8 @@ const Dashboard = () => {
           setState={setSidebarOpen}
           state={sidebarOpen}
           navigation={navigation}
-          cookie={cookie}
         />
         <Sidebar
-          cookie={cookie}
           setState={setSidebarOpen}
           state={sidebarOpen}
           navigation={navigation}

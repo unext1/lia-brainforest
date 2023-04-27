@@ -7,13 +7,21 @@ export type User = {
   token: string;
 };
 
-export const sessionStorage = createCookieSessionStorage({
-  cookie: {
-    name: "_session",
-    sameSite: "lax",
-    path: "/",
-    httpOnly: true,
-    secrets: [process.env.JWT_SECRET_KEY!],
-    secure: process.env.NODE_ENV === "production",
-  },
+type Cookie = NonNullable<
+  Required<Parameters<typeof createCookieSessionStorage>[0]>
+>["cookie"];
+
+const cookie = (name: string): Cookie => ({
+  name,
+  sameSite: "lax",
+  path: "/",
+  httpOnly: true,
+  secrets: [process.env.JWT_SECRET_KEY!],
+  secure: process.env.NODE_ENV === "production",
 });
+
+export const sessionStore = createCookieSessionStorage({
+  cookie: cookie("_session"),
+});
+
+export const { getSession, commitSession, destroySession } = sessionStore;

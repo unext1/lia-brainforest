@@ -36,6 +36,485 @@ export type IntComparisonExp = {
   _nin?: InputMaybe<Array<Scalars['Int']>>;
 };
 
+/** columns and relationships of "lia.user" */
+export type LiaUser = {
+  createdAt: Scalars['timestamptz'];
+  email: Scalars['String'];
+  id: Scalars['uuid'];
+  name: Scalars['String'];
+  updatedAt: Scalars['timestamptz'];
+};
+
+/** aggregated selection of "lia.user" */
+export type LiaUserAggregate = {
+  aggregate?: Maybe<LiaUserAggregateFields>;
+  nodes: Array<LiaUser>;
+};
+
+/** aggregate fields of "lia.user" */
+export type LiaUserAggregateFields = {
+  count: Scalars['Int'];
+  max?: Maybe<LiaUserMaxFields>;
+  min?: Maybe<LiaUserMinFields>;
+};
+
+
+/** aggregate fields of "lia.user" */
+export type LiaUserAggregateFieldsCountArgs = {
+  columns?: InputMaybe<Array<LiaUserSelectColumn>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** Boolean expression to filter rows from the table "lia.user". All fields are combined with a logical 'AND'. */
+export type LiaUserBoolExp = {
+  _and?: InputMaybe<Array<LiaUserBoolExp>>;
+  _not?: InputMaybe<LiaUserBoolExp>;
+  _or?: InputMaybe<Array<LiaUserBoolExp>>;
+  createdAt?: InputMaybe<TimestamptzComparisonExp>;
+  email?: InputMaybe<StringComparisonExp>;
+  id?: InputMaybe<UuidComparisonExp>;
+  name?: InputMaybe<StringComparisonExp>;
+  updatedAt?: InputMaybe<TimestamptzComparisonExp>;
+};
+
+/** unique or primary key constraints on table "lia.user" */
+export type LiaUserConstraint =
+  /** unique or primary key constraint on columns "email" */
+  | 'user_email_key'
+  /** unique or primary key constraint on columns "id" */
+  | 'user_pkey';
+
+/** input type for inserting data into table "lia.user" */
+export type LiaUserInsertInput = {
+  createdAt?: InputMaybe<Scalars['timestamptz']>;
+  email?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  name?: InputMaybe<Scalars['String']>;
+  updatedAt?: InputMaybe<Scalars['timestamptz']>;
+};
+
+/** aggregate max on columns */
+export type LiaUserMaxFields = {
+  createdAt?: Maybe<Scalars['timestamptz']>;
+  email?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['uuid']>;
+  name?: Maybe<Scalars['String']>;
+  updatedAt?: Maybe<Scalars['timestamptz']>;
+};
+
+/** aggregate min on columns */
+export type LiaUserMinFields = {
+  createdAt?: Maybe<Scalars['timestamptz']>;
+  email?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['uuid']>;
+  name?: Maybe<Scalars['String']>;
+  updatedAt?: Maybe<Scalars['timestamptz']>;
+};
+
+/** response of any mutation on the table "lia.user" */
+export type LiaUserMutationResponse = {
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int'];
+  /** data from the rows affected by the mutation */
+  returning: Array<LiaUser>;
+};
+
+/** on_conflict condition type for table "lia.user" */
+export type LiaUserOnConflict = {
+  constraint: LiaUserConstraint;
+  update_columns?: Array<LiaUserUpdateColumn>;
+  where?: InputMaybe<LiaUserBoolExp>;
+};
+
+/** Ordering options when selecting data from "lia.user". */
+export type LiaUserOrderBy = {
+  createdAt?: InputMaybe<OrderBy>;
+  email?: InputMaybe<OrderBy>;
+  id?: InputMaybe<OrderBy>;
+  name?: InputMaybe<OrderBy>;
+  updatedAt?: InputMaybe<OrderBy>;
+};
+
+/** primary key columns input for table: lia.user */
+export type LiaUserPkColumnsInput = {
+  id: Scalars['uuid'];
+};
+
+/** select columns of table "lia.user" */
+export type LiaUserSelectColumn =
+  /** column name */
+  | 'createdAt'
+  /** column name */
+  | 'email'
+  /** column name */
+  | 'id'
+  /** column name */
+  | 'name'
+  /** column name */
+  | 'updatedAt';
+
+/** input type for updating data in table "lia.user" */
+export type LiaUserSetInput = {
+  createdAt?: InputMaybe<Scalars['timestamptz']>;
+  email?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  name?: InputMaybe<Scalars['String']>;
+  updatedAt?: InputMaybe<Scalars['timestamptz']>;
+};
+
+/** Streaming cursor of the table "lia_user" */
+export type LiaUserStreamCursorInput = {
+  /** Stream column input with initial value */
+  initialValue: LiaUserStreamCursorValueInput;
+  /** cursor ordering */
+  ordering?: InputMaybe<CursorOrdering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type LiaUserStreamCursorValueInput = {
+  createdAt?: InputMaybe<Scalars['timestamptz']>;
+  email?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  name?: InputMaybe<Scalars['String']>;
+  updatedAt?: InputMaybe<Scalars['timestamptz']>;
+};
+
+/** update columns of table "lia.user" */
+export type LiaUserUpdateColumn =
+  /** column name */
+  | 'createdAt'
+  /** column name */
+  | 'email'
+  /** column name */
+  | 'id'
+  /** column name */
+  | 'name'
+  /** column name */
+  | 'updatedAt';
+
+export type LiaUserUpdates = {
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<LiaUserSetInput>;
+  where: LiaUserBoolExp;
+};
+
+/** columns and relationships of "lia.workplace" */
+export type LiaWorkplace = {
+  createdAt: Scalars['timestamptz'];
+  id: Scalars['uuid'];
+  ownerId: Scalars['uuid'];
+  title?: Maybe<Scalars['String']>;
+  token: Scalars['String'];
+  updatedAt: Scalars['timestamptz'];
+  url: Scalars['String'];
+};
+
+/** aggregated selection of "lia.workplace" */
+export type LiaWorkplaceAggregate = {
+  aggregate?: Maybe<LiaWorkplaceAggregateFields>;
+  nodes: Array<LiaWorkplace>;
+};
+
+/** aggregate fields of "lia.workplace" */
+export type LiaWorkplaceAggregateFields = {
+  count: Scalars['Int'];
+  max?: Maybe<LiaWorkplaceMaxFields>;
+  min?: Maybe<LiaWorkplaceMinFields>;
+};
+
+
+/** aggregate fields of "lia.workplace" */
+export type LiaWorkplaceAggregateFieldsCountArgs = {
+  columns?: InputMaybe<Array<LiaWorkplaceSelectColumn>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** Boolean expression to filter rows from the table "lia.workplace". All fields are combined with a logical 'AND'. */
+export type LiaWorkplaceBoolExp = {
+  _and?: InputMaybe<Array<LiaWorkplaceBoolExp>>;
+  _not?: InputMaybe<LiaWorkplaceBoolExp>;
+  _or?: InputMaybe<Array<LiaWorkplaceBoolExp>>;
+  createdAt?: InputMaybe<TimestamptzComparisonExp>;
+  id?: InputMaybe<UuidComparisonExp>;
+  ownerId?: InputMaybe<UuidComparisonExp>;
+  title?: InputMaybe<StringComparisonExp>;
+  token?: InputMaybe<StringComparisonExp>;
+  updatedAt?: InputMaybe<TimestamptzComparisonExp>;
+  url?: InputMaybe<StringComparisonExp>;
+};
+
+/** unique or primary key constraints on table "lia.workplace" */
+export type LiaWorkplaceConstraint =
+  /** unique or primary key constraint on columns "id" */
+  | 'workplace_pkey'
+  /** unique or primary key constraint on columns "token" */
+  | 'workplace_token_key'
+  /** unique or primary key constraint on columns "url" */
+  | 'workplace_url_key';
+
+/** input type for inserting data into table "lia.workplace" */
+export type LiaWorkplaceInsertInput = {
+  createdAt?: InputMaybe<Scalars['timestamptz']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  ownerId?: InputMaybe<Scalars['uuid']>;
+  title?: InputMaybe<Scalars['String']>;
+  token?: InputMaybe<Scalars['String']>;
+  updatedAt?: InputMaybe<Scalars['timestamptz']>;
+  url?: InputMaybe<Scalars['String']>;
+};
+
+/** aggregate max on columns */
+export type LiaWorkplaceMaxFields = {
+  createdAt?: Maybe<Scalars['timestamptz']>;
+  id?: Maybe<Scalars['uuid']>;
+  ownerId?: Maybe<Scalars['uuid']>;
+  title?: Maybe<Scalars['String']>;
+  token?: Maybe<Scalars['String']>;
+  updatedAt?: Maybe<Scalars['timestamptz']>;
+  url?: Maybe<Scalars['String']>;
+};
+
+/** columns and relationships of "lia.workplace_member" */
+export type LiaWorkplaceMember = {
+  userId: Scalars['uuid'];
+  workplaceId: Scalars['uuid'];
+};
+
+/** aggregated selection of "lia.workplace_member" */
+export type LiaWorkplaceMemberAggregate = {
+  aggregate?: Maybe<LiaWorkplaceMemberAggregateFields>;
+  nodes: Array<LiaWorkplaceMember>;
+};
+
+/** aggregate fields of "lia.workplace_member" */
+export type LiaWorkplaceMemberAggregateFields = {
+  count: Scalars['Int'];
+  max?: Maybe<LiaWorkplaceMemberMaxFields>;
+  min?: Maybe<LiaWorkplaceMemberMinFields>;
+};
+
+
+/** aggregate fields of "lia.workplace_member" */
+export type LiaWorkplaceMemberAggregateFieldsCountArgs = {
+  columns?: InputMaybe<Array<LiaWorkplaceMemberSelectColumn>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** Boolean expression to filter rows from the table "lia.workplace_member". All fields are combined with a logical 'AND'. */
+export type LiaWorkplaceMemberBoolExp = {
+  _and?: InputMaybe<Array<LiaWorkplaceMemberBoolExp>>;
+  _not?: InputMaybe<LiaWorkplaceMemberBoolExp>;
+  _or?: InputMaybe<Array<LiaWorkplaceMemberBoolExp>>;
+  userId?: InputMaybe<UuidComparisonExp>;
+  workplaceId?: InputMaybe<UuidComparisonExp>;
+};
+
+/** unique or primary key constraints on table "lia.workplace_member" */
+export type LiaWorkplaceMemberConstraint =
+  /** unique or primary key constraint on columns "workplace_id", "user_id" */
+  | 'workplace_member_pkey'
+  /** unique or primary key constraint on columns "user_id" */
+  | 'workplace_member_user_id_key'
+  /** unique or primary key constraint on columns "workplace_id" */
+  | 'workplace_member_workplace_id_key';
+
+/** input type for inserting data into table "lia.workplace_member" */
+export type LiaWorkplaceMemberInsertInput = {
+  userId?: InputMaybe<Scalars['uuid']>;
+  workplaceId?: InputMaybe<Scalars['uuid']>;
+};
+
+/** aggregate max on columns */
+export type LiaWorkplaceMemberMaxFields = {
+  userId?: Maybe<Scalars['uuid']>;
+  workplaceId?: Maybe<Scalars['uuid']>;
+};
+
+/** aggregate min on columns */
+export type LiaWorkplaceMemberMinFields = {
+  userId?: Maybe<Scalars['uuid']>;
+  workplaceId?: Maybe<Scalars['uuid']>;
+};
+
+/** response of any mutation on the table "lia.workplace_member" */
+export type LiaWorkplaceMemberMutationResponse = {
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int'];
+  /** data from the rows affected by the mutation */
+  returning: Array<LiaWorkplaceMember>;
+};
+
+/** on_conflict condition type for table "lia.workplace_member" */
+export type LiaWorkplaceMemberOnConflict = {
+  constraint: LiaWorkplaceMemberConstraint;
+  update_columns?: Array<LiaWorkplaceMemberUpdateColumn>;
+  where?: InputMaybe<LiaWorkplaceMemberBoolExp>;
+};
+
+/** Ordering options when selecting data from "lia.workplace_member". */
+export type LiaWorkplaceMemberOrderBy = {
+  userId?: InputMaybe<OrderBy>;
+  workplaceId?: InputMaybe<OrderBy>;
+};
+
+/** primary key columns input for table: lia.workplace_member */
+export type LiaWorkplaceMemberPkColumnsInput = {
+  userId: Scalars['uuid'];
+  workplaceId: Scalars['uuid'];
+};
+
+/** select columns of table "lia.workplace_member" */
+export type LiaWorkplaceMemberSelectColumn =
+  /** column name */
+  | 'userId'
+  /** column name */
+  | 'workplaceId';
+
+/** input type for updating data in table "lia.workplace_member" */
+export type LiaWorkplaceMemberSetInput = {
+  userId?: InputMaybe<Scalars['uuid']>;
+  workplaceId?: InputMaybe<Scalars['uuid']>;
+};
+
+/** Streaming cursor of the table "lia_workplace_member" */
+export type LiaWorkplaceMemberStreamCursorInput = {
+  /** Stream column input with initial value */
+  initialValue: LiaWorkplaceMemberStreamCursorValueInput;
+  /** cursor ordering */
+  ordering?: InputMaybe<CursorOrdering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type LiaWorkplaceMemberStreamCursorValueInput = {
+  userId?: InputMaybe<Scalars['uuid']>;
+  workplaceId?: InputMaybe<Scalars['uuid']>;
+};
+
+/** update columns of table "lia.workplace_member" */
+export type LiaWorkplaceMemberUpdateColumn =
+  /** column name */
+  | 'userId'
+  /** column name */
+  | 'workplaceId';
+
+export type LiaWorkplaceMemberUpdates = {
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<LiaWorkplaceMemberSetInput>;
+  where: LiaWorkplaceMemberBoolExp;
+};
+
+/** aggregate min on columns */
+export type LiaWorkplaceMinFields = {
+  createdAt?: Maybe<Scalars['timestamptz']>;
+  id?: Maybe<Scalars['uuid']>;
+  ownerId?: Maybe<Scalars['uuid']>;
+  title?: Maybe<Scalars['String']>;
+  token?: Maybe<Scalars['String']>;
+  updatedAt?: Maybe<Scalars['timestamptz']>;
+  url?: Maybe<Scalars['String']>;
+};
+
+/** response of any mutation on the table "lia.workplace" */
+export type LiaWorkplaceMutationResponse = {
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int'];
+  /** data from the rows affected by the mutation */
+  returning: Array<LiaWorkplace>;
+};
+
+/** on_conflict condition type for table "lia.workplace" */
+export type LiaWorkplaceOnConflict = {
+  constraint: LiaWorkplaceConstraint;
+  update_columns?: Array<LiaWorkplaceUpdateColumn>;
+  where?: InputMaybe<LiaWorkplaceBoolExp>;
+};
+
+/** Ordering options when selecting data from "lia.workplace". */
+export type LiaWorkplaceOrderBy = {
+  createdAt?: InputMaybe<OrderBy>;
+  id?: InputMaybe<OrderBy>;
+  ownerId?: InputMaybe<OrderBy>;
+  title?: InputMaybe<OrderBy>;
+  token?: InputMaybe<OrderBy>;
+  updatedAt?: InputMaybe<OrderBy>;
+  url?: InputMaybe<OrderBy>;
+};
+
+/** primary key columns input for table: lia.workplace */
+export type LiaWorkplacePkColumnsInput = {
+  id: Scalars['uuid'];
+};
+
+/** select columns of table "lia.workplace" */
+export type LiaWorkplaceSelectColumn =
+  /** column name */
+  | 'createdAt'
+  /** column name */
+  | 'id'
+  /** column name */
+  | 'ownerId'
+  /** column name */
+  | 'title'
+  /** column name */
+  | 'token'
+  /** column name */
+  | 'updatedAt'
+  /** column name */
+  | 'url';
+
+/** input type for updating data in table "lia.workplace" */
+export type LiaWorkplaceSetInput = {
+  createdAt?: InputMaybe<Scalars['timestamptz']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  ownerId?: InputMaybe<Scalars['uuid']>;
+  title?: InputMaybe<Scalars['String']>;
+  token?: InputMaybe<Scalars['String']>;
+  updatedAt?: InputMaybe<Scalars['timestamptz']>;
+  url?: InputMaybe<Scalars['String']>;
+};
+
+/** Streaming cursor of the table "lia_workplace" */
+export type LiaWorkplaceStreamCursorInput = {
+  /** Stream column input with initial value */
+  initialValue: LiaWorkplaceStreamCursorValueInput;
+  /** cursor ordering */
+  ordering?: InputMaybe<CursorOrdering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type LiaWorkplaceStreamCursorValueInput = {
+  createdAt?: InputMaybe<Scalars['timestamptz']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  ownerId?: InputMaybe<Scalars['uuid']>;
+  title?: InputMaybe<Scalars['String']>;
+  token?: InputMaybe<Scalars['String']>;
+  updatedAt?: InputMaybe<Scalars['timestamptz']>;
+  url?: InputMaybe<Scalars['String']>;
+};
+
+/** update columns of table "lia.workplace" */
+export type LiaWorkplaceUpdateColumn =
+  /** column name */
+  | 'createdAt'
+  /** column name */
+  | 'id'
+  /** column name */
+  | 'ownerId'
+  /** column name */
+  | 'title'
+  /** column name */
+  | 'token'
+  /** column name */
+  | 'updatedAt'
+  /** column name */
+  | 'url';
+
+export type LiaWorkplaceUpdates = {
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<LiaWorkplaceSetInput>;
+  where: LiaWorkplaceBoolExp;
+};
+
 /** column ordering options */
 export type OrderBy =
   /** in ascending order, nulls last */
@@ -1194,6 +1673,18 @@ export type WorkplaceUpdates = {
 
 /** mutation root */
 export type Mutation_Root = {
+  /** delete data from the table: "lia.user" */
+  deleteLiaUser?: Maybe<LiaUserMutationResponse>;
+  /** delete single row from the table: "lia.user" */
+  deleteLiaUserByPk?: Maybe<LiaUser>;
+  /** delete data from the table: "lia.workplace" */
+  deleteLiaWorkplace?: Maybe<LiaWorkplaceMutationResponse>;
+  /** delete single row from the table: "lia.workplace" */
+  deleteLiaWorkplaceByPk?: Maybe<LiaWorkplace>;
+  /** delete data from the table: "lia.workplace_member" */
+  deleteLiaWorkplaceMember?: Maybe<LiaWorkplaceMemberMutationResponse>;
+  /** delete single row from the table: "lia.workplace_member" */
+  deleteLiaWorkplaceMemberByPk?: Maybe<LiaWorkplaceMember>;
   /** delete data from the table: "product" */
   deleteProduct?: Maybe<ProductMutationResponse>;
   /** delete single row from the table: "product" */
@@ -1214,6 +1705,18 @@ export type Mutation_Root = {
   deleteWorkplaceMember?: Maybe<WorkplaceMemberMutationResponse>;
   /** delete single row from the table: "workplace_member" */
   deleteWorkplaceMemberByPk?: Maybe<WorkplaceMember>;
+  /** insert data into the table: "lia.user" */
+  insertLiaUser?: Maybe<LiaUserMutationResponse>;
+  /** insert a single row into the table: "lia.user" */
+  insertLiaUserOne?: Maybe<LiaUser>;
+  /** insert data into the table: "lia.workplace" */
+  insertLiaWorkplace?: Maybe<LiaWorkplaceMutationResponse>;
+  /** insert data into the table: "lia.workplace_member" */
+  insertLiaWorkplaceMember?: Maybe<LiaWorkplaceMemberMutationResponse>;
+  /** insert a single row into the table: "lia.workplace_member" */
+  insertLiaWorkplaceMemberOne?: Maybe<LiaWorkplaceMember>;
+  /** insert a single row into the table: "lia.workplace" */
+  insertLiaWorkplaceOne?: Maybe<LiaWorkplace>;
   /** insert data into the table: "product" */
   insertProduct?: Maybe<ProductMutationResponse>;
   /** insert a single row into the table: "product" */
@@ -1234,6 +1737,24 @@ export type Mutation_Root = {
   insertWorkplaceMemberOne?: Maybe<WorkplaceMember>;
   /** insert a single row into the table: "workplace" */
   insertWorkplaceOne?: Maybe<Workplace>;
+  /** update data of the table: "lia.user" */
+  updateLiaUser?: Maybe<LiaUserMutationResponse>;
+  /** update single row of the table: "lia.user" */
+  updateLiaUserByPk?: Maybe<LiaUser>;
+  /** update multiples rows of table: "lia.user" */
+  updateLiaUserMany?: Maybe<Array<Maybe<LiaUserMutationResponse>>>;
+  /** update data of the table: "lia.workplace" */
+  updateLiaWorkplace?: Maybe<LiaWorkplaceMutationResponse>;
+  /** update single row of the table: "lia.workplace" */
+  updateLiaWorkplaceByPk?: Maybe<LiaWorkplace>;
+  /** update multiples rows of table: "lia.workplace" */
+  updateLiaWorkplaceMany?: Maybe<Array<Maybe<LiaWorkplaceMutationResponse>>>;
+  /** update data of the table: "lia.workplace_member" */
+  updateLiaWorkplaceMember?: Maybe<LiaWorkplaceMemberMutationResponse>;
+  /** update single row of the table: "lia.workplace_member" */
+  updateLiaWorkplaceMemberByPk?: Maybe<LiaWorkplaceMember>;
+  /** update multiples rows of table: "lia.workplace_member" */
+  updateLiaWorkplaceMemberMany?: Maybe<Array<Maybe<LiaWorkplaceMemberMutationResponse>>>;
   /** update data of the table: "product" */
   updateProduct?: Maybe<ProductMutationResponse>;
   /** update single row of the table: "product" */
@@ -1264,6 +1785,43 @@ export type Mutation_Root = {
   updateWorkplaceMemberByPk?: Maybe<WorkplaceMember>;
   /** update multiples rows of table: "workplace_member" */
   updateWorkplaceMemberMany?: Maybe<Array<Maybe<WorkplaceMemberMutationResponse>>>;
+};
+
+
+/** mutation root */
+export type Mutation_RootDeleteLiaUserArgs = {
+  where: LiaUserBoolExp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDeleteLiaUserByPkArgs = {
+  id: Scalars['uuid'];
+};
+
+
+/** mutation root */
+export type Mutation_RootDeleteLiaWorkplaceArgs = {
+  where: LiaWorkplaceBoolExp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDeleteLiaWorkplaceByPkArgs = {
+  id: Scalars['uuid'];
+};
+
+
+/** mutation root */
+export type Mutation_RootDeleteLiaWorkplaceMemberArgs = {
+  where: LiaWorkplaceMemberBoolExp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDeleteLiaWorkplaceMemberByPkArgs = {
+  userId: Scalars['uuid'];
+  workplaceId: Scalars['uuid'];
 };
 
 
@@ -1325,6 +1883,48 @@ export type Mutation_RootDeleteWorkplaceMemberArgs = {
 export type Mutation_RootDeleteWorkplaceMemberByPkArgs = {
   userId: Scalars['uuid'];
   workplaceId: Scalars['uuid'];
+};
+
+
+/** mutation root */
+export type Mutation_RootInsertLiaUserArgs = {
+  objects: Array<LiaUserInsertInput>;
+  onConflict?: InputMaybe<LiaUserOnConflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsertLiaUserOneArgs = {
+  object: LiaUserInsertInput;
+  onConflict?: InputMaybe<LiaUserOnConflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsertLiaWorkplaceArgs = {
+  objects: Array<LiaWorkplaceInsertInput>;
+  onConflict?: InputMaybe<LiaWorkplaceOnConflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsertLiaWorkplaceMemberArgs = {
+  objects: Array<LiaWorkplaceMemberInsertInput>;
+  onConflict?: InputMaybe<LiaWorkplaceMemberOnConflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsertLiaWorkplaceMemberOneArgs = {
+  object: LiaWorkplaceMemberInsertInput;
+  onConflict?: InputMaybe<LiaWorkplaceMemberOnConflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsertLiaWorkplaceOneArgs = {
+  object: LiaWorkplaceInsertInput;
+  onConflict?: InputMaybe<LiaWorkplaceOnConflict>;
 };
 
 
@@ -1395,6 +1995,66 @@ export type Mutation_RootInsertWorkplaceMemberOneArgs = {
 export type Mutation_RootInsertWorkplaceOneArgs = {
   object: WorkplaceInsertInput;
   onConflict?: InputMaybe<WorkplaceOnConflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdateLiaUserArgs = {
+  _set?: InputMaybe<LiaUserSetInput>;
+  where: LiaUserBoolExp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdateLiaUserByPkArgs = {
+  _set?: InputMaybe<LiaUserSetInput>;
+  pk_columns: LiaUserPkColumnsInput;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdateLiaUserManyArgs = {
+  updates: Array<LiaUserUpdates>;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdateLiaWorkplaceArgs = {
+  _set?: InputMaybe<LiaWorkplaceSetInput>;
+  where: LiaWorkplaceBoolExp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdateLiaWorkplaceByPkArgs = {
+  _set?: InputMaybe<LiaWorkplaceSetInput>;
+  pk_columns: LiaWorkplacePkColumnsInput;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdateLiaWorkplaceManyArgs = {
+  updates: Array<LiaWorkplaceUpdates>;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdateLiaWorkplaceMemberArgs = {
+  _set?: InputMaybe<LiaWorkplaceMemberSetInput>;
+  where: LiaWorkplaceMemberBoolExp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdateLiaWorkplaceMemberByPkArgs = {
+  _set?: InputMaybe<LiaWorkplaceMemberSetInput>;
+  pk_columns: LiaWorkplaceMemberPkColumnsInput;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdateLiaWorkplaceMemberManyArgs = {
+  updates: Array<LiaWorkplaceMemberUpdates>;
 };
 
 
@@ -1573,6 +2233,24 @@ export type Product_Price_Variance_Order_By = {
 };
 
 export type Query_Root = {
+  /** fetch data from the table: "lia.user" */
+  liaUser: Array<LiaUser>;
+  /** fetch aggregated fields from the table: "lia.user" */
+  liaUserAggregate: LiaUserAggregate;
+  /** fetch data from the table: "lia.user" using primary key columns */
+  liaUserByPk?: Maybe<LiaUser>;
+  /** fetch data from the table: "lia.workplace" */
+  liaWorkplace: Array<LiaWorkplace>;
+  /** fetch aggregated fields from the table: "lia.workplace" */
+  liaWorkplaceAggregate: LiaWorkplaceAggregate;
+  /** fetch data from the table: "lia.workplace" using primary key columns */
+  liaWorkplaceByPk?: Maybe<LiaWorkplace>;
+  /** fetch data from the table: "lia.workplace_member" */
+  liaWorkplaceMember: Array<LiaWorkplaceMember>;
+  /** fetch aggregated fields from the table: "lia.workplace_member" */
+  liaWorkplaceMemberAggregate: LiaWorkplaceMemberAggregate;
+  /** fetch data from the table: "lia.workplace_member" using primary key columns */
+  liaWorkplaceMemberByPk?: Maybe<LiaWorkplaceMember>;
   /** fetch data from the table: "product" */
   product: Array<Product>;
   /** fetch aggregated fields from the table: "product" */
@@ -1603,6 +2281,76 @@ export type Query_Root = {
   workplaceMemberAggregate: WorkplaceMemberAggregate;
   /** fetch data from the table: "workplace_member" using primary key columns */
   workplaceMemberByPk?: Maybe<WorkplaceMember>;
+};
+
+
+export type Query_RootLiaUserArgs = {
+  distinctOn?: InputMaybe<Array<LiaUserSelectColumn>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Array<LiaUserOrderBy>>;
+  where?: InputMaybe<LiaUserBoolExp>;
+};
+
+
+export type Query_RootLiaUserAggregateArgs = {
+  distinctOn?: InputMaybe<Array<LiaUserSelectColumn>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Array<LiaUserOrderBy>>;
+  where?: InputMaybe<LiaUserBoolExp>;
+};
+
+
+export type Query_RootLiaUserByPkArgs = {
+  id: Scalars['uuid'];
+};
+
+
+export type Query_RootLiaWorkplaceArgs = {
+  distinctOn?: InputMaybe<Array<LiaWorkplaceSelectColumn>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Array<LiaWorkplaceOrderBy>>;
+  where?: InputMaybe<LiaWorkplaceBoolExp>;
+};
+
+
+export type Query_RootLiaWorkplaceAggregateArgs = {
+  distinctOn?: InputMaybe<Array<LiaWorkplaceSelectColumn>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Array<LiaWorkplaceOrderBy>>;
+  where?: InputMaybe<LiaWorkplaceBoolExp>;
+};
+
+
+export type Query_RootLiaWorkplaceByPkArgs = {
+  id: Scalars['uuid'];
+};
+
+
+export type Query_RootLiaWorkplaceMemberArgs = {
+  distinctOn?: InputMaybe<Array<LiaWorkplaceMemberSelectColumn>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Array<LiaWorkplaceMemberOrderBy>>;
+  where?: InputMaybe<LiaWorkplaceMemberBoolExp>;
+};
+
+
+export type Query_RootLiaWorkplaceMemberAggregateArgs = {
+  distinctOn?: InputMaybe<Array<LiaWorkplaceMemberSelectColumn>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Array<LiaWorkplaceMemberOrderBy>>;
+  where?: InputMaybe<LiaWorkplaceMemberBoolExp>;
+};
+
+
+export type Query_RootLiaWorkplaceMemberByPkArgs = {
+  userId: Scalars['uuid'];
+  workplaceId: Scalars['uuid'];
 };
 
 
@@ -1722,6 +2470,30 @@ export type Query_RootWorkplaceMemberByPkArgs = {
 };
 
 export type Subscription_Root = {
+  /** fetch data from the table: "lia.user" */
+  liaUser: Array<LiaUser>;
+  /** fetch aggregated fields from the table: "lia.user" */
+  liaUserAggregate: LiaUserAggregate;
+  /** fetch data from the table: "lia.user" using primary key columns */
+  liaUserByPk?: Maybe<LiaUser>;
+  /** fetch data from the table in a streaming manner: "lia.user" */
+  liaUserStream: Array<LiaUser>;
+  /** fetch data from the table: "lia.workplace" */
+  liaWorkplace: Array<LiaWorkplace>;
+  /** fetch aggregated fields from the table: "lia.workplace" */
+  liaWorkplaceAggregate: LiaWorkplaceAggregate;
+  /** fetch data from the table: "lia.workplace" using primary key columns */
+  liaWorkplaceByPk?: Maybe<LiaWorkplace>;
+  /** fetch data from the table: "lia.workplace_member" */
+  liaWorkplaceMember: Array<LiaWorkplaceMember>;
+  /** fetch aggregated fields from the table: "lia.workplace_member" */
+  liaWorkplaceMemberAggregate: LiaWorkplaceMemberAggregate;
+  /** fetch data from the table: "lia.workplace_member" using primary key columns */
+  liaWorkplaceMemberByPk?: Maybe<LiaWorkplaceMember>;
+  /** fetch data from the table in a streaming manner: "lia.workplace_member" */
+  liaWorkplaceMemberStream: Array<LiaWorkplaceMember>;
+  /** fetch data from the table in a streaming manner: "lia.workplace" */
+  liaWorkplaceStream: Array<LiaWorkplace>;
   /** fetch data from the table: "product" */
   product: Array<Product>;
   /** fetch aggregated fields from the table: "product" */
@@ -1762,6 +2534,97 @@ export type Subscription_Root = {
   workplaceMemberStream: Array<WorkplaceMember>;
   /** fetch data from the table in a streaming manner: "workplace" */
   workplaceStream: Array<Workplace>;
+};
+
+
+export type Subscription_RootLiaUserArgs = {
+  distinctOn?: InputMaybe<Array<LiaUserSelectColumn>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Array<LiaUserOrderBy>>;
+  where?: InputMaybe<LiaUserBoolExp>;
+};
+
+
+export type Subscription_RootLiaUserAggregateArgs = {
+  distinctOn?: InputMaybe<Array<LiaUserSelectColumn>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Array<LiaUserOrderBy>>;
+  where?: InputMaybe<LiaUserBoolExp>;
+};
+
+
+export type Subscription_RootLiaUserByPkArgs = {
+  id: Scalars['uuid'];
+};
+
+
+export type Subscription_RootLiaUserStreamArgs = {
+  batchSize: Scalars['Int'];
+  cursor: Array<InputMaybe<LiaUserStreamCursorInput>>;
+  where?: InputMaybe<LiaUserBoolExp>;
+};
+
+
+export type Subscription_RootLiaWorkplaceArgs = {
+  distinctOn?: InputMaybe<Array<LiaWorkplaceSelectColumn>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Array<LiaWorkplaceOrderBy>>;
+  where?: InputMaybe<LiaWorkplaceBoolExp>;
+};
+
+
+export type Subscription_RootLiaWorkplaceAggregateArgs = {
+  distinctOn?: InputMaybe<Array<LiaWorkplaceSelectColumn>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Array<LiaWorkplaceOrderBy>>;
+  where?: InputMaybe<LiaWorkplaceBoolExp>;
+};
+
+
+export type Subscription_RootLiaWorkplaceByPkArgs = {
+  id: Scalars['uuid'];
+};
+
+
+export type Subscription_RootLiaWorkplaceMemberArgs = {
+  distinctOn?: InputMaybe<Array<LiaWorkplaceMemberSelectColumn>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Array<LiaWorkplaceMemberOrderBy>>;
+  where?: InputMaybe<LiaWorkplaceMemberBoolExp>;
+};
+
+
+export type Subscription_RootLiaWorkplaceMemberAggregateArgs = {
+  distinctOn?: InputMaybe<Array<LiaWorkplaceMemberSelectColumn>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Array<LiaWorkplaceMemberOrderBy>>;
+  where?: InputMaybe<LiaWorkplaceMemberBoolExp>;
+};
+
+
+export type Subscription_RootLiaWorkplaceMemberByPkArgs = {
+  userId: Scalars['uuid'];
+  workplaceId: Scalars['uuid'];
+};
+
+
+export type Subscription_RootLiaWorkplaceMemberStreamArgs = {
+  batchSize: Scalars['Int'];
+  cursor: Array<InputMaybe<LiaWorkplaceMemberStreamCursorInput>>;
+  where?: InputMaybe<LiaWorkplaceMemberBoolExp>;
+};
+
+
+export type Subscription_RootLiaWorkplaceStreamArgs = {
+  batchSize: Scalars['Int'];
+  cursor: Array<InputMaybe<LiaWorkplaceStreamCursorInput>>;
+  where?: InputMaybe<LiaWorkplaceBoolExp>;
 };
 
 
@@ -1967,13 +2830,29 @@ export type Workplace_Min_Order_By = {
   updatedAt?: InputMaybe<OrderBy>;
 };
 
+export type GetUserByEmailQueryVariables = Exact<{
+  email?: InputMaybe<Scalars['String']>;
+}>;
+
+
+export type GetUserByEmailQuery = { liaUser: Array<{ id: string, email: string, name: string }> };
+
 export type AddUserMutationVariables = Exact<{
   email?: InputMaybe<Scalars['String']>;
   name?: InputMaybe<Scalars['String']>;
 }>;
 
 
-export type AddUserMutation = { insertUser?: { returning: Array<{ id: string }> } | null };
+export type AddUserMutation = { insertLiaUser?: { returning: Array<{ id: string, email: string, name: string }> } | null };
+
+export type UserByIdQueryVariables = Exact<{
+  userId: Scalars['uuid'];
+}>;
 
 
-export const AddUserDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"AddUser"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"email"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"name"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"insertUser"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"objects"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"email"},"value":{"kind":"Variable","name":{"kind":"Name","value":"email"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"name"},"value":{"kind":"Variable","name":{"kind":"Name","value":"name"}}}]}},{"kind":"Argument","name":{"kind":"Name","value":"onConflict"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"constraint"},"value":{"kind":"EnumValue","value":"user_email_key"}},{"kind":"ObjectField","name":{"kind":"Name","value":"update_columns"},"value":{"kind":"EnumValue","value":"name"}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"returning"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]}}]} as unknown as DocumentNode<AddUserMutation, AddUserMutationVariables>;
+export type UserByIdQuery = { user?: { createdAt: string, email: string, id: string, name: string, updatedAt: string } | null };
+
+
+export const GetUserByEmailDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetUserByEmail"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"email"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"liaUser"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"email"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"Variable","name":{"kind":"Name","value":"email"}}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]} as unknown as DocumentNode<GetUserByEmailQuery, GetUserByEmailQueryVariables>;
+export const AddUserDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"AddUser"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"email"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"name"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"insertLiaUser"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"objects"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"email"},"value":{"kind":"Variable","name":{"kind":"Name","value":"email"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"name"},"value":{"kind":"Variable","name":{"kind":"Name","value":"name"}}}]}},{"kind":"Argument","name":{"kind":"Name","value":"onConflict"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"constraint"},"value":{"kind":"EnumValue","value":"user_email_key"}},{"kind":"ObjectField","name":{"kind":"Name","value":"update_columns"},"value":{"kind":"EnumValue","value":"name"}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"returning"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]}}]} as unknown as DocumentNode<AddUserMutation, AddUserMutationVariables>;
+export const UserByIdDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"UserById"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"userId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"uuid"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","alias":{"kind":"Name","value":"user"},"name":{"kind":"Name","value":"liaUserByPk"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"userId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}}]}}]}}]} as unknown as DocumentNode<UserByIdQuery, UserByIdQueryVariables>;
