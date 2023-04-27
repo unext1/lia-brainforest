@@ -62,9 +62,7 @@ export const action: ActionFunction = async ({ request }: ActionArgs) => {
           });
         }
 
-      cookie.title = titleData.title;
-      cookie.token = tokenData.token;
-      cookie.url = url;
+      //set workplace, owner id, title, token, url
 
       return redirect("/dashboard", {
         headers: {
@@ -102,11 +100,11 @@ export default function Setup() {
         <SetupComponent />
         <div className="flex flex-col justify-center h-full px-40">
           <h2 className="text-3xl font-semibold tracking-wide">
-            Setup your account.
+            Setup your workplace.
           </h2>
           <p className="mt-2 text-sm text-gray-400">
-            Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-            Repellendus animi hic maiores laudantium corrupti nostrum
+            To create a workplace and change SEO on images you need to follow
+            the steps to the left.
           </p>
 
           <Form method="post" className="mt-4">

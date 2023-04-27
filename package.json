@@ -4,7 +4,7 @@
   "scripts": {
     "build": "remix build",
     "codegen": "graphql-codegen --require dotenv/config --config .graphqlrc.yml --watch",
-    "dev": "concurrently 'remix dev' 'yarn codegen'",
+    "dev": "concurrently \"remix dev\" \"npm run codegen\"",
     "clean": "rm -rf .cache node_modules build public/build api/_assets && yarn"
   },
   "dependencies": {

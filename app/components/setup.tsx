@@ -5,25 +5,14 @@ export const SetupComponent = () => {
         Before you start.
       </h2>
       <p className="mt-3 text-sm ">
-        Step 1: Install
-        <a
-          href="https://sv.wordpress.org/plugins/jwt-authentication-for-wp-rest-api/"
-          className="mx-1 text-blue-400"
-        >
-          WP Rest Api Plugin
-        </a>
-        in wordpress plugins.
-      </p>
-      <p className="mt-3 text-sm ">
-        Step 2: Download our
-        <a
-          className="mx-1 text-blue-400"
-          href="/jwt-secret-plugin.zip"
-          download
-        >
-          jwt secret plugin
+        Step 1: Download our
+        <a className="mx-1 text-blue-400" href="/Metadata-plugin.zip" download>
+          Metadata plugin.
         </a>
         and add the zip file to plugins
+      </p>
+      <p className="mt-3 text-sm ">
+        Step 2: Create an application password under the user page.{" "}
       </p>
       <p className="mt-3 text-sm ">
         Step 3: Enter your wordpress url, username and password{" "}
