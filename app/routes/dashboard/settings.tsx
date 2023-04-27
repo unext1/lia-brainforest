@@ -1,13 +1,4 @@
-import { type LoaderArgs, json } from "@remix-run/node";
 import { NavLink, Outlet } from "@remix-run/react";
-import { wordpressCookie } from "~/cookie";
-
-export async function loader({ request }: LoaderArgs) {
-  const cookieHeader = request.headers.get("Cookie");
-  const cookie = await wordpressCookie.parse(cookieHeader);
-
-  return json(cookie);
-}
 
 const Settings = () => {
   return (
