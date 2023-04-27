@@ -7,9 +7,10 @@ type Props = {
   navigation: any;
   error_message: string;
   children: ReactNode;
+  workplaceId: string;
 };
 const Images = forwardRef<HTMLDivElement, Props>(function Images(
-  { data, navigation, error_message, children },
+  { data, navigation, error_message, children, workplaceId },
   ref
 ) {
   return (
@@ -25,7 +26,9 @@ const Images = forwardRef<HTMLDivElement, Props>(function Images(
                 image.ai_generated_text ? "bg-green-500" : "bg-red-500"
               }`}
             ></div>
-            <Link to={`/dashboard/images/${image.id}${navigation}`}>
+            <Link
+              to={`/dashboard/workplaces/${workplaceId}/images/${image.id}${navigation}`}
+            >
               <img
                 src={image.source_url}
                 alt={image.source_url}

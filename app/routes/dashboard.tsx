@@ -46,7 +46,6 @@ export const loader = async ({ request }: DataFunctionArgs) => {
 const Dashboard = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const user = useLoaderData<typeof loader>();
-  console.log(user);
 
   return (
     <>

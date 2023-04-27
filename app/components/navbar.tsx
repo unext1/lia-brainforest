@@ -9,7 +9,7 @@ const Navbar = () => {
         </div>
         <div>
           <Link
-            to="/setup"
+            to="/login"
             className="w-fit duration-150 transform hover:scale-105 flex sm:px-6 sm:py-1.5 mx-auto  text-xs px-4 py-1 font-bold text-white uppercase bg-red-500 rounded-lg"
           >
             Start Now

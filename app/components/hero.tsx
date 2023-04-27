@@ -18,7 +18,7 @@ export const Hero = ({
             <p className="w-4/5 mb-6 text-gray-300 ">{description}</p>
 
             <Link
-              to="/setup"
+              to="/login"
               className="w-fit duration-150 transform hover:scale-105  sm:px-10 sm:py-3.5   text-xs px-6 py-2 font-bold text-white  bg-red-500 rounded-lg"
             >
               Start Now

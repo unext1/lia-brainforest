@@ -10,15 +10,15 @@ import { useEffect, useRef } from "react";
 import { z } from "zod";
 import { zx } from "zodix";
 import { Images } from "~/components/images";
-import { wordpressCookie } from "~/cookie";
+import { GetWorkplaceById } from "~/services/hasura.server";
+
 import { type WPschema } from "~/types";
 
 const TOTAL_IMAGES_PER_PAGE = 20;
 
-export async function loader({ request }: LoaderArgs) {
-  const cookieHeader = request.headers.get("Cookie");
-  const cookie = await wordpressCookie.parse(cookieHeader);
-
+export async function loader({ request, params }: LoaderArgs) {
+  const { workplaceId } = params;
+  const workplace = await GetWorkplaceById(workplaceId!);
   const res = zx.parseQuerySafe(request, {
     page: z.string().optional(),
     search: z.string().optional(),
@@ -44,7 +44,7 @@ export async function loader({ request }: LoaderArgs) {
   const page = pageParam ? Number(pageParam) : 1;
   try {
     const imageResponse = await fetch(
-      `${cookie.url}wp-json/wp/v2/media?media_type=image&per_page=${TOTAL_IMAGES_PER_PAGE}&${urlParams}`
+      `${workplace.url}wp-json/wp/v2/media?media_type=image&per_page=${TOTAL_IMAGES_PER_PAGE}&${urlParams}`
     );
     const totalPages = imageResponse.headers.get("x-wp-totalpages");
     const data = (await imageResponse.json()) as WPschema[];
@@ -52,6 +52,7 @@ export async function loader({ request }: LoaderArgs) {
       data: data,
       currentPage: page,
       totalPages,
+      workplaceId,
     });
   } catch (err: any) {
     if (err.code === "ERR_INVALID_URL")
@@ -63,15 +64,17 @@ export async function loader({ request }: LoaderArgs) {
 }
 
 const LayoutImage = () => {
-  const { data, error_message, currentPage, totalPages } = useLoaderData<{
-    data: WPschema[];
-    error_message: string;
-    currentPage: number;
-    totalPages: number;
-  }>();
+  const { data, error_message, currentPage, totalPages, workplaceId } =
+    useLoaderData<{
+      data: WPschema[];
+      error_message: string;
+      currentPage: number;
+      totalPages: number;
+      workplaceId: string;
+    }>();
 
   const { search, pathname } = useLocation();
-
+  console.log(search);
   const params = Object.fromEntries(new URLSearchParams(search).entries());
   const scrollableRef = useRef<HTMLDivElement>(null);
 
@@ -98,6 +101,7 @@ const LayoutImage = () => {
         data={data}
         error_message={error_message}
         navigation={search}
+        workplaceId={workplaceId!}
       >
         <div className="flex flex-row justify-between">
           <Link

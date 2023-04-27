@@ -7,14 +7,14 @@ import {
 } from "@remix-run/node";
 import { Form, useActionData } from "@remix-run/react";
 import { SetupComponent } from "~/components/setup";
-import { wordpressCookie } from "~/cookie";
-import { type WPschema } from "~/types";
+import { requireUser } from "~/services/auth.server";
+import { CreateWorkplace } from "~/services/hasura.server";
+import type{ TTokenData } from "~/types";
 
 export const action: ActionFunction = async ({ request }: ActionArgs) => {
   const formData = await request.formData();
   const values = Object.fromEntries(formData);
-  const cookieHeader = request.headers.get("Cookie");
-  const cookie = (await wordpressCookie.parse(cookieHeader)) || {};
+  const user = await requireUser(request);
   const url = isValidUrl(values.url as string)
     ? new URL(values.url as string)
     : "";
@@ -27,18 +27,16 @@ export const action: ActionFunction = async ({ request }: ActionArgs) => {
   if (!password) return json({ error_password: "incorrect password" });
   if (url && username && password) {
     try {
-      const f = await fetch(`${url}wp-json/wp/v2/media?media_type=image`);
-      (await f.json()) as WPschema[];
-      const user = {
+      const wordpress_user = {
         username,
         password,
       };
       const tokenResponse = await fetch(`${url}wp-json/jwt-auth/v1/token`, {
         headers: { "Content-Type": "application/json" },
         method: "POST",
-        body: JSON.stringify(user),
+        body: JSON.stringify(wordpress_user),
       });
-      const tokenData = await tokenResponse.json();
+      const tokenData: TTokenData = await tokenResponse.json();
       const titleResponse = await fetch(
         `${url}wp-json/wp/v2/settings?context=view`,
         {
@@ -61,28 +59,22 @@ export const action: ActionFunction = async ({ request }: ActionArgs) => {
             error_username: "incorrect username",
           });
         }
+      const workplace = await CreateWorkplace(
+        user?.id!,
+        tokenData.token!,
+        url.toString(),
+        titleData.title
+      );
 
-      //set workplace, owner id, title, token, url
-
-      return redirect("/dashboard", {
-        headers: {
-          "Set-Cookie": await wordpressCookie.serialize(cookie),
-        },
-      });
+      return redirect("/dashboard/workplaces", {});
     } catch (err) {
       return { error_url: "incorrect url" };
     }
   }
 };
 export const loader: LoaderFunction = async ({ request }) => {
-  const cookieHeader = request.headers.get("Cookie");
-  const cookie = (await wordpressCookie.parse(cookieHeader)) || null;
-
-  if (cookie !== null) {
-    return redirect("/dashboard");
-  }
-
-  return null;
+  const user = await requireUser(request);
+  return user;
 };
 const isValidUrl = (urlString: string) => {
   try {

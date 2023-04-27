@@ -17,7 +17,7 @@ export const Footer = ({
           {description}
         </p>
 
-        <Btn title="Setup" link href="/setup" />
+        <Btn title="Setup" link href="/login" />
       </div>
     </footer>
   );

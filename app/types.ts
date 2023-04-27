@@ -19,3 +19,11 @@ export type Navigation = {
   href: string;
   svg: JSX.Element;
 }[];
+
+export type TTokenData = {
+  token?: string;
+  user_email?: string;
+  user_nicename?: string;
+  user_display_name?: string;
+  code?: string;
+};

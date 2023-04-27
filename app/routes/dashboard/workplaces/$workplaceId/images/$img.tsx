@@ -6,27 +6,25 @@ import {
   useNavigation,
 } from "@remix-run/react";
 import { ImageComponent } from "~/components/imageform";
-import { wordpressCookie } from "~/cookie";
+import { GetWorkplaceById } from "~/services/hasura.server";
 import { type WPschema } from "~/types";
 
-export async function action({ request }: ActionArgs) {
+export async function action({ request, params }: ActionArgs) {
   const formData = await request.formData();
   const values = Object.fromEntries(formData);
-  const cookieHeader = request.headers.get("Cookie");
-  const cookie = (await wordpressCookie.parse(cookieHeader)) || {};
-
   const obj = {
     title: values.title,
     description: values.description,
   };
 
   try {
+    const workplace = await GetWorkplaceById(params.workplaceId!);
     const response = await fetch(
-      `${cookie.url}wp-json/wp/v2/media/${values.id}`,
+      `${workplace.url}wp-json/wp/v2/media/${values.id}`,
       {
         method: "POST",
         headers: {
-          Authorization: `Bearer ${cookie.token}`,
+          Authorization: `Bearer ${workplace.token}`,
           "Content-Type": "application/json",
         },
         body: JSON.stringify(obj),
@@ -44,13 +42,12 @@ export async function action({ request }: ActionArgs) {
 }
 
 export async function loader({ params, request }: LoaderArgs) {
-  const cookieHeader = request.headers.get("Cookie");
-  const cookie = await wordpressCookie.parse(cookieHeader);
-  const { img } = params;
+  const { img, workplaceId } = params;
+  const workplace = await GetWorkplaceById(workplaceId!);
 
   try {
     const imageResponse = await fetch(
-      `${cookie.url}wp-json/wp/v2/media/${img}`
+      `${workplace.url}wp-json/wp/v2/media/${img}`
     );
     const data = (await imageResponse.json()) as WPschema;
     const aiResponse = await fetch(

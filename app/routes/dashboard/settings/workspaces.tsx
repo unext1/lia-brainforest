@@ -1,16 +1,7 @@
-import { type LoaderFunction, json } from "@remix-run/node";
-import { Link, useLoaderData } from "@remix-run/react";
-import { wordpressCookie } from "~/cookie";
+import { Link } from "@remix-run/react";
 
-export const loader: LoaderFunction = async ({ request }) => {
-  const cookieHeader = request.headers.get("Cookie");
-  const cookie = await wordpressCookie.parse(cookieHeader);
-
-  return json(cookie);
-};
 const Workspaces = () => {
-  const cookie = useLoaderData();
-  const list = [cookie.title, cookie.title, cookie.title, cookie.title];
+  const list = ["test", "test", "test"];
   return (
     <div className="w-[80%]">
       <div className="flex justify-between w-full px-1 pb-2 border-b border-b-gray-300">

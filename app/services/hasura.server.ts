@@ -36,8 +36,28 @@ export const hasuraClient = (token: string) => {
     headers,
   });
 };
-
-export const CREATEWORKPLACE = graphql(`
+export const CreateWorkplace = async (
+  ownerId: string,
+  token: string,
+  url: string,
+  title: string
+) => {
+  const workplace = await GetWorkplaceByURL(url);
+  if (workplace) return workplace;
+  return await hasuraAdminClient.request(CREATEWORKPLACE, {
+    ownerId,
+    token,
+    url,
+    title,
+  });
+};
+export const GetUserWorkplaces = async (ownerId: string) =>
+  (await hasuraAdminClient.request(GETWORKPLACES, { ownerId })).liaWorkplace;
+export const GetWorkplaceById = async (id: string) =>
+  (await hasuraAdminClient.request(GETWORKPLACEBYID, { id })).liaWorkplace[0];
+export const GetWorkplaceByURL = async (url: string) =>
+  (await hasuraAdminClient.request(GETWORKPLACEBYURL, { url })).liaWorkplace[0];
+export const CREATEWORKPLACE: any = graphql(`
   mutation CreateWorkplace(
     $ownerId: uuid
     $token: String
@@ -58,13 +78,35 @@ export const CREATEWORKPLACE = graphql(`
     }
   }
 `);
-export const GETWORKPLACE = graphql(`
-  query GetWorkplace($ownerId: uuid) {
+export const GETWORKPLACEBYURL: any = graphql(`
+  query GetWorkplaceByURL($url: String) {
+    liaWorkplace(where: { url: { _eq: $url } }) {
+      title
+      token
+      url
+      ownerId
+      id
+    }
+  }
+`);
+export const GETWORKPLACEBYID = graphql(`
+  query GetWorkplaceById($id: uuid) {
+    liaWorkplace(where: { id: { _eq: $id } }) {
+      title
+      token
+      url
+      ownerId
+    }
+  }
+`);
+export const GETWORKPLACES = graphql(`
+  query GetWorkplaces($ownerId: uuid) {
     liaWorkplace(where: { ownerId: { _eq: $ownerId } }) {
       title
       token
       url
       ownerId
+      id
     }
   }
 `);
