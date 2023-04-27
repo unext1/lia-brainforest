@@ -26,15 +26,10 @@ const googleStrategy = new GoogleStrategy(
     callbackURL: "http://localhost:3000/auth/google/callback",
   },
   async ({ accessToken, refreshToken, extraParams, profile }) => {
-    //CIA CREATINT USERI
-    console.log(profile);
-
     const hasuraUser = await hasuraAdminClient.request(CREATEUSER, {
       name: profile.displayName || "No Name",
       email: profile.emails[0].value,
     });
-
-    console.log(hasuraUser.insertUser?.returning);
 
     return {};
   }
