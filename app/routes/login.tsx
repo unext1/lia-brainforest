@@ -1,4 +1,4 @@
-import type { ActionArgs } from "@remix-run/node";
+import { ActionArgs, redirect } from "@remix-run/node";
 import { Form } from "@remix-run/react";
 import { authenticator } from "~/services/auth.server";
 export async function action({ request }: ActionArgs) {
