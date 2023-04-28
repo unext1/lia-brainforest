@@ -62,7 +62,7 @@ export const requireUser = async (request: Request) => {
     });
 
     if (user?.user && user.user?.id) {
-      return { ...user.user };
+      return { user: { ...user.user }, token: sessionUser.token };
     }
     throw Error("Unauthorized");
   } catch (error) {

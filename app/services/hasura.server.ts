@@ -97,8 +97,8 @@ export const GETWORKPLACEBYID = graphql(`
   }
 `);
 export const GETWORKPLACES = graphql(`
-  query GetWorkplaces($ownerId: uuid) {
-    liaWorkplace(where: { ownerId: { _eq: $ownerId } }) {
+  query GetWorkplaces {
+    liaWorkplace {
       title
       token
       url
@@ -119,8 +119,9 @@ export const REMOVEWORKPLACE = graphql(`
 `);
 
 // CHANGE THIS TO GET IT WITH HASURA CLIENT AND IN PROPS PASS TOKEN
-export const GetUserWorkplaces = async (ownerId: string) =>
-  (await hasuraAdminClient.request(GETWORKPLACES, { ownerId })).liaWorkplace;
+export const GetUserWorkplaces = async ({ token }: { token: string }) => {
+  return (await hasuraClient(token).request(GETWORKPLACES)).liaWorkplace;
+};
 export const GetWorkplaceById = async (id: string) =>
   (await hasuraAdminClient.request(GETWORKPLACEBYID, { id })).liaWorkplace[0];
 export const GetWorkplaceByURL = async (url: string) =>
