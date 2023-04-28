@@ -17,6 +17,7 @@ export const action: ActionFunction = async ({ request }: ActionArgs) => {
   const values = Object.fromEntries(formData);
 
   const user = await requireUser(request);
+
   if (!user) return redirect("/login");
   const url = isValidUrl(values.url as string)
     ? new URL(values.url as string)
@@ -72,7 +73,7 @@ export const action: ActionFunction = async ({ request }: ActionArgs) => {
         url.toString(),
         titleData.title
       );
-
+      console.log(workplace);
       return redirect(`/dashboard/workplaces/${workplace.id}`, {});
     } catch (err) {
       return { error_url: "incorrect url" };
