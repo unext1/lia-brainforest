@@ -36,6 +36,7 @@ export const hasuraClient = (token: string) => {
     headers,
   });
 };
+
 export const CreateWorkplace = async (
   ownerId: string,
   token: string,
@@ -51,13 +52,8 @@ export const CreateWorkplace = async (
     title,
   });
 };
-export const GetUserWorkplaces = async (ownerId: string) =>
-  (await hasuraAdminClient.request(GETWORKPLACES, { ownerId })).liaWorkplace;
-export const GetWorkplaceById = async (id: string) =>
-  (await hasuraAdminClient.request(GETWORKPLACEBYID, { id })).liaWorkplace[0];
-export const GetWorkplaceByURL = async (url: string) =>
-  (await hasuraAdminClient.request(GETWORKPLACEBYURL, { url })).liaWorkplace[0];
-export const CREATEWORKPLACE: any = graphql(`
+
+export const CREATEWORKPLACE = graphql(`
   mutation CreateWorkplace(
     $ownerId: uuid
     $token: String
@@ -78,7 +74,7 @@ export const CREATEWORKPLACE: any = graphql(`
     }
   }
 `);
-export const GETWORKPLACEBYURL: any = graphql(`
+export const GETWORKPLACEBYURL = graphql(`
   query GetWorkplaceByURL($url: String) {
     liaWorkplace(where: { url: { _eq: $url } }) {
       title
@@ -120,3 +116,11 @@ export const REMOVEWORKPLACE = graphql(`
     }
   }
 `);
+
+// CHANGE THIS TO GET IT WITH HASURA CLIENT AND IN PROPS PASS TOKEN
+export const GetUserWorkplaces = async (ownerId: string) =>
+  (await hasuraAdminClient.request(GETWORKPLACES, { ownerId })).liaWorkplace;
+export const GetWorkplaceById = async (id: string) =>
+  (await hasuraAdminClient.request(GETWORKPLACEBYID, { id })).liaWorkplace[0];
+export const GetWorkplaceByURL = async (url: string) =>
+  (await hasuraAdminClient.request(GETWORKPLACEBYURL, { url })).liaWorkplace[0];

@@ -1,4 +1,4 @@
-import { type LoaderArgs, json } from "@remix-run/node";
+import { json, type LoaderArgs } from "@remix-run/node";
 import {
   Form,
   Link,

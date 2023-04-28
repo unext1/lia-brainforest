@@ -36,7 +36,6 @@ export async function action({ request, params }: ActionArgs) {
     } else return json(data);
   } catch (error) {
     console.log(error);
-    console.log("THIS WAS ERRORRR");
     return json({ errormessage: error });
   }
 }
@@ -104,7 +103,6 @@ const ImageForm = () => {
 
   const navigation = useNavigation();
 
-  console.log(actionData, "ACTIONDATA");
   return (
     <div className="max-h-screen">
       <div className="p-20 mt-20 bg-gray-100 rounded-3xl">
