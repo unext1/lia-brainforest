@@ -3,6 +3,7 @@ import jwt from "jsonwebtoken";
 
 import { env } from "./env.server";
 import { graphql } from "~/_gql";
+import { TCreateWorkplace } from "~/types";
 
 const HASURA_URL = `${env.HASURA_GRAPHQL_URL}/v1/graphql`;
 export const createHasuraToken = (userId: string | undefined): string => {
@@ -43,14 +44,14 @@ export const CreateWorkplace = async (
   url: string,
   title: string
 ) => {
-  const workplace = await GetWorkplaceByURL(url);
+  const workplace: TCreateWorkplace = await GetWorkplaceByURL(url);
   if (workplace) return workplace;
-  return await hasuraAdminClient.request(CREATEWORKPLACE, {
+  return (await hasuraAdminClient.request(CREATEWORKPLACE, {
     ownerId,
     token,
     url,
     title,
-  });
+  })) as TCreateWorkplace;
 };
 
 export const CREATEWORKPLACE = graphql(`

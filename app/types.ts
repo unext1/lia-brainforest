@@ -27,3 +27,10 @@ export type TTokenData = {
   user_display_name?: string;
   code?: string;
 };
+export type TCreateWorkplace = {
+  title?: string | null | undefined;
+  token: string;
+  url: string;
+  ownerId: string;
+  id: string;
+};

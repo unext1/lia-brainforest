@@ -6,10 +6,11 @@ import {
   json,
 } from "@remix-run/node";
 import { Form, useActionData } from "@remix-run/react";
+import { useState } from "react";
 import { SetupComponent } from "~/components/setup";
 import { requireUser } from "~/services/auth.server";
 import { CreateWorkplace } from "~/services/hasura.server";
-import type{ TTokenData } from "~/types";
+import type { TTokenData } from "~/types";
 
 export const action: ActionFunction = async ({ request }: ActionArgs) => {
   const formData = await request.formData();
@@ -22,9 +23,13 @@ export const action: ActionFunction = async ({ request }: ActionArgs) => {
     (values.username as string).length > 0 ? (values.username as string) : "";
   const password =
     (values.password as string).length > 0 ? (values.password as string) : "";
-  if (!url) return json({ error_url: "incorrect url" });
-  if (!username) return json({ error_username: "incorrect username" });
-  if (!password) return json({ error_password: "incorrect password" });
+  let error_url = "";
+  let error_username = "";
+  let error_password = "";
+  if (!url) error_url = "incorrect url";
+  if (!username) error_username = "incorrect username";
+  if (!password) error_password = "incorrect password";
+
   if (url && username && password) {
     try {
       const wordpress_user = {
@@ -66,10 +71,12 @@ export const action: ActionFunction = async ({ request }: ActionArgs) => {
         titleData.title
       );
 
-      return redirect("/dashboard/workplaces", {});
+      return redirect(`/dashboard/workplaces/${workplace.id}`, {});
     } catch (err) {
       return { error_url: "incorrect url" };
     }
+  } else {
+    return json({ error_url, error_username, error_password });
   }
 };
 export const loader: LoaderFunction = async ({ request }) => {
@@ -85,6 +92,7 @@ const isValidUrl = (urlString: string) => {
 };
 export default function Setup() {
   const data = useActionData();
+  console.log(data);
 
   return (
     <div className="h-screen ">
@@ -121,7 +129,7 @@ export default function Setup() {
                 </div>
                 <p
                   className={`${
-                    data?.error_url ? "block" : "hidden"
+                    data?.error_url.length > 0 ? "block" : "hidden"
                   } mt-1 text-red-500 `}
                 >
                   {data?.error_url}
@@ -147,8 +155,8 @@ export default function Setup() {
                 </div>
                 <p
                   className={`${
-                    data?.error_username ? "block" : "hidden"
-                  } mt-1 text-red-500 `}
+                    data?.error_username.length > 0 ? "block" : "hidden"
+                  } mt-1 text-red-500`}
                 >
                   {data?.error_username}
                 </p>
@@ -173,7 +181,7 @@ export default function Setup() {
                 </div>
                 <p
                   className={`${
-                    data?.error_password ? "block" : "hidden"
+                    data?.error_password.length > 0 ? "block " : " hidden"
                   } mt-1 text-red-500 `}
                 >
                   {data?.error_password}

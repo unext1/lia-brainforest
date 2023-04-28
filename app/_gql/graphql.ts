@@ -249,6 +249,8 @@ export type LiaWorkplace = {
   token: Scalars['String'];
   updatedAt: Scalars['timestamptz'];
   url: Scalars['String'];
+  /** An object relationship */
+  workplace_member?: Maybe<LiaWorkplaceMember>;
 };
 
 /** aggregated selection of "lia.workplace" */
@@ -298,6 +300,7 @@ export type LiaWorkplaceBoolExp = {
   token?: InputMaybe<StringComparisonExp>;
   updatedAt?: InputMaybe<TimestamptzComparisonExp>;
   url?: InputMaybe<StringComparisonExp>;
+  workplace_member?: InputMaybe<LiaWorkplaceMemberBoolExp>;
 };
 
 /** unique or primary key constraints on table "lia.workplace" */
@@ -319,6 +322,7 @@ export type LiaWorkplaceInsertInput = {
   token?: InputMaybe<Scalars['String']>;
   updatedAt?: InputMaybe<Scalars['timestamptz']>;
   url?: InputMaybe<Scalars['String']>;
+  workplace_member?: InputMaybe<LiaWorkplaceMemberObjRelInsertInput>;
 };
 
 /** aggregate max on columns */
@@ -334,7 +338,11 @@ export type LiaWorkplaceMaxFields = {
 
 /** columns and relationships of "lia.workplace_member" */
 export type LiaWorkplaceMember = {
+  /** An object relationship */
+  user: LiaUser;
   userId: Scalars['uuid'];
+  /** An object relationship */
+  workplace: LiaWorkplace;
   workplaceId: Scalars['uuid'];
 };
 
@@ -363,7 +371,9 @@ export type LiaWorkplaceMemberBoolExp = {
   _and?: InputMaybe<Array<LiaWorkplaceMemberBoolExp>>;
   _not?: InputMaybe<LiaWorkplaceMemberBoolExp>;
   _or?: InputMaybe<Array<LiaWorkplaceMemberBoolExp>>;
+  user?: InputMaybe<LiaUserBoolExp>;
   userId?: InputMaybe<UuidComparisonExp>;
+  workplace?: InputMaybe<LiaWorkplaceBoolExp>;
   workplaceId?: InputMaybe<UuidComparisonExp>;
 };
 
@@ -378,7 +388,9 @@ export type LiaWorkplaceMemberConstraint =
 
 /** input type for inserting data into table "lia.workplace_member" */
 export type LiaWorkplaceMemberInsertInput = {
+  user?: InputMaybe<LiaUserObjRelInsertInput>;
   userId?: InputMaybe<Scalars['uuid']>;
+  workplace?: InputMaybe<LiaWorkplaceObjRelInsertInput>;
   workplaceId?: InputMaybe<Scalars['uuid']>;
 };
 
@@ -418,7 +430,9 @@ export type LiaWorkplaceMemberOnConflict = {
 
 /** Ordering options when selecting data from "lia.workplace_member". */
 export type LiaWorkplaceMemberOrderBy = {
+  user?: InputMaybe<LiaUserOrderBy>;
   userId?: InputMaybe<OrderBy>;
+  workplace?: InputMaybe<LiaWorkplaceOrderBy>;
   workplaceId?: InputMaybe<OrderBy>;
 };
 
@@ -487,6 +501,13 @@ export type LiaWorkplaceMutationResponse = {
   returning: Array<LiaWorkplace>;
 };
 
+/** input type for inserting object relation for remote table "lia.workplace" */
+export type LiaWorkplaceObjRelInsertInput = {
+  data: LiaWorkplaceInsertInput;
+  /** upsert condition */
+  onConflict?: InputMaybe<LiaWorkplaceOnConflict>;
+};
+
 /** on_conflict condition type for table "lia.workplace" */
 export type LiaWorkplaceOnConflict = {
   constraint: LiaWorkplaceConstraint;
@@ -504,6 +525,7 @@ export type LiaWorkplaceOrderBy = {
   token?: InputMaybe<OrderBy>;
   updatedAt?: InputMaybe<OrderBy>;
   url?: InputMaybe<OrderBy>;
+  workplace_member?: InputMaybe<LiaWorkplaceMemberOrderBy>;
 };
 
 /** primary key columns input for table: lia.workplace */
