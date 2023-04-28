@@ -28,7 +28,7 @@ const Settings = () => {
         </NavLink>
 
         <NavLink
-          to="/dashboard/settings/workspaces"
+          to="/dashboard/settings/workplaces"
           className={({ isActive }) =>
             isActive
               ? "border-b-red-500 px-4 font-semibold border-b-2 "

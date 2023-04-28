@@ -1,7 +1,15 @@
-import { Link } from "@remix-run/react";
+import { Link, useLoaderData } from "@remix-run/react";
+import type { LoaderArgs } from "@remix-run/node";
+import { requireUser } from "~/services/auth.server";
+import { GetUserWorkplaces } from "~/services/hasura.server";
 
+export async function loader({ request }: LoaderArgs) {
+  const user = await requireUser(request);
+  const workplaces = await GetUserWorkplaces({ token: user?.token! });
+  return { workplaces };
+}
 const Workspaces = () => {
-  const list = ["test", "test", "test"];
+  const workplaces = useLoaderData();
   return (
     <div className="w-[80%]">
       <div className="flex justify-between w-full px-1 pb-2 border-b border-b-gray-300">
@@ -11,7 +19,7 @@ const Workspaces = () => {
         </div>
       </div>
       <div className="flex flex-col gap-2 mt-2 ">
-        {list.map((workspace) => (
+        {workplaces.map((workspace) => (
           <Link
             key={workspace}
             className="flex items-center justify-between w-full gap-1 p-1 border-b rounded-sm group border-b-gray-200 hover:border-b-gray-300 "

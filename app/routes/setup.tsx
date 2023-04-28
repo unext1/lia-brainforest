@@ -8,14 +8,16 @@ import {
 import { Form, useActionData } from "@remix-run/react";
 import { useState } from "react";
 import { SetupComponent } from "~/components/setup";
-import { requireUser } from "~/services/auth.server";
+import { redirectUser, requireUser } from "~/services/auth.server";
 import { CreateWorkplace } from "~/services/hasura.server";
 import type { TTokenData } from "~/types";
 
 export const action: ActionFunction = async ({ request }: ActionArgs) => {
   const formData = await request.formData();
   const values = Object.fromEntries(formData);
+
   const user = await requireUser(request);
+  if (!user) return redirect("/login");
   const url = isValidUrl(values.url as string)
     ? new URL(values.url as string)
     : "";
@@ -104,9 +106,8 @@ export default function Setup() {
           </h2>
           <p className="mt-2 text-sm text-gray-400">
             To create a workplace and change SEO on images you need to follow
-            the steps to the left.
+            the steps on the left.
           </p>
-
           <Form method="post" className="mt-4">
             <div className="flex flex-col w-full gap-2">
               <div className="mt-4 ">
