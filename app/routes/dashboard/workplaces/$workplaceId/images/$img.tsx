@@ -14,6 +14,7 @@ export async function action({ request, params }: ActionArgs) {
   const values = Object.fromEntries(formData);
   const obj = {
     title: values.title,
+    alt_text: values.description,
     description: values.description,
   };
 
@@ -24,7 +25,7 @@ export async function action({ request, params }: ActionArgs) {
       {
         method: "POST",
         headers: {
-          Authorization: `Bearer ${workplace.token}`,
+          Authorization: `Basic ${workplace.token}`,
           "Content-Type": "application/json",
         },
         body: JSON.stringify(obj),

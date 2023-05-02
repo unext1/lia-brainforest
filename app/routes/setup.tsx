@@ -5,6 +5,7 @@ import {
   type LoaderFunction,
   json,
 } from "@remix-run/node";
+import { btoa } from "@remix-run/node/dist/base64";
 import { Form, useActionData } from "@remix-run/react";
 import { useState } from "react";
 import { SetupComponent } from "~/components/setup";
@@ -35,47 +36,37 @@ export const action: ActionFunction = async ({ request }: ActionArgs) => {
 
   if (url && username && password) {
     try {
-      const wordpress_user = {
-        username,
-        password,
-      };
-      const tokenResponse = await fetch(`${url}wp-json/jwt-auth/v1/token`, {
-        headers: { "Content-Type": "application/json" },
-        method: "POST",
-        body: JSON.stringify(wordpress_user),
-      });
-      const tokenData: TTokenData = await tokenResponse.json();
+      const encode = `${username}:${password}`;
+
+      const encoded = btoa(encode);
+
       const titleResponse = await fetch(
         `${url}wp-json/wp/v2/settings?context=view`,
         {
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${tokenData.token}`,
+            Authorization: `Basic ${encoded}`,
           },
           method: "GET",
         }
       );
       const titleData = await titleResponse.json();
-
-      if (tokenData.code)
-        if (tokenData.code === "[jwt_auth] incorrect_password")
+      console.log(titleData);
+      if (titleData.code)
+        if (titleData.code === "rest_forbidden")
           return json({
-            error_password: "incorrect password",
+            error_username: "incorrect username or password",
           });
-        else {
-          return json({
-            error_username: "incorrect username",
-          });
-        }
       const workplace = await CreateWorkplace(
         user?.id!,
-        tokenData.token!,
+        encoded,
         url.toString(),
         titleData.title
       );
-      console.log(workplace);
+
       return redirect(`/dashboard/workplaces/${workplace.id}`, {});
     } catch (err) {
+      console.log(err);
       return { error_url: "incorrect url" };
     }
   } else {
@@ -131,7 +122,9 @@ export default function Setup() {
                 </div>
                 <p
                   className={`${
-                    data?.error_url.length > 0 ? "block" : "hidden"
+                    data?.error_url && data?.error_url.length > 0
+                      ? "block"
+                      : "hidden"
                   } mt-1 text-red-500 `}
                 >
                   {data?.error_url}
@@ -157,7 +150,9 @@ export default function Setup() {
                 </div>
                 <p
                   className={`${
-                    data?.error_username.length > 0 ? "block" : "hidden"
+                    data?.error_username && data?.error_username.length > 0
+                      ? "block"
+                      : "hidden"
                   } mt-1 text-red-500`}
                 >
                   {data?.error_username}
@@ -183,7 +178,9 @@ export default function Setup() {
                 </div>
                 <p
                   className={`${
-                    data?.error_password.length > 0 ? "block " : " hidden"
+                    data?.error_password && data?.error_password.length > 0
+                      ? "block "
+                      : " hidden"
                   } mt-1 text-red-500 `}
                 >
                   {data?.error_password}
