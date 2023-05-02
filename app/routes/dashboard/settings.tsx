@@ -28,17 +28,17 @@ const Settings = () => {
         </NavLink>
 
         <NavLink
-          to="/dashboard/settings/workspaces"
+          to="/dashboard/settings/workplaces"
           className={({ isActive }) =>
             isActive
               ? "border-b-red-500 px-4 font-semibold border-b-2 "
               : " px-4 font-semibold  "
           }
         >
-          Workspaces
+          Workplaces
         </NavLink>
       </div>
-      <div className="col-span-3 px-10 pt-2 mt-2 bg-gray-100 rounded-xl">
+      <div className="col-span-3 px-10 py-2 mt-2 bg-gray-100 rounded-xl">
         <Outlet />
       </div>
     </div>
