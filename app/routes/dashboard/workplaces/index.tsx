@@ -1,5 +1,5 @@
-import { ActionFunction, LoaderFunction, json } from "@remix-run/node";
-import { Form, Link, useLoaderData } from "@remix-run/react";
+import { json, type LoaderFunction } from "@remix-run/node";
+import { Link, useLoaderData } from "@remix-run/react";
 import Btn from "~/components/button";
 import { requireUser } from "~/services/auth.server";
 import { GetUserWorkplaces } from "~/services/hasura.server";
@@ -10,8 +10,6 @@ export const loader: LoaderFunction = async ({ request }) => {
     token: user?.token!,
   });
 
-  // hasura.request(GETWORKPLACE) => user
-  // display workplaces
   return json({ workplaces });
 };
 export default function Index() {

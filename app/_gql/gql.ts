@@ -21,6 +21,8 @@ const documents = {
     "\n  query GetWorkplaceById($id: uuid) {\n    liaWorkplace(where: { id: { _eq: $id } }) {\n      title\n      token\n      url\n      ownerId\n    }\n  }\n": types.GetWorkplaceByIdDocument,
     "\n  query GetWorkplaces {\n    liaWorkplace {\n      title\n      token\n      url\n      ownerId\n      id\n    }\n  }\n": types.GetWorkplacesDocument,
     "\n  mutation DeleteWorkplace($url: String) {\n    deleteLiaWorkplace(where: { url: { _eq: $url } }) {\n      affected_rows\n      returning {\n        id\n      }\n    }\n  }\n": types.DeleteWorkplaceDocument,
+    "\n  mutation InviteUser($userId: uuid!, $workplaceId: uuid!) {\n    insertLiaWorkplaceMember(\n      objects: { userId: $userId, workplaceId: $workplaceId }\n    ) {\n      affected_rows\n    }\n  }\n": types.InviteUserDocument,
+    "\n  query GetPublicUsers {\n    liaPublicUser {\n      id\n      name\n      email\n    }\n  }\n": types.GetPublicUsersDocument,
 };
 
 /**
@@ -69,6 +71,14 @@ export function graphql(source: "\n  query GetWorkplaces {\n    liaWorkplace {\n
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(source: "\n  mutation DeleteWorkplace($url: String) {\n    deleteLiaWorkplace(where: { url: { _eq: $url } }) {\n      affected_rows\n      returning {\n        id\n      }\n    }\n  }\n"): (typeof documents)["\n  mutation DeleteWorkplace($url: String) {\n    deleteLiaWorkplace(where: { url: { _eq: $url } }) {\n      affected_rows\n      returning {\n        id\n      }\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  mutation InviteUser($userId: uuid!, $workplaceId: uuid!) {\n    insertLiaWorkplaceMember(\n      objects: { userId: $userId, workplaceId: $workplaceId }\n    ) {\n      affected_rows\n    }\n  }\n"): (typeof documents)["\n  mutation InviteUser($userId: uuid!, $workplaceId: uuid!) {\n    insertLiaWorkplaceMember(\n      objects: { userId: $userId, workplaceId: $workplaceId }\n    ) {\n      affected_rows\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  query GetPublicUsers {\n    liaPublicUser {\n      id\n      name\n      email\n    }\n  }\n"): (typeof documents)["\n  query GetPublicUsers {\n    liaPublicUser {\n      id\n      name\n      email\n    }\n  }\n"];
 
 export function graphql(source: string) {
   return (documents as any)[source] ?? {};

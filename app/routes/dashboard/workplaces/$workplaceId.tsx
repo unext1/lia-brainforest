@@ -1,6 +1,5 @@
 import { redirect, type LoaderFunction } from "@remix-run/node";
 import { Outlet, useLoaderData } from "@remix-run/react";
-import { requireUser } from "~/services/auth.server";
 import { GetWorkplaceById } from "~/services/hasura.server";
 
 export const loader: LoaderFunction = async ({ request, params }) => {
@@ -12,7 +11,7 @@ export const loader: LoaderFunction = async ({ request, params }) => {
 };
 export default function Workplace() {
   const { workplace } = useLoaderData();
-  console.log(workplace);
+  // console.log(workplace);
   return (
     <>
       {workplace ? <div>{workplace.title}</div> : ""}

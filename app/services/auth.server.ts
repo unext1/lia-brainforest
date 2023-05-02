@@ -1,8 +1,8 @@
-import { graphql } from "~/_gql";
 import { Authenticator } from "remix-auth";
 import { GoogleStrategy } from "remix-auth-google";
-import { createHasuraToken, hasuraAdminClient } from "./hasura.server";
+import { graphql } from "~/_gql";
 import { sessionStore } from "~/services/session.server";
+import { createHasuraToken, hasuraAdminClient } from "./hasura.server";
 
 type UserSession = {
   id: string;

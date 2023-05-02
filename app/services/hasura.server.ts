@@ -1,9 +1,9 @@
 import { GraphQLClient } from "graphql-request";
 import jwt from "jsonwebtoken";
 
-import { env } from "./env.server";
 import { graphql } from "~/_gql";
-import { TCreateWorkplace } from "~/types";
+import { type TCreateWorkplace } from "~/types";
+import { env } from "./env.server";
 
 const HASURA_URL = `${env.HASURA_GRAPHQL_URL}/v1/graphql`;
 export const createHasuraToken = (userId: string | undefined): string => {
@@ -118,6 +118,16 @@ export const REMOVEWORKPLACE = graphql(`
   }
 `);
 
+export const INVITEUSERTOWORKPLACE = graphql(`
+  mutation InviteUser($userId: uuid!, $workplaceId: uuid!) {
+    insertLiaWorkplaceMember(
+      objects: { userId: $userId, workplaceId: $workplaceId }
+    ) {
+      affected_rows
+    }
+  }
+`);
+
 // CHANGE THIS TO GET IT WITH HASURA CLIENT AND IN PROPS PASS TOKEN
 export const GetUserWorkplaces = async ({ token }: { token: string }) => {
   return (await hasuraClient(token).request(GETWORKPLACES)).liaWorkplace;
@@ -126,3 +136,16 @@ export const GetWorkplaceById = async (id: string) =>
   (await hasuraAdminClient.request(GETWORKPLACEBYID, { id })).liaWorkplace[0];
 export const GetWorkplaceByURL = async (url: string) =>
   (await hasuraAdminClient.request(GETWORKPLACEBYURL, { url })).liaWorkplace[0];
+
+export const GETPUBLICUSERS = graphql(`
+  query GetPublicUsers {
+    liaPublicUser {
+      id
+      name
+      email
+    }
+  }
+`);
+
+export const GetPublicUsers = async () =>
+  (await hasuraAdminClient.request(GETPUBLICUSERS)).liaPublicUser;
