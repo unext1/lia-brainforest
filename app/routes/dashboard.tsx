@@ -55,7 +55,7 @@ const Dashboard = () => {
     },
     loaderData?.workplace && {
       name: "Images",
-      href: `/dashboard/workplaces/${loaderData?.workplace?.id}/images`,
+      href: `/dashboard/workplaces/${loaderData?.workplace?.id}/images?page=1`,
       svg: (
         <svg
           xmlns="http://www.w3.org/2000/svg"
