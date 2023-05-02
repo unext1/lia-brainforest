@@ -1,22 +1,55 @@
-import { Form, Link } from "@remix-run/react";
+import { Form, Link, useSubmit } from "@remix-run/react";
 import { NavList } from "./NavList";
+import type { TWorkplace } from "~/types";
+import { useRef, useState } from "react";
+import { FormData } from "@remix-run/node";
 
 export const Sidebar = ({
   navigation,
   setState,
   state,
+  workplaces,
 }: {
   navigation: { name: string; href: string; svg: JSX.Element }[];
   setState: React.Dispatch<React.SetStateAction<boolean>>;
   state: boolean;
+  workplaces: TWorkplace[];
 }) => {
+  const submitHandler = useSubmit();
+  const ref = useRef<any>(null);
+  const handleSubmit = () => {
+    submitHandler(ref?.current, { replace: true });
+  };
+
   return (
     <>
       <div className="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
         <div className="flex flex-col px-6 pb-4 overflow-y-auto bg-white border-r border-gray-200 grow gap-y-5">
           <div className="flex flex-col justify-center h-16 shrink-0">
             <h1 className="text-lg font-semibold tracking-wide">AI APP</h1>
-            <h4 className="text-sm text-gray-600">Welcome</h4>
+            <Form method="post" ref={ref}>
+              <select
+                className="text-sm text-gray-600 border-0 selection:border-0 max-w-max"
+                name="workplace"
+                defaultValue="Select your workplace"
+              >
+                {/*    <option value="" selected disabled hidden>
+                  Select your workplace
+                </option> */}
+                {workplaces?.map((workplace) => (
+                  <option
+                    onClick={handleSubmit}
+                    key={workplace.id}
+                    value={workplace.id!}
+                  >
+                    {workplace.title}
+                  </option>
+                ))}
+                <option value="create-new" onClick={handleSubmit}>
+                  Add a new workspace
+                </option>
+              </select>
+            </Form>
           </div>
           <nav className="flex flex-col flex-1">
             <div className="flex flex-col flex-1 gap-y-7">

@@ -1,17 +1,24 @@
-import { Form, Link } from "@remix-run/react";
-import React, { Fragment } from "react";
+import { Form, Link, useSubmit } from "@remix-run/react";
+import React, { Fragment, useRef } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-import { type Navigation } from "~/types";
+import type { TWorkplace, Navigation } from "~/types";
 import { NavList } from "./NavList";
 export const MobileSidebar = ({
   setState,
   state,
   navigation,
+  workplaces,
 }: {
   setState: React.Dispatch<React.SetStateAction<boolean>>;
   state: boolean;
   navigation: Navigation;
+  workplaces: TWorkplace[];
 }) => {
+  const ref = useRef<any>(null);
+  const submitHandler = useSubmit();
+  const handleSubmit = () => {
+    submitHandler(ref?.current, { replace: true });
+  };
   return (
     <Transition.Root show={state} as={Fragment}>
       <Dialog as="div" className="relative z-50 lg:hidden" onClose={setState}>
@@ -65,7 +72,29 @@ export const MobileSidebar = ({
                   <h1 className="text-lg font-semibold tracking-wide">
                     AI APP
                   </h1>
-                  <h4 className="text-sm text-gray-600">Welcome</h4>
+                  <Form method="post" ref={ref}>
+                    <select
+                      className="text-sm text-gray-600 border-0 selection:border-0 max-w-max"
+                      name="workplace"
+                      defaultValue="Select your workplace"
+                    >
+                      <option value="" selected disabled hidden>
+                        Select your workplace
+                      </option>
+                      {workplaces?.map((workplace) => (
+                        <option
+                          onClick={handleSubmit}
+                          key={workplace.id}
+                          value={workplace.id!}
+                        >
+                          {workplace.title}
+                        </option>
+                      ))}
+                      <option value="create-new" onClick={handleSubmit}>
+                        Add a new workspace
+                      </option>
+                    </select>
+                  </Form>
                 </div>
                 <nav className="flex flex-col flex-1">
                   <div className="flex flex-col flex-1 gap-y-7">

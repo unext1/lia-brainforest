@@ -15,9 +15,9 @@ export interface WPschema {
 }
 
 export type Navigation = {
-  name: string;
-  href: string;
-  svg: JSX.Element;
+  name: string | undefined;
+  href: string | undefined;
+  svg: JSX.Element | undefined;
 }[];
 
 export type TTokenData = {
