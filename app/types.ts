@@ -34,4 +34,5 @@ export type TWorkplace = {
   ownerId: string;
   id: string;
   updatedAt: string;
+  createdAt: string;
 };

@@ -1,7 +1,11 @@
+import DashboardTitle from "~/components/dashboardTitle";
+
 const Dashboard = () => {
   return (
     <div>
-      <h1>Workplaces</h1>
+      <DashboardTitle title=" Dashboard" />
+
+      <div>DASHBOARd</div>
     </div>
   );
 };

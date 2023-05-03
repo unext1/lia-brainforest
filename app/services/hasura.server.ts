@@ -42,7 +42,7 @@ export const CreateWorkplace = async (
   url: string,
   title: string
 ) => {
-  const workplace: TWorkplace = await GetWorkplaceByURL(url);
+  const workplace = await GetWorkplaceByURL(url);
   if (workplace) return workplace;
   const newWorkplace = (await hasuraAdminClient.request(CREATEWORKPLACE, {
     ownerId,
@@ -110,6 +110,7 @@ export const GETWORKPLACES: any = graphql(`
       ownerId
       id
       updatedAt
+      createdAt
     }
   }
 `);

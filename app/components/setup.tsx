@@ -1,6 +1,6 @@
 export const SetupComponent = () => {
   return (
-    <div className="flex flex-col justify-center w-full h-full px-20 bg-gray-100 rounded-lg ">
+    <div className="flex flex-col justify-center w-full h-full px-5 py-20 bg-gray-100 rounded-lg xl:px-20 xl:py-60 ">
       <h2 className="text-3xl font-semibold tracking-wide">
         Before you start.
       </h2>
