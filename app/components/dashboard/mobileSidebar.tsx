@@ -1,5 +1,5 @@
 import { Form, Link, useSubmit } from "@remix-run/react";
-import React, { Fragment, useEffect, useRef } from "react";
+import React, { Fragment, useRef } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import type { TWorkplace, Navigation } from "~/types";
 import { NavList } from "./NavList";
@@ -83,8 +83,8 @@ export const MobileSidebar = ({
                       </option>
                       {workplaces?.map((workplace) => (
                         <option
-                          onClick={handleSubmit}
                           key={workplace.id}
+                          onClick={handleSubmit}
                           value={workplace.id!}
                         >
                           {workplace.title}

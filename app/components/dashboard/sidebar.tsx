@@ -1,8 +1,7 @@
 import { Form, Link, useSubmit } from "@remix-run/react";
 import { NavList } from "./NavList";
 import type { TWorkplace } from "~/types";
-import { useRef, useState } from "react";
-import { FormData } from "@remix-run/node";
+import { useRef } from "react";
 
 export const Sidebar = ({
   navigation,
@@ -33,9 +32,6 @@ export const Sidebar = ({
                 name="workplace"
                 defaultValue="Select your workplace"
               >
-                {/*    <option value="" selected disabled hidden>
-                  Select your workplace
-                </option> */}
                 {workplaces?.map((workplace) => (
                   <option
                     onClick={handleSubmit}
