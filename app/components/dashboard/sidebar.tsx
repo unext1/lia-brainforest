@@ -25,8 +25,10 @@ export const Sidebar = ({
       <div className="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
         <div className="flex flex-col px-6 pb-4 overflow-y-auto bg-white border-r border-gray-200 grow gap-y-5">
           <div className="flex flex-col justify-center h-16 shrink-0">
-            <h1 className="text-lg font-semibold tracking-wide">AI APP</h1>
-            <Form method="post" ref={ref}>
+            <Link to="/dashboard">
+              <h1 className="text-lg font-semibold tracking-wide ">AI APP</h1>
+            </Link>
+            {/* <Form method="post" ref={ref}>
               <select
                 className="text-sm text-gray-600 border-0 selection:border-0 max-w-max"
                 name="workplace"
@@ -45,7 +47,7 @@ export const Sidebar = ({
                   Add a new workspace
                 </option>
               </select>
-            </Form>
+            </Form> */}
           </div>
           <nav className="flex flex-col flex-1">
             <div className="flex flex-col flex-1 gap-y-7">

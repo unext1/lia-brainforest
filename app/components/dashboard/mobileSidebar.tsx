@@ -69,32 +69,11 @@ export const MobileSidebar = ({
               </Transition.Child>
               <div className="flex flex-col px-6 pb-4 overflow-y-auto bg-white grow gap-y-5">
                 <div className="flex flex-col justify-center h-16 shrink-0">
-                  <h1 className="text-lg font-semibold tracking-wide">
-                    AI APP
-                  </h1>
-                  <Form method="post" ref={ref}>
-                    <select
-                      className="text-sm text-gray-600 border-0 selection:border-0 max-w-max"
-                      name="workplace"
-                      defaultValue="Select your workplace"
-                    >
-                      <option value="" selected disabled hidden>
-                        Select your workplace
-                      </option>
-                      {workplaces?.map((workplace) => (
-                        <option
-                          key={workplace.id}
-                          onClick={handleSubmit}
-                          value={workplace.id!}
-                        >
-                          {workplace.title}
-                        </option>
-                      ))}
-                      <option value="create-new" onClick={handleSubmit}>
-                        Add a new workspace
-                      </option>
-                    </select>
-                  </Form>
+                  <Link to="/dashboard">
+                    <h1 className="text-lg font-semibold tracking-wide">
+                      AI APP
+                    </h1>
+                  </Link>
                 </div>
                 <nav className="flex flex-col flex-1">
                   <div className="flex flex-col flex-1 gap-y-7">

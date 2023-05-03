@@ -4,12 +4,7 @@ import {
   redirect,
   type LoaderArgs,
 } from "@remix-run/node";
-import {
-  Outlet,
-  useLoaderData,
-  useNavigation,
-  useParams,
-} from "@remix-run/react";
+import { Outlet, useLoaderData, useParams } from "@remix-run/react";
 import { useState } from "react";
 import { MobileSidebar } from "~/components/dashboard/mobileSidebar";
 import { Sidebar } from "~/components/dashboard/sidebar";

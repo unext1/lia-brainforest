@@ -34,7 +34,7 @@ export default function Index() {
                       viewBox="0 0 24 24"
                       strokeWidth="1.5"
                       stroke="currentColor"
-                      className="w-16 h-16"
+                      className="w-16 h-16 fill-red-300"
                     >
                       <path
                         strokeLinecap="round"
@@ -55,9 +55,6 @@ export default function Index() {
                 </Link>
 
                 <div className="mt-4">
-                  <p className="text-xs text-red-400 uppercase">
-                    {workplace.ownerId}
-                  </p>
                   <h2 className="mt-1 text-sm font-semibold uppercase">
                     {workplace.title}
                   </h2>
@@ -72,7 +69,7 @@ export default function Index() {
                       </p>
                     </div>
                     <div className="text-right">
-                      <p>Upadted At</p>
+                      <p>Updated At</p>
                       <p>
                         {new Date(workplace.updatedAt).toLocaleDateString(
                           "en-GB"
