@@ -5,7 +5,7 @@ const Dashboard = () => {
     <div>
       <DashboardTitle title=" Dashboard" />
 
-      <div>DASHBOARd</div>
+      <div>DASHBOARD</div>
     </div>
   );
 };
