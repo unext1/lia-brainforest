@@ -23,249 +23,6 @@ export type CursorOrdering =
   /** descending ordering of the cursor */
   | 'DESC';
 
-/** columns and relationships of "DONT_USE_workplace" */
-export type DontuseWorkplace = {
-  createdAt: Scalars['timestamptz'];
-  id: Scalars['uuid'];
-  name: Scalars['String'];
-  /** An object relationship */
-  owner: User;
-  ownerId: Scalars['uuid'];
-  updatedAt: Scalars['timestamptz'];
-  /** An array relationship */
-  workplaceMembers: Array<WorkplaceMember>;
-  /** An aggregate relationship */
-  workplaceMembersAggregate: WorkplaceMemberAggregate;
-};
-
-
-/** columns and relationships of "DONT_USE_workplace" */
-export type DontuseWorkplaceWorkplaceMembersArgs = {
-  distinctOn?: InputMaybe<Array<WorkplaceMemberSelectColumn>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  orderBy?: InputMaybe<Array<WorkplaceMemberOrderBy>>;
-  where?: InputMaybe<WorkplaceMemberBoolExp>;
-};
-
-
-/** columns and relationships of "DONT_USE_workplace" */
-export type DontuseWorkplaceWorkplaceMembersAggregateArgs = {
-  distinctOn?: InputMaybe<Array<WorkplaceMemberSelectColumn>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  orderBy?: InputMaybe<Array<WorkplaceMemberOrderBy>>;
-  where?: InputMaybe<WorkplaceMemberBoolExp>;
-};
-
-/** aggregated selection of "DONT_USE_workplace" */
-export type DontuseWorkplaceAggregate = {
-  aggregate?: Maybe<DontuseWorkplaceAggregateFields>;
-  nodes: Array<DontuseWorkplace>;
-};
-
-/** aggregate fields of "DONT_USE_workplace" */
-export type DontuseWorkplaceAggregateFields = {
-  count: Scalars['Int'];
-  max?: Maybe<DontuseWorkplaceMaxFields>;
-  min?: Maybe<DontuseWorkplaceMinFields>;
-};
-
-
-/** aggregate fields of "DONT_USE_workplace" */
-export type DontuseWorkplaceAggregateFieldsCountArgs = {
-  columns?: InputMaybe<Array<DontuseWorkplaceSelectColumn>>;
-  distinct?: InputMaybe<Scalars['Boolean']>;
-};
-
-/** order by aggregate values of table "DONT_USE_workplace" */
-export type DontuseWorkplaceAggregateOrderBy = {
-  count?: InputMaybe<OrderBy>;
-  max?: InputMaybe<Dont_Use_Workplace_Max_Order_By>;
-  min?: InputMaybe<Dont_Use_Workplace_Min_Order_By>;
-};
-
-/** input type for inserting array relation for remote table "DONT_USE_workplace" */
-export type DontuseWorkplaceArrRelInsertInput = {
-  data: Array<DontuseWorkplaceInsertInput>;
-  /** upsert condition */
-  onConflict?: InputMaybe<DontuseWorkplaceOnConflict>;
-};
-
-/** Boolean expression to filter rows from the table "DONT_USE_workplace". All fields are combined with a logical 'AND'. */
-export type DontuseWorkplaceBoolExp = {
-  _and?: InputMaybe<Array<DontuseWorkplaceBoolExp>>;
-  _not?: InputMaybe<DontuseWorkplaceBoolExp>;
-  _or?: InputMaybe<Array<DontuseWorkplaceBoolExp>>;
-  createdAt?: InputMaybe<TimestamptzComparisonExp>;
-  id?: InputMaybe<UuidComparisonExp>;
-  name?: InputMaybe<StringComparisonExp>;
-  owner?: InputMaybe<UserBoolExp>;
-  ownerId?: InputMaybe<UuidComparisonExp>;
-  updatedAt?: InputMaybe<TimestamptzComparisonExp>;
-  workplaceMembers?: InputMaybe<WorkplaceMemberBoolExp>;
-  workplaceMembers_aggregate?: InputMaybe<Workplace_Member_Aggregate_Bool_Exp>;
-};
-
-/** unique or primary key constraints on table "DONT_USE_workplace" */
-export type DontuseWorkplaceConstraint =
-  /** unique or primary key constraint on columns "id" */
-  | 'workplace_pkey';
-
-/** input type for inserting data into table "DONT_USE_workplace" */
-export type DontuseWorkplaceInsertInput = {
-  createdAt?: InputMaybe<Scalars['timestamptz']>;
-  id?: InputMaybe<Scalars['uuid']>;
-  name?: InputMaybe<Scalars['String']>;
-  owner?: InputMaybe<UserObjRelInsertInput>;
-  ownerId?: InputMaybe<Scalars['uuid']>;
-  updatedAt?: InputMaybe<Scalars['timestamptz']>;
-  workplaceMembers?: InputMaybe<WorkplaceMemberArrRelInsertInput>;
-};
-
-/** aggregate max on columns */
-export type DontuseWorkplaceMaxFields = {
-  createdAt?: Maybe<Scalars['timestamptz']>;
-  id?: Maybe<Scalars['uuid']>;
-  name?: Maybe<Scalars['String']>;
-  ownerId?: Maybe<Scalars['uuid']>;
-  updatedAt?: Maybe<Scalars['timestamptz']>;
-};
-
-/** aggregate min on columns */
-export type DontuseWorkplaceMinFields = {
-  createdAt?: Maybe<Scalars['timestamptz']>;
-  id?: Maybe<Scalars['uuid']>;
-  name?: Maybe<Scalars['String']>;
-  ownerId?: Maybe<Scalars['uuid']>;
-  updatedAt?: Maybe<Scalars['timestamptz']>;
-};
-
-/** response of any mutation on the table "DONT_USE_workplace" */
-export type DontuseWorkplaceMutationResponse = {
-  /** number of rows affected by the mutation */
-  affected_rows: Scalars['Int'];
-  /** data from the rows affected by the mutation */
-  returning: Array<DontuseWorkplace>;
-};
-
-/** input type for inserting object relation for remote table "DONT_USE_workplace" */
-export type DontuseWorkplaceObjRelInsertInput = {
-  data: DontuseWorkplaceInsertInput;
-  /** upsert condition */
-  onConflict?: InputMaybe<DontuseWorkplaceOnConflict>;
-};
-
-/** on_conflict condition type for table "DONT_USE_workplace" */
-export type DontuseWorkplaceOnConflict = {
-  constraint: DontuseWorkplaceConstraint;
-  update_columns?: Array<DontuseWorkplaceUpdateColumn>;
-  where?: InputMaybe<DontuseWorkplaceBoolExp>;
-};
-
-/** Ordering options when selecting data from "DONT_USE_workplace". */
-export type DontuseWorkplaceOrderBy = {
-  createdAt?: InputMaybe<OrderBy>;
-  id?: InputMaybe<OrderBy>;
-  name?: InputMaybe<OrderBy>;
-  owner?: InputMaybe<UserOrderBy>;
-  ownerId?: InputMaybe<OrderBy>;
-  updatedAt?: InputMaybe<OrderBy>;
-  workplaceMembersAggregate?: InputMaybe<WorkplaceMemberAggregateOrderBy>;
-};
-
-/** primary key columns input for table: DONT_USE_workplace */
-export type DontuseWorkplacePkColumnsInput = {
-  id: Scalars['uuid'];
-};
-
-/** select columns of table "DONT_USE_workplace" */
-export type DontuseWorkplaceSelectColumn =
-  /** column name */
-  | 'createdAt'
-  /** column name */
-  | 'id'
-  /** column name */
-  | 'name'
-  /** column name */
-  | 'ownerId'
-  /** column name */
-  | 'updatedAt';
-
-/** input type for updating data in table "DONT_USE_workplace" */
-export type DontuseWorkplaceSetInput = {
-  createdAt?: InputMaybe<Scalars['timestamptz']>;
-  id?: InputMaybe<Scalars['uuid']>;
-  name?: InputMaybe<Scalars['String']>;
-  ownerId?: InputMaybe<Scalars['uuid']>;
-  updatedAt?: InputMaybe<Scalars['timestamptz']>;
-};
-
-/** Streaming cursor of the table "DONT_USE_workplace" */
-export type DontuseWorkplaceStreamCursorInput = {
-  /** Stream column input with initial value */
-  initialValue: DontuseWorkplaceStreamCursorValueInput;
-  /** cursor ordering */
-  ordering?: InputMaybe<CursorOrdering>;
-};
-
-/** Initial value of the column from where the streaming should start */
-export type DontuseWorkplaceStreamCursorValueInput = {
-  createdAt?: InputMaybe<Scalars['timestamptz']>;
-  id?: InputMaybe<Scalars['uuid']>;
-  name?: InputMaybe<Scalars['String']>;
-  ownerId?: InputMaybe<Scalars['uuid']>;
-  updatedAt?: InputMaybe<Scalars['timestamptz']>;
-};
-
-/** update columns of table "DONT_USE_workplace" */
-export type DontuseWorkplaceUpdateColumn =
-  /** column name */
-  | 'createdAt'
-  /** column name */
-  | 'id'
-  /** column name */
-  | 'name'
-  /** column name */
-  | 'ownerId'
-  /** column name */
-  | 'updatedAt';
-
-export type DontuseWorkplaceUpdates = {
-  /** sets the columns of the filtered rows to the given values */
-  _set?: InputMaybe<DontuseWorkplaceSetInput>;
-  where: DontuseWorkplaceBoolExp;
-};
-
-export type Dont_Use_Workplace_Aggregate_Bool_Exp = {
-  count?: InputMaybe<Dont_Use_Workplace_Aggregate_Bool_Exp_Count>;
-};
-
-export type Dont_Use_Workplace_Aggregate_Bool_Exp_Count = {
-  arguments?: InputMaybe<Array<DontuseWorkplaceSelectColumn>>;
-  distinct?: InputMaybe<Scalars['Boolean']>;
-  filter?: InputMaybe<DontuseWorkplaceBoolExp>;
-  predicate: IntComparisonExp;
-};
-
-/** order by max() on columns of table "DONT_USE_workplace" */
-export type Dont_Use_Workplace_Max_Order_By = {
-  createdAt?: InputMaybe<OrderBy>;
-  id?: InputMaybe<OrderBy>;
-  name?: InputMaybe<OrderBy>;
-  ownerId?: InputMaybe<OrderBy>;
-  updatedAt?: InputMaybe<OrderBy>;
-};
-
-/** order by min() on columns of table "DONT_USE_workplace" */
-export type Dont_Use_Workplace_Min_Order_By = {
-  createdAt?: InputMaybe<OrderBy>;
-  id?: InputMaybe<OrderBy>;
-  name?: InputMaybe<OrderBy>;
-  ownerId?: InputMaybe<OrderBy>;
-  updatedAt?: InputMaybe<OrderBy>;
-};
-
 /** Boolean expression to compare columns of type "Int". All fields are combined with logical 'AND'. */
 export type IntComparisonExp = {
   _eq?: InputMaybe<Scalars['Int']>;
@@ -1033,7 +790,7 @@ export type Product = {
   stripeProductId: Scalars['String'];
   updatedAt: Scalars['timestamptz'];
   /** An object relationship */
-  workplace: DontuseWorkplace;
+  workplace: Workplace;
   workplaceId: Scalars['uuid'];
 };
 
@@ -1090,7 +847,7 @@ export type ProductBoolExp = {
   product_prices_aggregate?: InputMaybe<Product_Price_Aggregate_Bool_Exp>;
   stripeProductId?: InputMaybe<StringComparisonExp>;
   updatedAt?: InputMaybe<TimestamptzComparisonExp>;
-  workplace?: InputMaybe<DontuseWorkplaceBoolExp>;
+  workplace?: InputMaybe<WorkplaceBoolExp>;
   workplaceId?: InputMaybe<UuidComparisonExp>;
 };
 
@@ -1110,7 +867,7 @@ export type ProductInsertInput = {
   product_prices?: InputMaybe<ProductPriceArrRelInsertInput>;
   stripeProductId?: InputMaybe<Scalars['String']>;
   updatedAt?: InputMaybe<Scalars['timestamptz']>;
-  workplace?: InputMaybe<DontuseWorkplaceObjRelInsertInput>;
+  workplace?: InputMaybe<WorkplaceObjRelInsertInput>;
   workplaceId?: InputMaybe<Scalars['uuid']>;
 };
 
@@ -1167,7 +924,7 @@ export type ProductOrderBy = {
   product_pricesAggregate?: InputMaybe<ProductPriceAggregateOrderBy>;
   stripeProductId?: InputMaybe<OrderBy>;
   updatedAt?: InputMaybe<OrderBy>;
-  workplace?: InputMaybe<DontuseWorkplaceOrderBy>;
+  workplace?: InputMaybe<WorkplaceOrderBy>;
   workplaceId?: InputMaybe<OrderBy>;
 };
 
@@ -1572,9 +1329,9 @@ export type User = {
   /** An aggregate relationship */
   workplaceMembersAggregate: WorkplaceMemberAggregate;
   /** An array relationship */
-  workplaces: Array<DontuseWorkplace>;
+  workplaces: Array<Workplace>;
   /** An aggregate relationship */
-  workplacesAggregate: DontuseWorkplaceAggregate;
+  workplacesAggregate: WorkplaceAggregate;
 };
 
 
@@ -1600,21 +1357,21 @@ export type UserWorkplaceMembersAggregateArgs = {
 
 /** columns and relationships of "user" */
 export type UserWorkplacesArgs = {
-  distinctOn?: InputMaybe<Array<DontuseWorkplaceSelectColumn>>;
+  distinctOn?: InputMaybe<Array<WorkplaceSelectColumn>>;
   limit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
-  orderBy?: InputMaybe<Array<DontuseWorkplaceOrderBy>>;
-  where?: InputMaybe<DontuseWorkplaceBoolExp>;
+  orderBy?: InputMaybe<Array<WorkplaceOrderBy>>;
+  where?: InputMaybe<WorkplaceBoolExp>;
 };
 
 
 /** columns and relationships of "user" */
 export type UserWorkplacesAggregateArgs = {
-  distinctOn?: InputMaybe<Array<DontuseWorkplaceSelectColumn>>;
+  distinctOn?: InputMaybe<Array<WorkplaceSelectColumn>>;
   limit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
-  orderBy?: InputMaybe<Array<DontuseWorkplaceOrderBy>>;
-  where?: InputMaybe<DontuseWorkplaceBoolExp>;
+  orderBy?: InputMaybe<Array<WorkplaceOrderBy>>;
+  where?: InputMaybe<WorkplaceBoolExp>;
 };
 
 /** aggregated selection of "user" */
@@ -1649,8 +1406,8 @@ export type UserBoolExp = {
   updatedAt?: InputMaybe<TimestamptzComparisonExp>;
   workplaceMembers?: InputMaybe<WorkplaceMemberBoolExp>;
   workplaceMembers_aggregate?: InputMaybe<Workplace_Member_Aggregate_Bool_Exp>;
-  workplaces?: InputMaybe<DontuseWorkplaceBoolExp>;
-  workplaces_aggregate?: InputMaybe<Dont_Use_Workplace_Aggregate_Bool_Exp>;
+  workplaces?: InputMaybe<WorkplaceBoolExp>;
+  workplaces_aggregate?: InputMaybe<Workplace_Aggregate_Bool_Exp>;
 };
 
 /** unique or primary key constraints on table "user" */
@@ -1668,7 +1425,7 @@ export type UserInsertInput = {
   name?: InputMaybe<Scalars['String']>;
   updatedAt?: InputMaybe<Scalars['timestamptz']>;
   workplaceMembers?: InputMaybe<WorkplaceMemberArrRelInsertInput>;
-  workplaces?: InputMaybe<DontuseWorkplaceArrRelInsertInput>;
+  workplaces?: InputMaybe<WorkplaceArrRelInsertInput>;
 };
 
 /** aggregate max on columns */
@@ -1719,7 +1476,7 @@ export type UserOrderBy = {
   name?: InputMaybe<OrderBy>;
   updatedAt?: InputMaybe<OrderBy>;
   workplaceMembersAggregate?: InputMaybe<WorkplaceMemberAggregateOrderBy>;
-  workplacesAggregate?: InputMaybe<DontuseWorkplaceAggregateOrderBy>;
+  workplacesAggregate?: InputMaybe<WorkplaceAggregateOrderBy>;
 };
 
 /** primary key columns input for table: user */
@@ -1798,13 +1555,122 @@ export type UuidComparisonExp = {
   _nin?: InputMaybe<Array<Scalars['uuid']>>;
 };
 
+/** columns and relationships of "workplace" */
+export type Workplace = {
+  createdAt: Scalars['timestamptz'];
+  id: Scalars['uuid'];
+  name: Scalars['String'];
+  /** An object relationship */
+  owner: User;
+  ownerId: Scalars['uuid'];
+  updatedAt: Scalars['timestamptz'];
+  /** An array relationship */
+  workplaceMembers: Array<WorkplaceMember>;
+  /** An aggregate relationship */
+  workplaceMembersAggregate: WorkplaceMemberAggregate;
+};
+
+
+/** columns and relationships of "workplace" */
+export type WorkplaceWorkplaceMembersArgs = {
+  distinctOn?: InputMaybe<Array<WorkplaceMemberSelectColumn>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Array<WorkplaceMemberOrderBy>>;
+  where?: InputMaybe<WorkplaceMemberBoolExp>;
+};
+
+
+/** columns and relationships of "workplace" */
+export type WorkplaceWorkplaceMembersAggregateArgs = {
+  distinctOn?: InputMaybe<Array<WorkplaceMemberSelectColumn>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Array<WorkplaceMemberOrderBy>>;
+  where?: InputMaybe<WorkplaceMemberBoolExp>;
+};
+
+/** aggregated selection of "workplace" */
+export type WorkplaceAggregate = {
+  aggregate?: Maybe<WorkplaceAggregateFields>;
+  nodes: Array<Workplace>;
+};
+
+/** aggregate fields of "workplace" */
+export type WorkplaceAggregateFields = {
+  count: Scalars['Int'];
+  max?: Maybe<WorkplaceMaxFields>;
+  min?: Maybe<WorkplaceMinFields>;
+};
+
+
+/** aggregate fields of "workplace" */
+export type WorkplaceAggregateFieldsCountArgs = {
+  columns?: InputMaybe<Array<WorkplaceSelectColumn>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** order by aggregate values of table "workplace" */
+export type WorkplaceAggregateOrderBy = {
+  count?: InputMaybe<OrderBy>;
+  max?: InputMaybe<Workplace_Max_Order_By>;
+  min?: InputMaybe<Workplace_Min_Order_By>;
+};
+
+/** input type for inserting array relation for remote table "workplace" */
+export type WorkplaceArrRelInsertInput = {
+  data: Array<WorkplaceInsertInput>;
+  /** upsert condition */
+  onConflict?: InputMaybe<WorkplaceOnConflict>;
+};
+
+/** Boolean expression to filter rows from the table "workplace". All fields are combined with a logical 'AND'. */
+export type WorkplaceBoolExp = {
+  _and?: InputMaybe<Array<WorkplaceBoolExp>>;
+  _not?: InputMaybe<WorkplaceBoolExp>;
+  _or?: InputMaybe<Array<WorkplaceBoolExp>>;
+  createdAt?: InputMaybe<TimestamptzComparisonExp>;
+  id?: InputMaybe<UuidComparisonExp>;
+  name?: InputMaybe<StringComparisonExp>;
+  owner?: InputMaybe<UserBoolExp>;
+  ownerId?: InputMaybe<UuidComparisonExp>;
+  updatedAt?: InputMaybe<TimestamptzComparisonExp>;
+  workplaceMembers?: InputMaybe<WorkplaceMemberBoolExp>;
+  workplaceMembers_aggregate?: InputMaybe<Workplace_Member_Aggregate_Bool_Exp>;
+};
+
+/** unique or primary key constraints on table "workplace" */
+export type WorkplaceConstraint =
+  /** unique or primary key constraint on columns "id" */
+  | 'workplace_pkey';
+
+/** input type for inserting data into table "workplace" */
+export type WorkplaceInsertInput = {
+  createdAt?: InputMaybe<Scalars['timestamptz']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  name?: InputMaybe<Scalars['String']>;
+  owner?: InputMaybe<UserObjRelInsertInput>;
+  ownerId?: InputMaybe<Scalars['uuid']>;
+  updatedAt?: InputMaybe<Scalars['timestamptz']>;
+  workplaceMembers?: InputMaybe<WorkplaceMemberArrRelInsertInput>;
+};
+
+/** aggregate max on columns */
+export type WorkplaceMaxFields = {
+  createdAt?: Maybe<Scalars['timestamptz']>;
+  id?: Maybe<Scalars['uuid']>;
+  name?: Maybe<Scalars['String']>;
+  ownerId?: Maybe<Scalars['uuid']>;
+  updatedAt?: Maybe<Scalars['timestamptz']>;
+};
+
 /** columns and relationships of "workplace_member" */
 export type WorkplaceMember = {
   /** An object relationship */
   user: User;
   userId: Scalars['uuid'];
   /** An object relationship */
-  workplace: DontuseWorkplace;
+  workplace: Workplace;
   workplaceId: Scalars['uuid'];
 };
 
@@ -1849,7 +1715,7 @@ export type WorkplaceMemberBoolExp = {
   _or?: InputMaybe<Array<WorkplaceMemberBoolExp>>;
   user?: InputMaybe<UserBoolExp>;
   userId?: InputMaybe<UuidComparisonExp>;
-  workplace?: InputMaybe<DontuseWorkplaceBoolExp>;
+  workplace?: InputMaybe<WorkplaceBoolExp>;
   workplaceId?: InputMaybe<UuidComparisonExp>;
 };
 
@@ -1862,7 +1728,7 @@ export type WorkplaceMemberConstraint =
 export type WorkplaceMemberInsertInput = {
   user?: InputMaybe<UserObjRelInsertInput>;
   userId?: InputMaybe<Scalars['uuid']>;
-  workplace?: InputMaybe<DontuseWorkplaceObjRelInsertInput>;
+  workplace?: InputMaybe<WorkplaceObjRelInsertInput>;
   workplaceId?: InputMaybe<Scalars['uuid']>;
 };
 
@@ -1897,7 +1763,7 @@ export type WorkplaceMemberOnConflict = {
 export type WorkplaceMemberOrderBy = {
   user?: InputMaybe<UserOrderBy>;
   userId?: InputMaybe<OrderBy>;
-  workplace?: InputMaybe<DontuseWorkplaceOrderBy>;
+  workplace?: InputMaybe<WorkplaceOrderBy>;
   workplaceId?: InputMaybe<OrderBy>;
 };
 
@@ -1945,6 +1811,111 @@ export type WorkplaceMemberUpdates = {
   /** sets the columns of the filtered rows to the given values */
   _set?: InputMaybe<WorkplaceMemberSetInput>;
   where: WorkplaceMemberBoolExp;
+};
+
+/** aggregate min on columns */
+export type WorkplaceMinFields = {
+  createdAt?: Maybe<Scalars['timestamptz']>;
+  id?: Maybe<Scalars['uuid']>;
+  name?: Maybe<Scalars['String']>;
+  ownerId?: Maybe<Scalars['uuid']>;
+  updatedAt?: Maybe<Scalars['timestamptz']>;
+};
+
+/** response of any mutation on the table "workplace" */
+export type WorkplaceMutationResponse = {
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Workplace>;
+};
+
+/** input type for inserting object relation for remote table "workplace" */
+export type WorkplaceObjRelInsertInput = {
+  data: WorkplaceInsertInput;
+  /** upsert condition */
+  onConflict?: InputMaybe<WorkplaceOnConflict>;
+};
+
+/** on_conflict condition type for table "workplace" */
+export type WorkplaceOnConflict = {
+  constraint: WorkplaceConstraint;
+  update_columns?: Array<WorkplaceUpdateColumn>;
+  where?: InputMaybe<WorkplaceBoolExp>;
+};
+
+/** Ordering options when selecting data from "workplace". */
+export type WorkplaceOrderBy = {
+  createdAt?: InputMaybe<OrderBy>;
+  id?: InputMaybe<OrderBy>;
+  name?: InputMaybe<OrderBy>;
+  owner?: InputMaybe<UserOrderBy>;
+  ownerId?: InputMaybe<OrderBy>;
+  updatedAt?: InputMaybe<OrderBy>;
+  workplaceMembersAggregate?: InputMaybe<WorkplaceMemberAggregateOrderBy>;
+};
+
+/** primary key columns input for table: workplace */
+export type WorkplacePkColumnsInput = {
+  id: Scalars['uuid'];
+};
+
+/** select columns of table "workplace" */
+export type WorkplaceSelectColumn =
+  /** column name */
+  | 'createdAt'
+  /** column name */
+  | 'id'
+  /** column name */
+  | 'name'
+  /** column name */
+  | 'ownerId'
+  /** column name */
+  | 'updatedAt';
+
+/** input type for updating data in table "workplace" */
+export type WorkplaceSetInput = {
+  createdAt?: InputMaybe<Scalars['timestamptz']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  name?: InputMaybe<Scalars['String']>;
+  ownerId?: InputMaybe<Scalars['uuid']>;
+  updatedAt?: InputMaybe<Scalars['timestamptz']>;
+};
+
+/** Streaming cursor of the table "workplace" */
+export type WorkplaceStreamCursorInput = {
+  /** Stream column input with initial value */
+  initialValue: WorkplaceStreamCursorValueInput;
+  /** cursor ordering */
+  ordering?: InputMaybe<CursorOrdering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type WorkplaceStreamCursorValueInput = {
+  createdAt?: InputMaybe<Scalars['timestamptz']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  name?: InputMaybe<Scalars['String']>;
+  ownerId?: InputMaybe<Scalars['uuid']>;
+  updatedAt?: InputMaybe<Scalars['timestamptz']>;
+};
+
+/** update columns of table "workplace" */
+export type WorkplaceUpdateColumn =
+  /** column name */
+  | 'createdAt'
+  /** column name */
+  | 'id'
+  /** column name */
+  | 'name'
+  /** column name */
+  | 'ownerId'
+  /** column name */
+  | 'updatedAt';
+
+export type WorkplaceUpdates = {
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<WorkplaceSetInput>;
+  where: WorkplaceBoolExp;
 };
 
 export type Lia_Workplace_Aggregate_Bool_Exp = {
@@ -2005,10 +1976,6 @@ export type Lia_Workplace_Min_Order_By = {
 
 /** mutation root */
 export type Mutation_Root = {
-  /** delete data from the table: "DONT_USE_workplace" */
-  deleteDONTUSEWorkplace?: Maybe<DontuseWorkplaceMutationResponse>;
-  /** delete single row from the table: "DONT_USE_workplace" */
-  deleteDONTUSEWorkplaceByPk?: Maybe<DontuseWorkplace>;
   /** delete data from the table: "lia.public_user" */
   deleteLiaPublicUser?: Maybe<LiaPublicUserMutationResponse>;
   /** delete data from the table: "lia.user" */
@@ -2035,14 +2002,14 @@ export type Mutation_Root = {
   deleteUser?: Maybe<UserMutationResponse>;
   /** delete single row from the table: "user" */
   deleteUserByPk?: Maybe<User>;
+  /** delete data from the table: "workplace" */
+  deleteWorkplace?: Maybe<WorkplaceMutationResponse>;
+  /** delete single row from the table: "workplace" */
+  deleteWorkplaceByPk?: Maybe<Workplace>;
   /** delete data from the table: "workplace_member" */
   deleteWorkplaceMember?: Maybe<WorkplaceMemberMutationResponse>;
   /** delete single row from the table: "workplace_member" */
   deleteWorkplaceMemberByPk?: Maybe<WorkplaceMember>;
-  /** insert data into the table: "DONT_USE_workplace" */
-  insertDONTUSEWorkplace?: Maybe<DontuseWorkplaceMutationResponse>;
-  /** insert a single row into the table: "DONT_USE_workplace" */
-  insertDONTUSEWorkplaceOne?: Maybe<DontuseWorkplace>;
   /** insert data into the table: "lia.public_user" */
   insertLiaPublicUser?: Maybe<LiaPublicUserMutationResponse>;
   /** insert a single row into the table: "lia.public_user" */
@@ -2071,16 +2038,14 @@ export type Mutation_Root = {
   insertUser?: Maybe<UserMutationResponse>;
   /** insert a single row into the table: "user" */
   insertUserOne?: Maybe<User>;
+  /** insert data into the table: "workplace" */
+  insertWorkplace?: Maybe<WorkplaceMutationResponse>;
   /** insert data into the table: "workplace_member" */
   insertWorkplaceMember?: Maybe<WorkplaceMemberMutationResponse>;
   /** insert a single row into the table: "workplace_member" */
   insertWorkplaceMemberOne?: Maybe<WorkplaceMember>;
-  /** update data of the table: "DONT_USE_workplace" */
-  updateDONTUSEWorkplace?: Maybe<DontuseWorkplaceMutationResponse>;
-  /** update single row of the table: "DONT_USE_workplace" */
-  updateDONTUSEWorkplaceByPk?: Maybe<DontuseWorkplace>;
-  /** update multiples rows of table: "DONT_USE_workplace" */
-  updateDONTUSEWorkplaceMany?: Maybe<Array<Maybe<DontuseWorkplaceMutationResponse>>>;
+  /** insert a single row into the table: "workplace" */
+  insertWorkplaceOne?: Maybe<Workplace>;
   /** update data of the table: "lia.public_user" */
   updateLiaPublicUser?: Maybe<LiaPublicUserMutationResponse>;
   /** update multiples rows of table: "lia.public_user" */
@@ -2121,24 +2086,18 @@ export type Mutation_Root = {
   updateUserByPk?: Maybe<User>;
   /** update multiples rows of table: "user" */
   updateUserMany?: Maybe<Array<Maybe<UserMutationResponse>>>;
+  /** update data of the table: "workplace" */
+  updateWorkplace?: Maybe<WorkplaceMutationResponse>;
+  /** update single row of the table: "workplace" */
+  updateWorkplaceByPk?: Maybe<Workplace>;
+  /** update multiples rows of table: "workplace" */
+  updateWorkplaceMany?: Maybe<Array<Maybe<WorkplaceMutationResponse>>>;
   /** update data of the table: "workplace_member" */
   updateWorkplaceMember?: Maybe<WorkplaceMemberMutationResponse>;
   /** update single row of the table: "workplace_member" */
   updateWorkplaceMemberByPk?: Maybe<WorkplaceMember>;
   /** update multiples rows of table: "workplace_member" */
   updateWorkplaceMemberMany?: Maybe<Array<Maybe<WorkplaceMemberMutationResponse>>>;
-};
-
-
-/** mutation root */
-export type Mutation_RootDeleteDontuseWorkplaceArgs = {
-  where: DontuseWorkplaceBoolExp;
-};
-
-
-/** mutation root */
-export type Mutation_RootDeleteDontuseWorkplaceByPkArgs = {
-  id: Scalars['uuid'];
 };
 
 
@@ -2222,6 +2181,18 @@ export type Mutation_RootDeleteUserByPkArgs = {
 
 
 /** mutation root */
+export type Mutation_RootDeleteWorkplaceArgs = {
+  where: WorkplaceBoolExp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDeleteWorkplaceByPkArgs = {
+  id: Scalars['uuid'];
+};
+
+
+/** mutation root */
 export type Mutation_RootDeleteWorkplaceMemberArgs = {
   where: WorkplaceMemberBoolExp;
 };
@@ -2231,20 +2202,6 @@ export type Mutation_RootDeleteWorkplaceMemberArgs = {
 export type Mutation_RootDeleteWorkplaceMemberByPkArgs = {
   userId: Scalars['uuid'];
   workplaceId: Scalars['uuid'];
-};
-
-
-/** mutation root */
-export type Mutation_RootInsertDontuseWorkplaceArgs = {
-  objects: Array<DontuseWorkplaceInsertInput>;
-  onConflict?: InputMaybe<DontuseWorkplaceOnConflict>;
-};
-
-
-/** mutation root */
-export type Mutation_RootInsertDontuseWorkplaceOneArgs = {
-  object: DontuseWorkplaceInsertInput;
-  onConflict?: InputMaybe<DontuseWorkplaceOnConflict>;
 };
 
 
@@ -2345,6 +2302,13 @@ export type Mutation_RootInsertUserOneArgs = {
 
 
 /** mutation root */
+export type Mutation_RootInsertWorkplaceArgs = {
+  objects: Array<WorkplaceInsertInput>;
+  onConflict?: InputMaybe<WorkplaceOnConflict>;
+};
+
+
+/** mutation root */
 export type Mutation_RootInsertWorkplaceMemberArgs = {
   objects: Array<WorkplaceMemberInsertInput>;
   onConflict?: InputMaybe<WorkplaceMemberOnConflict>;
@@ -2359,22 +2323,9 @@ export type Mutation_RootInsertWorkplaceMemberOneArgs = {
 
 
 /** mutation root */
-export type Mutation_RootUpdateDontuseWorkplaceArgs = {
-  _set?: InputMaybe<DontuseWorkplaceSetInput>;
-  where: DontuseWorkplaceBoolExp;
-};
-
-
-/** mutation root */
-export type Mutation_RootUpdateDontuseWorkplaceByPkArgs = {
-  _set?: InputMaybe<DontuseWorkplaceSetInput>;
-  pk_columns: DontuseWorkplacePkColumnsInput;
-};
-
-
-/** mutation root */
-export type Mutation_RootUpdateDontuseWorkplaceManyArgs = {
-  updates: Array<DontuseWorkplaceUpdates>;
+export type Mutation_RootInsertWorkplaceOneArgs = {
+  object: WorkplaceInsertInput;
+  onConflict?: InputMaybe<WorkplaceOnConflict>;
 };
 
 
@@ -2514,6 +2465,26 @@ export type Mutation_RootUpdateUserManyArgs = {
 
 
 /** mutation root */
+export type Mutation_RootUpdateWorkplaceArgs = {
+  _set?: InputMaybe<WorkplaceSetInput>;
+  where: WorkplaceBoolExp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdateWorkplaceByPkArgs = {
+  _set?: InputMaybe<WorkplaceSetInput>;
+  pk_columns: WorkplacePkColumnsInput;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdateWorkplaceManyArgs = {
+  updates: Array<WorkplaceUpdates>;
+};
+
+
+/** mutation root */
 export type Mutation_RootUpdateWorkplaceMemberArgs = {
   _set?: InputMaybe<WorkplaceMemberSetInput>;
   where: WorkplaceMemberBoolExp;
@@ -2606,12 +2577,6 @@ export type Product_Price_Variance_Order_By = {
 };
 
 export type Query_Root = {
-  /** fetch data from the table: "DONT_USE_workplace" */
-  dONTUSEWorkplace: Array<DontuseWorkplace>;
-  /** fetch aggregated fields from the table: "DONT_USE_workplace" */
-  dONTUSEWorkplaceAggregate: DontuseWorkplaceAggregate;
-  /** fetch data from the table: "DONT_USE_workplace" using primary key columns */
-  dONTUSEWorkplaceByPk?: Maybe<DontuseWorkplace>;
   /** fetch data from the table: "lia.public_user" */
   liaPublicUser: Array<LiaPublicUser>;
   /** fetch aggregated fields from the table: "lia.public_user" */
@@ -2652,35 +2617,18 @@ export type Query_Root = {
   userAggregate: UserAggregate;
   /** fetch data from the table: "user" using primary key columns */
   userByPk?: Maybe<User>;
+  /** fetch data from the table: "workplace" */
+  workplace: Array<Workplace>;
+  /** fetch aggregated fields from the table: "workplace" */
+  workplaceAggregate: WorkplaceAggregate;
+  /** fetch data from the table: "workplace" using primary key columns */
+  workplaceByPk?: Maybe<Workplace>;
   /** fetch data from the table: "workplace_member" */
   workplaceMember: Array<WorkplaceMember>;
   /** fetch aggregated fields from the table: "workplace_member" */
   workplaceMemberAggregate: WorkplaceMemberAggregate;
   /** fetch data from the table: "workplace_member" using primary key columns */
   workplaceMemberByPk?: Maybe<WorkplaceMember>;
-};
-
-
-export type Query_RootDOntuseWorkplaceArgs = {
-  distinctOn?: InputMaybe<Array<DontuseWorkplaceSelectColumn>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  orderBy?: InputMaybe<Array<DontuseWorkplaceOrderBy>>;
-  where?: InputMaybe<DontuseWorkplaceBoolExp>;
-};
-
-
-export type Query_RootDOntuseWorkplaceAggregateArgs = {
-  distinctOn?: InputMaybe<Array<DontuseWorkplaceSelectColumn>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  orderBy?: InputMaybe<Array<DontuseWorkplaceOrderBy>>;
-  where?: InputMaybe<DontuseWorkplaceBoolExp>;
-};
-
-
-export type Query_RootDOntuseWorkplaceByPkArgs = {
-  id: Scalars['uuid'];
 };
 
 
@@ -2841,6 +2789,29 @@ export type Query_RootUserByPkArgs = {
 };
 
 
+export type Query_RootWorkplaceArgs = {
+  distinctOn?: InputMaybe<Array<WorkplaceSelectColumn>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Array<WorkplaceOrderBy>>;
+  where?: InputMaybe<WorkplaceBoolExp>;
+};
+
+
+export type Query_RootWorkplaceAggregateArgs = {
+  distinctOn?: InputMaybe<Array<WorkplaceSelectColumn>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Array<WorkplaceOrderBy>>;
+  where?: InputMaybe<WorkplaceBoolExp>;
+};
+
+
+export type Query_RootWorkplaceByPkArgs = {
+  id: Scalars['uuid'];
+};
+
+
 export type Query_RootWorkplaceMemberArgs = {
   distinctOn?: InputMaybe<Array<WorkplaceMemberSelectColumn>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -2865,14 +2836,6 @@ export type Query_RootWorkplaceMemberByPkArgs = {
 };
 
 export type Subscription_Root = {
-  /** fetch data from the table: "DONT_USE_workplace" */
-  dONTUSEWorkplace: Array<DontuseWorkplace>;
-  /** fetch aggregated fields from the table: "DONT_USE_workplace" */
-  dONTUSEWorkplaceAggregate: DontuseWorkplaceAggregate;
-  /** fetch data from the table: "DONT_USE_workplace" using primary key columns */
-  dONTUSEWorkplaceByPk?: Maybe<DontuseWorkplace>;
-  /** fetch data from the table in a streaming manner: "DONT_USE_workplace" */
-  dONTUSEWorkplaceStream: Array<DontuseWorkplace>;
   /** fetch data from the table: "lia.public_user" */
   liaPublicUser: Array<LiaPublicUser>;
   /** fetch aggregated fields from the table: "lia.public_user" */
@@ -2927,6 +2890,12 @@ export type Subscription_Root = {
   userByPk?: Maybe<User>;
   /** fetch data from the table in a streaming manner: "user" */
   userStream: Array<User>;
+  /** fetch data from the table: "workplace" */
+  workplace: Array<Workplace>;
+  /** fetch aggregated fields from the table: "workplace" */
+  workplaceAggregate: WorkplaceAggregate;
+  /** fetch data from the table: "workplace" using primary key columns */
+  workplaceByPk?: Maybe<Workplace>;
   /** fetch data from the table: "workplace_member" */
   workplaceMember: Array<WorkplaceMember>;
   /** fetch aggregated fields from the table: "workplace_member" */
@@ -2935,36 +2904,8 @@ export type Subscription_Root = {
   workplaceMemberByPk?: Maybe<WorkplaceMember>;
   /** fetch data from the table in a streaming manner: "workplace_member" */
   workplaceMemberStream: Array<WorkplaceMember>;
-};
-
-
-export type Subscription_RootDOntuseWorkplaceArgs = {
-  distinctOn?: InputMaybe<Array<DontuseWorkplaceSelectColumn>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  orderBy?: InputMaybe<Array<DontuseWorkplaceOrderBy>>;
-  where?: InputMaybe<DontuseWorkplaceBoolExp>;
-};
-
-
-export type Subscription_RootDOntuseWorkplaceAggregateArgs = {
-  distinctOn?: InputMaybe<Array<DontuseWorkplaceSelectColumn>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  orderBy?: InputMaybe<Array<DontuseWorkplaceOrderBy>>;
-  where?: InputMaybe<DontuseWorkplaceBoolExp>;
-};
-
-
-export type Subscription_RootDOntuseWorkplaceByPkArgs = {
-  id: Scalars['uuid'];
-};
-
-
-export type Subscription_RootDOntuseWorkplaceStreamArgs = {
-  batchSize: Scalars['Int'];
-  cursor: Array<InputMaybe<DontuseWorkplaceStreamCursorInput>>;
-  where?: InputMaybe<DontuseWorkplaceBoolExp>;
+  /** fetch data from the table in a streaming manner: "workplace" */
+  workplaceStream: Array<Workplace>;
 };
 
 
@@ -3174,6 +3115,29 @@ export type Subscription_RootUserStreamArgs = {
 };
 
 
+export type Subscription_RootWorkplaceArgs = {
+  distinctOn?: InputMaybe<Array<WorkplaceSelectColumn>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Array<WorkplaceOrderBy>>;
+  where?: InputMaybe<WorkplaceBoolExp>;
+};
+
+
+export type Subscription_RootWorkplaceAggregateArgs = {
+  distinctOn?: InputMaybe<Array<WorkplaceSelectColumn>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Array<WorkplaceOrderBy>>;
+  where?: InputMaybe<WorkplaceBoolExp>;
+};
+
+
+export type Subscription_RootWorkplaceByPkArgs = {
+  id: Scalars['uuid'];
+};
+
+
 export type Subscription_RootWorkplaceMemberArgs = {
   distinctOn?: InputMaybe<Array<WorkplaceMemberSelectColumn>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -3204,6 +3168,33 @@ export type Subscription_RootWorkplaceMemberStreamArgs = {
   where?: InputMaybe<WorkplaceMemberBoolExp>;
 };
 
+
+export type Subscription_RootWorkplaceStreamArgs = {
+  batchSize: Scalars['Int'];
+  cursor: Array<InputMaybe<WorkplaceStreamCursorInput>>;
+  where?: InputMaybe<WorkplaceBoolExp>;
+};
+
+export type Workplace_Aggregate_Bool_Exp = {
+  count?: InputMaybe<Workplace_Aggregate_Bool_Exp_Count>;
+};
+
+export type Workplace_Aggregate_Bool_Exp_Count = {
+  arguments?: InputMaybe<Array<WorkplaceSelectColumn>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+  filter?: InputMaybe<WorkplaceBoolExp>;
+  predicate: IntComparisonExp;
+};
+
+/** order by max() on columns of table "workplace" */
+export type Workplace_Max_Order_By = {
+  createdAt?: InputMaybe<OrderBy>;
+  id?: InputMaybe<OrderBy>;
+  name?: InputMaybe<OrderBy>;
+  ownerId?: InputMaybe<OrderBy>;
+  updatedAt?: InputMaybe<OrderBy>;
+};
+
 export type Workplace_Member_Aggregate_Bool_Exp = {
   count?: InputMaybe<Workplace_Member_Aggregate_Bool_Exp_Count>;
 };
@@ -3225,6 +3216,15 @@ export type Workplace_Member_Max_Order_By = {
 export type Workplace_Member_Min_Order_By = {
   userId?: InputMaybe<OrderBy>;
   workplaceId?: InputMaybe<OrderBy>;
+};
+
+/** order by min() on columns of table "workplace" */
+export type Workplace_Min_Order_By = {
+  createdAt?: InputMaybe<OrderBy>;
+  id?: InputMaybe<OrderBy>;
+  name?: InputMaybe<OrderBy>;
+  ownerId?: InputMaybe<OrderBy>;
+  updatedAt?: InputMaybe<OrderBy>;
 };
 
 export type GetUserByEmailQueryVariables = Exact<{

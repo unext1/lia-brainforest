@@ -35,3 +35,14 @@ export type TWorkplace = {
   id: string;
   updatedAt: string;
 };
+export type TLiaWorkplaceMember = {
+  user: TUser;
+}[];
+export type TUser = {
+  email: string;
+  name: string;
+  id: string;
+};
+export type TWorkplaceOwner = {
+  owner: TUser;
+}[];

@@ -51,6 +51,7 @@ const AddUser = () => {
 
   return (
     <div>
+      <h2>Add user to workplace</h2>
       <Form method="post">
         <input
           type="hidden"
