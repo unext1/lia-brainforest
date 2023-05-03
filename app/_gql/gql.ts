@@ -14,8 +14,8 @@ import type { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-
  */
 const documents = {
     "\n  query GetUserByEmail($email: String) {\n    liaUser(where: { email: { _eq: $email } }) {\n      id\n      email\n      name\n    }\n  }\n": types.GetUserByEmailDocument,
-    "\n  mutation AddUser($email: String, $name: String) {\n    insertLiaUser(\n      objects: { email: $email, name: $name }\n      onConflict: { constraint: user_email_key, update_columns: name }\n    ) {\n      returning {\n        id\n        email\n        name\n      }\n    }\n  }\n": types.AddUserDocument,
-    "\n  query UserById($userId: uuid!) {\n    user: liaUserByPk(id: $userId) {\n      createdAt\n      email\n      id\n      name\n      updatedAt\n    }\n  }\n": types.UserByIdDocument,
+    "\n  mutation AddUser($email: String, $name: String, $image: String) {\n    insertLiaUser(\n      objects: { email: $email, name: $name, image: $image }\n      onConflict: { constraint: user_email_key, update_columns: [name, image] }\n    ) {\n      returning {\n        id\n        email\n        name\n      }\n    }\n  }\n": types.AddUserDocument,
+    "\n  query UserById($userId: uuid!) {\n    user: liaUserByPk(id: $userId) {\n      createdAt\n      email\n      id\n      name\n      updatedAt\n      image\n    }\n  }\n": types.UserByIdDocument,
     "\n  mutation CreateWorkplace(\n    $ownerId: uuid\n    $token: String\n    $url: String\n    $title: String\n  ) {\n    insertLiaWorkplace(\n      objects: { ownerId: $ownerId, token: $token, url: $url, title: $title }\n      onConflict: { constraint: workplace_pkey }\n    ) {\n      affected_rows\n      returning {\n        id\n        title\n        url\n        ownerId\n        updatedAt\n      }\n    }\n  }\n": types.CreateWorkplaceDocument,
     "\n  query GetWorkplaceByURL($url: String) {\n    liaWorkplace(where: { url: { _eq: $url } }) {\n      title\n      token\n      url\n      ownerId\n      id\n      updatedAt\n    }\n  }\n": types.GetWorkplaceByUrlDocument,
     "\n  query GetWorkplaceById($id: uuid) {\n    liaWorkplace(where: { id: { _eq: $id } }) {\n      title\n      token\n      url\n      ownerId\n    }\n  }\n": types.GetWorkplaceByIdDocument,
@@ -47,11 +47,11 @@ export function graphql(source: "\n  query GetUserByEmail($email: String) {\n   
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  mutation AddUser($email: String, $name: String) {\n    insertLiaUser(\n      objects: { email: $email, name: $name }\n      onConflict: { constraint: user_email_key, update_columns: name }\n    ) {\n      returning {\n        id\n        email\n        name\n      }\n    }\n  }\n"): (typeof documents)["\n  mutation AddUser($email: String, $name: String) {\n    insertLiaUser(\n      objects: { email: $email, name: $name }\n      onConflict: { constraint: user_email_key, update_columns: name }\n    ) {\n      returning {\n        id\n        email\n        name\n      }\n    }\n  }\n"];
+export function graphql(source: "\n  mutation AddUser($email: String, $name: String, $image: String) {\n    insertLiaUser(\n      objects: { email: $email, name: $name, image: $image }\n      onConflict: { constraint: user_email_key, update_columns: [name, image] }\n    ) {\n      returning {\n        id\n        email\n        name\n      }\n    }\n  }\n"): (typeof documents)["\n  mutation AddUser($email: String, $name: String, $image: String) {\n    insertLiaUser(\n      objects: { email: $email, name: $name, image: $image }\n      onConflict: { constraint: user_email_key, update_columns: [name, image] }\n    ) {\n      returning {\n        id\n        email\n        name\n      }\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  query UserById($userId: uuid!) {\n    user: liaUserByPk(id: $userId) {\n      createdAt\n      email\n      id\n      name\n      updatedAt\n    }\n  }\n"): (typeof documents)["\n  query UserById($userId: uuid!) {\n    user: liaUserByPk(id: $userId) {\n      createdAt\n      email\n      id\n      name\n      updatedAt\n    }\n  }\n"];
+export function graphql(source: "\n  query UserById($userId: uuid!) {\n    user: liaUserByPk(id: $userId) {\n      createdAt\n      email\n      id\n      name\n      updatedAt\n      image\n    }\n  }\n"): (typeof documents)["\n  query UserById($userId: uuid!) {\n    user: liaUserByPk(id: $userId) {\n      createdAt\n      email\n      id\n      name\n      updatedAt\n      image\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

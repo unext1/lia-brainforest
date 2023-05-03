@@ -24,10 +24,10 @@ const GETUSERBYEMAIL = graphql(`
 `);
 
 const CREATEORUPDATEUSER = graphql(`
-  mutation AddUser($email: String, $name: String) {
+  mutation AddUser($email: String, $name: String, $image: String) {
     insertLiaUser(
-      objects: { email: $email, name: $name }
-      onConflict: { constraint: user_email_key, update_columns: name }
+      objects: { email: $email, name: $name, image: $image }
+      onConflict: { constraint: user_email_key, update_columns: [name, image] }
     ) {
       returning {
         id
@@ -38,7 +38,7 @@ const CREATEORUPDATEUSER = graphql(`
   }
 `);
 
-const GETUSERBYID = graphql(`
+const GETUSERBYID: any = graphql(`
   query UserById($userId: uuid!) {
     user: liaUserByPk(id: $userId) {
       createdAt
@@ -46,6 +46,7 @@ const GETUSERBYID = graphql(`
       id
       name
       updatedAt
+      image
     }
   }
 `);
@@ -58,7 +59,7 @@ export const requireUser = async (request: Request) => {
       throw Error("Unauthorized");
     }
 
-    const user = await hasuraAdminClient.request(GETUSERBYID, {
+    const user: any = await hasuraAdminClient.request(GETUSERBYID, {
       userId: sessionUser.id,
     });
 
@@ -78,13 +79,16 @@ export const redirectUser = async (request: Request, redirect_url: string) => {
 export const createOrUpdateUser = async ({
   email,
   name,
+  image,
 }: {
   email: string;
   name: string;
+  image: string;
 }) => {
   const newUser = await hasuraAdminClient.request(CREATEORUPDATEUSER, {
     name,
     email,
+    image,
   });
   const user = newUser.insertLiaUser?.returning?.[0];
   if (!user?.id) {
@@ -105,9 +109,11 @@ const googleStrategy = new GoogleStrategy(
       displayName: name,
       _json: { email },
     } = profile;
+    const image = profile.photos[0].value;
     return await createOrUpdateUser({
       email,
       name,
+      image,
     });
   }
 );

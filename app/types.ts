@@ -42,8 +42,14 @@ export type TLiaWorkplaceMember = {
 export type TUser = {
   email: string;
   name: string;
+  image: string;
   id: string;
 };
 export type TWorkplaceOwner = {
   owner: TUser;
 }[];
+export type TProfileCard = {
+  name: string;
+  email: string;
+  image: string;
+};
