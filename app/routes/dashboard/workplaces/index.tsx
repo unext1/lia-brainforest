@@ -1,6 +1,5 @@
 import { json, type LoaderFunction } from "@remix-run/node";
-import { Form, Link, useLoaderData } from "@remix-run/react";
-import Btn from "~/components/button";
+import { Link, useLoaderData } from "@remix-run/react";
 import DashboardTitle from "~/components/dashboardTitle";
 import { requireUser } from "~/services/auth.server";
 import { GetUserWorkplaces } from "~/services/hasura.server";
