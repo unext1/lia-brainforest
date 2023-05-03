@@ -105,7 +105,7 @@ const googleStrategy = new GoogleStrategy(
       displayName: name,
       _json: { email },
     } = profile;
-    return createOrUpdateUser({
+    return await createOrUpdateUser({
       email,
       name,
     });

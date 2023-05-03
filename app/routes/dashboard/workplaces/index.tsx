@@ -18,10 +18,9 @@ export default function Index() {
   return (
     <>
       <div className="max-w-[50%] flex flex-col items-center">
-        <h1>Welcome to workplaces!</h1>
+        <h1>Your current workplaces</h1>
         {workplaces ? (
           <div>
-            <h2>Your workplaces</h2>
             {workplaces?.map((workplace: any) => (
               <Link
                 to={`/dashboard/workplaces/${workplace.id}`}
@@ -34,6 +33,7 @@ export default function Index() {
         ) : (
           <h3>You do not seem to have any active workplaces.</h3>
         )}
+
         <Btn href="/setup" link title="Create a new workplace here!" />
       </div>
     </>
