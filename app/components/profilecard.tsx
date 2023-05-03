@@ -2,10 +2,10 @@ import type { TProfileCard } from "~/types";
 
 export const ProfileCard = ({ name, email, image }: TProfileCard) => {
   return (
-    <div className="relative w-64 overflow-hidden bg-white rounded-lg shadow-md">
-      <div className="bg-[#00bd76] h-20"></div>
+    <div className="relative overflow-hidden bg-white rounded-lg shadow-md w-80">
+      <div className="h-20 bg-red-500"></div>
 
-      <div className="p-4">
+      <div className="">
         <img
           src={image}
           alt="Profile"

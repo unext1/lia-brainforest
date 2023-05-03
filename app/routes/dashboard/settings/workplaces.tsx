@@ -2,7 +2,7 @@ import { Form, Link, useActionData, useLoaderData } from "@remix-run/react";
 import type { ActionArgs, LoaderArgs } from "@remix-run/node";
 import { requireUser } from "~/services/auth.server";
 import { GetUserWorkplaces, RemoveWorkplace } from "~/services/hasura.server";
-import { TWorkplace } from "~/types";
+import { type TWorkplace } from "~/types";
 import { useState } from "react";
 
 export async function loader({ request }: LoaderArgs) {
