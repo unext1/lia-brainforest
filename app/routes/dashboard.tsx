@@ -123,7 +123,7 @@ const Dashboard = () => {
           workplaces={loaderData.workplaces}
         />
         <div className="lg:pl-72">
-          <main>
+          <main className="">
             <div className="px-4 pt-5 sm:px-6 lg:px-8">
               <Outlet />
             </div>

@@ -105,23 +105,21 @@ const ImageForm = () => {
   const navigation = useNavigation();
 
   return (
-    <div className="max-h-screen">
-      <div className="p-20 mt-20 bg-gray-100 rounded-3xl">
-        {error_message}
+    <div className="max-h-screen overflow-hidden">
+      {error_message}
+      <div className="grid grid-cols-2 gap-20 mt-10 ">
         <div className="w-full">
-          <div className="flex justify-between gap-20">
-            <div className="mb-10 text-lg max-w-[50%] font-semibold">
-              {data?.title.rendered.replace(/,/g, " ")}
-            </div>
-          </div>
           <img
             src={data?.source_url}
             alt={data?.source_url}
-            className="w-1/3 mx-auto rounded-3xl"
+            className="mx-auto my-auto h-3/4"
           />
         </div>
 
-        <div className="my-auto">
+        <div className="p-10 my-auto bg-gray-50 rounded-xl">
+          <div className="mb-5 text-lg font-semibold">
+            {data?.title.rendered.replace(/,/g, " ")}
+          </div>
           <Form method="post">
             <ImageComponent
               tags={tags}

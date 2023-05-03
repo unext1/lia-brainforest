@@ -32,7 +32,7 @@ const Images = forwardRef<HTMLDivElement, Props>(function Images(
               <img
                 src={image.source_url}
                 alt={image.source_url}
-                className="object-scale-down h-32 w-36"
+                className="object-fill w-24 h-24 "
               />
             </Link>
           </div>

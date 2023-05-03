@@ -16,9 +16,14 @@ export const ImageComponent = ({
     <>
       <div className="grid grid-cols-2 gap-10 mt-10 mb-6">
         <div className="flex flex-col">
-          <label htmlFor="title">Wordpress title</label>
+          <label
+            htmlFor="title"
+            className="mb-2 text-xs font-semibold tracking-wider uppercase"
+          >
+            Wordpress title
+          </label>
           <textarea
-            className="px-3 min-h-[100px] rounded-lg resize-none"
+            className="h-20 bg-white border-none rounded-lg resize-none"
             name="title"
             placeholder="No title yet.."
             defaultValue={data?.title.rendered}
@@ -27,9 +32,14 @@ export const ImageComponent = ({
           />
         </div>
         <div className="flex flex-col">
-          <label htmlFor="title">Generated title</label>
+          <label
+            htmlFor="title"
+            className="mb-2 text-xs font-semibold tracking-wider uppercase"
+          >
+            Generated title
+          </label>
           <textarea
-            className="px-3 min-h-[100px] rounded-lg resize-none"
+            className="h-20 bg-white border-none rounded-lg resize-none"
             name="title"
             placeholder="Not Generated"
             key={navigation.location}
@@ -37,9 +47,14 @@ export const ImageComponent = ({
           />
         </div>
         <div className="flex flex-col">
-          <label htmlFor="description">Wordpress description</label>
+          <label
+            htmlFor="description"
+            className="mb-2 text-xs font-semibold tracking-wider uppercase"
+          >
+            Wordpress description
+          </label>
           <textarea
-            className="px-3 min-h-[100px] rounded-lg resize-none"
+            className="h-20 bg-white border-none rounded-lg resize-none"
             name="description"
             placeholder="No description yet.. "
             key={navigation.location}
@@ -48,19 +63,30 @@ export const ImageComponent = ({
           />
         </div>
         <div className="flex flex-col">
-          <label htmlFor="description">Generated description</label>
+          <label
+            htmlFor="description"
+            className="mb-2 text-xs font-semibold tracking-wider uppercase"
+          >
+            Generated description
+          </label>
 
           <textarea
-            className="px-3 min-h-[100px] rounded-lg resize-none"
+            className="h-20 bg-white border-none rounded-lg resize-none"
             name="description"
             placeholder="Not Generated"
+            key={navigation.location}
             defaultValue={description ? description : "Failed to generate"}
           />
         </div>
         <div className="flex flex-col">
-          <label htmlFor="title">Wordpress alt tag</label>
+          <label
+            htmlFor="title"
+            className="mb-2 text-xs font-semibold tracking-wider uppercase"
+          >
+            Wordpress alt tag
+          </label>
           <textarea
-            className="px-3 min-h-[100px] rounded-lg resize-none"
+            className="h-20 bg-white border-none rounded-lg resize-none"
             name="alt-tag"
             placeholder="No alt tag yet.. "
             key={navigation.location}
@@ -69,12 +95,18 @@ export const ImageComponent = ({
           />
         </div>
         <div className="flex flex-col">
-          <label htmlFor="alt-tag">Generated alt tag</label>
+          <label
+            htmlFor="alt-tag"
+            className="mb-2 text-xs font-semibold tracking-wider uppercase"
+          >
+            Generated alt tag
+          </label>
 
           <textarea
-            className="px-3 min-h-[100px] rounded-lg resize-none"
+            className="h-20 bg-white border-none rounded-lg resize-none"
             name="alt-tag"
             placeholder="Not generated"
+            key={navigation.location}
             defaultValue={description ? description : "Failed to generate"}
           />
         </div>
