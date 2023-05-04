@@ -23,9 +23,7 @@ const Settings = () => {
             key={navItem.name}
             to={navItem.href}
             className={({ isActive }) =>
-              isActive
-                ? "border-b-red-500 mr-4  text-sm border-b-4 "
-                : "  text-sm  mr-4"
+              isActive ? "border-b-red-500 mr-4  border-b-4 " : "    mr-4"
             }
           >
             {navItem.name}
