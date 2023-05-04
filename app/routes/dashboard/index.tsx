@@ -23,14 +23,14 @@ const Dashboard = () => {
     <div>
       <DashboardTitle title="Dashboard" />
       <div className="">
-        <div className="flex py-4 space-x-1 text-xl">
+        <div className="flex py-2 space-x-1 text-xl">
           <h2 className="font-semibold text-red-500">Your </h2>
           <h2>profile</h2>
         </div>
         <ProfileCard name={user.name} email={user.email} image={user.image} />
       </div>
 
-      <div className="mt-5">
+      <div className="mt-2">
         <div className="flex py-4 space-x-1 text-xl">
           <h2 className="font-semibold text-red-500">Your </h2>
           <h2>workplaces</h2>

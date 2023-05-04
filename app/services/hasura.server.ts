@@ -42,8 +42,6 @@ export const CreateWorkplace = async (
   url: string,
   title: string
 ) => {
-  const workplace = await GetWorkplaceByURL(url);
-  if (workplace) return workplace;
   const newWorkplace = (await hasuraAdminClient.request(CREATEWORKPLACE, {
     ownerId,
     token,
@@ -66,9 +64,8 @@ export const CREATEWORKPLACE: any = graphql(`
   ) {
     insertLiaWorkplace(
       objects: { ownerId: $ownerId, token: $token, url: $url, title: $title }
-      onConflict: { constraint: workplace_pkey }
+      onConflict: { constraint: workplace_url_key, update_columns: title }
     ) {
-      affected_rows
       returning {
         id
         title

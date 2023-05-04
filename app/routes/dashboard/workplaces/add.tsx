@@ -65,7 +65,7 @@ export const action: ActionFunction = async ({ request }: ActionArgs) => {
       return redirect(`/dashboard/workplaces/${workplace.id}`, {});
     } catch (err) {
       console.log(err);
-      return { error_url: "incorrect url" };
+      return { error_message: "there was an error." };
     }
   } else {
     return json({ error_url, error_username, error_password });
@@ -96,6 +96,15 @@ const AddWorkplace = () => {
           <p className="mt-2 text-sm text-gray-400">
             To create a workplace and change SEO on images you need to follow
             the steps on the left.
+          </p>
+          <p
+            className={`${
+              data?.error_message && data?.error_message.length > 0
+                ? "block"
+                : "hidden"
+            } mt-1 text-red-500 `}
+          >
+            {data?.error_message}
           </p>
           <Form method="post" className="mt-4">
             <div className="flex flex-col w-full gap-2">

@@ -1,6 +1,6 @@
 const DashboardTitle = ({ title }: { title: string }) => {
   return (
-    <div className="mb-5 text-xl font-semibold">
+    <div className="mb-2 text-xl font-semibold">
       <h1>{title}</h1>
     </div>
   );
