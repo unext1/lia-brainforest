@@ -13,16 +13,6 @@ type UserSession = {
 
 export const authenticator = new Authenticator<UserSession>(sessionStore);
 
-const GETUSERBYEMAIL = graphql(`
-  query GetUserByEmail($email: String) {
-    liaUser(where: { email: { _eq: $email } }) {
-      id
-      email
-      name
-    }
-  }
-`);
-
 const CREATEORUPDATEUSER = graphql(`
   mutation AddUser($email: String, $name: String, $image: String) {
     insertLiaUser(
