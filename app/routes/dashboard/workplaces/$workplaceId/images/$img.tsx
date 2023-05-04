@@ -5,6 +5,8 @@ import {
   useLoaderData,
   useNavigation,
 } from "@remix-run/react";
+import { useEffect } from "react";
+import toast, { Toaster } from "react-hot-toast";
 import { ImageComponent } from "~/components/imageform";
 import { requireUser } from "~/services/auth.server";
 import { GetWorkplaceById } from "~/services/hasura.server";
@@ -18,7 +20,7 @@ export async function action({ request, params }: ActionArgs) {
 
   //FIX WITH ZODIX IF POSSIBLE
   const aiInputs = {
-    title: values.title,
+    title: values.title, //check if empty
     alt_text: values.description,
     description: values.description,
   };
@@ -30,22 +32,17 @@ export async function action({ request, params }: ActionArgs) {
       token: user?.token!,
       id: workplaceId!,
     });
-    const response = await fetch(
-      `${workplace.url}wp-json/wp/v2/media/${values.id}`,
-      {
-        method: "POST",
-        headers: {
-          Authorization: `Basic ${workplace.token}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(aiInputs),
-      }
-    );
-    const data = await response.json();
-    return json(data);
+    await fetch(`${workplace.url}wp-json/wp/v2/media/${values.id}`, {
+      method: "POST",
+      headers: {
+        Authorization: `Basic ${workplace.token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(aiInputs),
+    });
+    return { toastMessage: "Text has been changed !" };
   } catch (error) {
-    console.log(error);
-    return json({ errormessage: error });
+    return json({ toastMessage: "There was an error" });
   }
 }
 
@@ -97,6 +94,7 @@ export async function loader({ params, request }: LoaderArgs) {
       tags: aiData.description.tags,
       description: aiTextDescription,
       data: { ...data, description: { rendered: wordpressDescription } },
+      message: "hi",
     });
   } catch (err: any) {
     if (err.code === "ERR_INVALID_URL")
@@ -107,7 +105,8 @@ export async function loader({ params, request }: LoaderArgs) {
   }
 }
 const ImageForm = () => {
-  const actionData = useActionData();
+  const toastMessage = useActionData();
+
   const { data, error_message, tags, description } = useLoaderData<{
     tags: string | string[];
     description: string;
@@ -117,41 +116,57 @@ const ImageForm = () => {
 
   const navigation = useNavigation();
 
+  useEffect(() => {
+    if (!toastMessage) {
+      return;
+    }
+    if (toastMessage) {
+      toast.success(toastMessage.toastMessage);
+    }
+  }, [toastMessage]);
+
   return (
-    <div className="max-h-screen overflow-hidden">
-      {error_message}
-      <div className="grid grid-cols-5 gap-10 mt-10 ">
-        <div className="col-span-5 p-10 bg-white md:col-span-3 rounded-xl">
-          <div className="mb-10 ">
-            <p className="text-sm tracking-wider text-gray-600">AI GENERATOR</p>
-            <div className="text-lg font-semibold ">
-              {data?.title.rendered.replace(/,/g, " ")}
+    <>
+      {toastMessage?.toastMessage ? (
+        <Toaster position="top-right" reverseOrder={false} />
+      ) : null}
+      <div className="max-h-screen overflow-hidden">
+        {error_message}
+        <div className="grid grid-cols-5 gap-10 mt-10 ">
+          <div className="col-span-5 p-10 bg-white md:col-span-3 rounded-xl">
+            <div className="mb-10 ">
+              <p className="text-sm tracking-wider text-gray-600">
+                AI GENERATOR
+              </p>
+              <div className="text-lg font-semibold ">
+                {data?.title.rendered.replace(/,/g, " ")}
+              </div>
+            </div>
+            <div className="flex items-center justify-center">
+              <img
+                src={data?.source_url}
+                alt={data?.source_url}
+                className="w-[300px] "
+              />
             </div>
           </div>
-          <div className="flex items-center justify-center">
-            <img
-              src={data?.source_url}
-              alt={data?.source_url}
-              className="w-[300px] "
-            />
+
+          <div className="col-span-5 p-10 bg-white md:col-span-2 rounded-xl">
+            <Form method="post">
+              <ImageComponent
+                tags={tags}
+                data={data}
+                navigation={navigation}
+                description={description}
+              />
+            </Form>
+            {/* {actionData && actionData.errormessage
+              ? actionData.errormessage.code
+              : null} */}
           </div>
         </div>
-
-        <div className="col-span-5 p-10 bg-white md:col-span-2 rounded-xl">
-          <Form method="post">
-            <ImageComponent
-              tags={tags}
-              data={data}
-              navigation={navigation}
-              description={description}
-            />
-          </Form>
-          {actionData && actionData.errormessage
-            ? actionData.errormessage.code
-            : null}
-        </div>
       </div>
-    </div>
+    </>
   );
 };
 

@@ -13,7 +13,7 @@ export const ImageComponent = ({
 }) => {
   return (
     <>
-      <div className="grid grid-cols-2 gap-10">
+      <div className="grid gap-5 2xl:grid-cols-2">
         <div className="flex flex-col">
           <label
             htmlFor="title"
@@ -42,7 +42,7 @@ export const ImageComponent = ({
             name="title"
             placeholder="Not Generated"
             key={navigation.location}
-            defaultValue={tags ? tags : ""}
+            defaultValue={tags.length >= 1 ? tags : data.title.rendered}
           />
         </div>
         <div className="flex flex-col">
