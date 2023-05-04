@@ -9,7 +9,7 @@ import {
 import { useEffect, useRef } from "react";
 import { z } from "zod";
 import { zx } from "zodix";
-import { Images } from "~/components/images";
+import Images from "~/components/images";
 import { GetWorkplaceById } from "~/services/hasura.server";
 
 import { type WPschema } from "~/types";
@@ -96,46 +96,50 @@ const LayoutImage = () => {
         <input type="date" name="before" />
         <button type="submit">Submit</button>
       </Form>
-      <Images
-        ref={scrollableRef}
-        data={data}
-        error_message={error_message}
-        navigation={search}
-        workplaceId={workplaceId!}
-      >
-        <div className="flex flex-row justify-between">
-          <Link
-            to={`${pathname}?${new URLSearchParams({
-              ...params,
-              page: params?.page
-                ? Math.max(Number(params.page) - 1, 1).toString()
-                : "1",
-            })}`}
-            className={Number(currentPage) <= 1 ? "invisible" : "block"}
-          >
-            Previous
-          </Link>
-          <div>
-            {currentPage} {totalPages > 0 ? "/" : ""}
-            {totalPages > 0 ? totalPages : ""}
+      <div className="lg:block xl:flex">
+        <div>
+          <Images
+            ref={scrollableRef}
+            data={data}
+            error_message={error_message}
+            navigation={search}
+            workplaceId={workplaceId!}
+          />
+          <div className="flex flex-row justify-between">
+            <Link
+              to={`${pathname}?${new URLSearchParams({
+                ...params,
+                page: params?.page
+                  ? Math.max(Number(params.page) - 1, 1).toString()
+                  : "1",
+              })}`}
+              className={Number(currentPage) <= 1 ? "invisible" : "block"}
+            >
+              Previous
+            </Link>
+            <div>
+              {currentPage} {totalPages > 0 ? "/" : ""}
+              {totalPages > 0 ? totalPages : ""}
+            </div>
+            <Link
+              to={`${pathname}?${new URLSearchParams({
+                ...params,
+                page: params?.page
+                  ? Math.min(Number(params.page) + 1).toString()
+                  : "1",
+              })}`}
+              className={
+                Number(currentPage) >= totalPages ? "invisible" : "block"
+              }
+            >
+              Next
+            </Link>
           </div>
-          <Link
-            to={`${pathname}?${new URLSearchParams({
-              ...params,
-              page: params?.page
-                ? Math.min(Number(params.page) + 1).toString()
-                : "1",
-            })}`}
-            className={
-              Number(currentPage) >= totalPages ? "invisible" : "block"
-            }
-          >
-            Next
-          </Link>
         </div>
-
-        <Outlet />
-      </Images>
+        <div className="flex-1 xl:pl-10 ">
+          <Outlet />
+        </div>
+      </div>
     </div>
   );
 };

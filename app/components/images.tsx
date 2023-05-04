@@ -6,18 +6,17 @@ type Props = {
   data: WPschema[];
   navigation: any;
   error_message: string;
-  children: ReactNode;
   workplaceId: string;
 };
 const Images = forwardRef<HTMLDivElement, Props>(function Images(
-  { data, navigation, error_message, children, workplaceId },
+  { data, navigation, workplaceId },
   ref
 ) {
   return (
-    <div className="container gap-10 pb-20 mx-auto max-w-7xl ">
+    <div className="w-full p-5 mt-5 bg-white xl:mt-10 rounded-xl">
       <div
         ref={ref}
-        className="container flex gap-5 py-10 mx-auto overflow-x-scroll gap-x-20 snap-mandatory snap-x"
+        className=" flex xl:block xl:h-[700px] xl:py-10  overflow-x-auto snap-x space-x-10 xl:space-x-0 xl:overflow-y-auto  snap-mandatory xl:snap-y xl:space-y-10"
       >
         {data?.map((image) => (
           <div key={image.id} className="relative flex-shrink-0 snap-center">
@@ -38,13 +37,8 @@ const Images = forwardRef<HTMLDivElement, Props>(function Images(
           </div>
         ))}
       </div>
-      <div className="flex-1" key={navigation.location?.pathname}>
-        {error_message ? <h2>Error {error_message}</h2> : ""}
-
-        {children}
-      </div>
     </div>
   );
 });
 
-export { Images };
+export default Images;

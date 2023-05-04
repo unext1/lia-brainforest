@@ -14,7 +14,7 @@ export const ImageComponent = ({
 }) => {
   return (
     <>
-      <div className="grid grid-cols-2 gap-10 mt-10 mb-6">
+      <div className="grid grid-cols-2 gap-10">
         <div className="flex flex-col">
           <label
             htmlFor="title"
