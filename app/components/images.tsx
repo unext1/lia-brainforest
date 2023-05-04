@@ -21,7 +21,7 @@ const Images = forwardRef<HTMLDivElement, Props>(function Images(
         {data?.map((image) => (
           <div key={image.id} className="relative flex-shrink-0 snap-center">
             <div
-              className={` absolute top-0 w-4 h-4  rounded-full -right-5 ${
+              className={` absolute top-0 w-4 h-4  rounded-full right-0 ${
                 image.ai_generated_text ? "bg-green-500" : "bg-red-500"
               }`}
             ></div>

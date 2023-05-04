@@ -8,11 +8,18 @@ import {
   Scripts,
   ScrollRestoration,
   useCatch,
+  useFetchers,
+  useNavigation,
 } from "@remix-run/react";
 import stylesheet from "~/tailwind.css";
 
+import NProgress from "nprogress";
+import nProgressStyles from "nprogress/nprogress.css";
+import { useEffect, useMemo } from "react";
+
 export const links: LinksFunction = () => [
   { rel: "stylesheet", href: stylesheet },
+  { rel: "stylesheet", href: nProgressStyles },
 ];
 
 export function meta() {
@@ -22,6 +29,26 @@ export function meta() {
 // https://remix.run/api/conventions#default-export
 // https://remix.run/api/conventions#route-filenames
 export default function App() {
+  const transition = useNavigation();
+  const fetchers = useFetchers();
+
+  const state = useMemo<"idle" | "loading">(
+    function getGlobalState() {
+      const states = [
+        transition.state,
+        ...fetchers.map((fetcher) => fetcher.state),
+      ];
+      if (states.every((state) => state === "idle")) return "idle";
+      return "loading";
+    },
+    [transition.state, fetchers]
+  );
+
+  useEffect(() => {
+    if (state === "loading") NProgress.start();
+    if (state === "idle") NProgress.done();
+  }, [transition.state]);
+
   return (
     <>
       <Document>

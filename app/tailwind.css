@@ -1,3 +1,8 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+#nprogress .bar {
+  background: rgb(255, 73, 73) !important;
+  height: 4px !important;
+}

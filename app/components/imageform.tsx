@@ -12,6 +12,7 @@ export const ImageComponent = ({
   data: WPschema;
   description: any;
 }) => {
+  console.log(navigation.state);
   return (
     <>
       <div className="grid grid-cols-2 gap-10">
@@ -117,9 +118,10 @@ export const ImageComponent = ({
       <button
         type="submit"
         value="GENERATE"
+        disabled={navigation.state == "submitting"}
         className=" w-fit  sm:px-12 sm:py-2.5 mx-auto mt-2  text-xs px-6 py-1.5 md:text-sm font-bold text-white uppercase bg-red-500 rounded-lg"
       >
-        {navigation.state === "submitting" ? "Saving.." : "Save"}
+        {navigation.state == "submitting" ? "Saving.." : "Save"}
       </button>
     </>
   );

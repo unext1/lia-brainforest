@@ -7,18 +7,12 @@ export const MobileSidebar = ({
   setState,
   state,
   navigation,
-  workplaces,
 }: {
   setState: React.Dispatch<React.SetStateAction<boolean>>;
   state: boolean;
   navigation: Navigation;
   workplaces: TWorkplace[];
 }) => {
-  const ref = useRef<any>(null);
-  const submitHandler = useSubmit();
-  const handleSubmit = () => {
-    submitHandler(ref?.current, { replace: true });
-  };
   return (
     <Transition.Root show={state} as={Fragment}>
       <Dialog as="div" className="relative z-50 lg:hidden" onClose={setState}>
