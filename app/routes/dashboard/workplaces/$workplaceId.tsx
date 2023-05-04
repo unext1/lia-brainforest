@@ -12,14 +12,16 @@ export const loader: LoaderFunction = async ({ request, params }) => {
     token: user?.token!,
     id: workplaceId!,
   });
+
   if (!workplace) return redirect("/dashboard/workplaces");
+
   return { workplace };
 };
 export default function Workplace() {
   const { workplace } = useLoaderData();
   return (
     <>
-      <DashboardTitle title={`${workplace.title}`} />
+      <DashboardTitle title={workplace.title} />
 
       <Outlet />
     </>

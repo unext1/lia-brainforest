@@ -1,15 +1,15 @@
 import {
+  json,
   redirect,
   type ActionArgs,
   type ActionFunction,
   type LoaderFunction,
-  json,
 } from "@remix-run/node";
 import { btoa } from "@remix-run/node/dist/base64";
 import { Form, useActionData } from "@remix-run/react";
 import { SetupComponent } from "~/components/setup";
 import { requireUser } from "~/services/auth.server";
-import { CreateWorkplace, IsOwnerOfWorkplace } from "~/services/hasura.server";
+import { CreateWorkplace } from "~/services/hasura.server";
 
 export const action: ActionFunction = async ({ request }: ActionArgs) => {
   const formData = await request.formData();
@@ -18,19 +18,33 @@ export const action: ActionFunction = async ({ request }: ActionArgs) => {
   const user = await requireUser(request);
 
   if (!user) return redirect("/login");
+
+  const isValidUrl = (urlString: string) => {
+    try {
+      return Boolean(new URL(urlString));
+    } catch (e) {
+      return false;
+    }
+  };
+
   const url = isValidUrl(values.url as string)
     ? new URL(values.url as string)
     : "";
+
+  //FIX ALL OF THIS WITH ZODIX
   const username =
     (values.username as string).length > 0 ? (values.username as string) : "";
   const password =
     (values.password as string).length > 0 ? (values.password as string) : "";
+
   let error_url = "";
   let error_username = "";
   let error_password = "";
   if (!url) error_url = "incorrect url";
   if (!username) error_username = "incorrect username";
   if (!password) error_password = "incorrect password";
+
+  // -------------
 
   if (url && username && password) {
     try {
@@ -49,7 +63,7 @@ export const action: ActionFunction = async ({ request }: ActionArgs) => {
         }
       );
       const titleData = await titleResponse.json();
-      console.log(titleData);
+
       if (titleData.code)
         if (titleData.code === "rest_forbidden")
           return json({
@@ -75,16 +89,10 @@ export const loader: LoaderFunction = async ({ request, params }) => {
   const user = await requireUser(request);
   return user;
 };
-const isValidUrl = (urlString: string) => {
-  try {
-    return Boolean(new URL(urlString));
-  } catch (e) {
-    return false;
-  }
-};
+
 const AddWorkplace = () => {
   const data = useActionData();
-  console.log(data);
+
   return (
     <div className="pb-10 xl:pb-0">
       <div className="grid h-full grid-cols-1 gap-10 xl:grid-cols-2 ">

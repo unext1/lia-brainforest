@@ -1,5 +1,5 @@
 import { Link } from "@remix-run/react";
-import { forwardRef, type ReactNode } from "react";
+import { forwardRef } from "react";
 import { type WPschema } from "~/types";
 
 type Props = {

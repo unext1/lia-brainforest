@@ -1,44 +1,17 @@
-import {
-  json,
-  type ActionArgs,
-  redirect,
-  type LoaderArgs,
-} from "@remix-run/node";
-import { Outlet, useLoaderData, useParams } from "@remix-run/react";
+import { type LoaderArgs } from "@remix-run/node";
+import { Outlet, useParams } from "@remix-run/react";
 import { useState } from "react";
 import { MobileSidebar } from "~/components/dashboard/mobileSidebar";
 import { Sidebar } from "~/components/dashboard/sidebar";
 import { requireUser } from "~/services/auth.server";
-import { GetUserWorkplaces } from "~/services/hasura.server";
-import type { TWorkplace } from "~/types";
 
-export async function action({ request }: ActionArgs) {
-  const formData = await request.formData();
-  const { workplace } = Object.fromEntries(formData);
-
-  if (!workplace) return null;
-  if (workplace === "create-new") return redirect("/setup");
-  return redirect(`/dashboard/workplaces/${workplace}`);
-}
-
-export const loader = async ({ request, params }: LoaderArgs) => {
-  const { workplaceId } = params;
-
-  const user = await requireUser(request);
-  const workplaces = await GetUserWorkplaces({ token: user?.token! });
-  if (workplaceId) {
-    const workplace = workplaces.filter((value) => value.id === workplaceId)[0];
-    return json({ workplaces, workplace });
-  }
-  return json({ workplaces });
+export const loader = async ({ request }: LoaderArgs) => {
+  await requireUser(request);
+  return {};
 };
 
 const Dashboard = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const loaderData = useLoaderData<{
-    workplaces: TWorkplace[];
-    workplace: TWorkplace;
-  }>();
 
   const params = useParams();
 
@@ -114,13 +87,11 @@ const Dashboard = () => {
           setState={setSidebarOpen}
           state={sidebarOpen}
           navigation={params.workplaceId ? workplaceNav : dashboardNav}
-          workplaces={loaderData.workplaces}
         />
         <Sidebar
           setState={setSidebarOpen}
           state={sidebarOpen}
           navigation={params.workplaceId ? workplaceNav : dashboardNav}
-          workplaces={loaderData.workplaces}
         />
         <div className="min-h-screen bg-gray-100 lg:pl-72">
           <main className="">

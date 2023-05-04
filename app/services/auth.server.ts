@@ -1,10 +1,9 @@
 import { Authenticator } from "remix-auth";
 import { GoogleStrategy } from "remix-auth-google";
 import { graphql } from "~/_gql";
-import { createHasuraToken, hasuraAdminClient } from "./hasura.server";
 import { sessionStore } from "~/services/session.server";
-import { json, redirect } from "@remix-run/node";
-import { TUserWToken } from "~/types";
+import { type TUserWToken } from "~/types";
+import { createHasuraToken, hasuraAdminClient } from "./hasura.server";
 
 type UserSession = {
   id: string;
@@ -62,11 +61,7 @@ export const requireUser = async (request: Request) => {
     await authenticator.logout(request, { redirectTo: "/" });
   }
 };
-export const redirectUser = async (request: Request, redirect_url: string) => {
-  const user = await authenticator.isAuthenticated(request);
-  if (user) return redirect(redirect_url);
-  else return null;
-};
+
 export const createOrUpdateUser = async ({
   email,
   name,

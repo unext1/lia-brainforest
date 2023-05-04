@@ -1,4 +1,4 @@
-import { type LoaderArgs, json } from "@remix-run/node";
+import { json, type LoaderArgs } from "@remix-run/node";
 import { Link, useLoaderData, useLocation } from "@remix-run/react";
 import { requireUser } from "~/services/auth.server";
 import {
@@ -8,6 +8,7 @@ import {
 export async function loader({ request, params }: LoaderArgs) {
   const user = await requireUser(request);
   const { workplaceId } = params;
+
   if (workplaceId) {
     const workplaceMembers = await GetUsersFromWorkplace({
       token: user?.token!,
@@ -18,13 +19,13 @@ export async function loader({ request, params }: LoaderArgs) {
       userId: user?.id!,
       workplaceId: workplaceId!,
     });
-    return json({ workplaceMembers, isOwner: isOwner });
+    return json({ workplaceMembers, isOwner });
   }
   return {};
 }
 
 export default function Index() {
-  const data = useLoaderData();
+  const { workplaceMembers, isOwner } = useLoaderData();
 
   const location = useLocation();
   return (
@@ -32,12 +33,11 @@ export default function Index() {
       <div className="mt-5">
         <div className="sm:flex sm:items-center">
           <div className="sm:flex-auto">
-            <h1 className="text-lg font-semibold leading-6 text-gray-900">
+            <h1 className="my-auto text-lg font-semibold leading-6 text-gray-900">
               Workplace Members
             </h1>
-            <p className="mt-2 text-sm text-gray-700"></p>
           </div>
-          {data?.isOwner ? (
+          {isOwner ? (
             <div className="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
               <Link
                 to={`${location.pathname}/adduser`}
@@ -52,13 +52,13 @@ export default function Index() {
         </div>
         <div className="flow-root mt-8">
           <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-            <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
+            <div className="min-w-full py-2 align-middle  sm:px-6 lg:px-8">
               <table className="min-w-full divide-y divide-gray-300">
                 <thead>
                   <tr>
                     <th
                       scope="col"
-                      className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0"
+                      className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 "
                     >
                       Name
                     </th>
@@ -75,19 +75,16 @@ export default function Index() {
                       Status
                     </th>
 
-                    <th
-                      scope="col"
-                      className="relative py-3.5 pl-3 pr-4 sm:pr-0"
-                    >
+                    <th scope="col" className="relative py-3.5 pl-3 pr-4 ">
                       <span className="sr-only">Edit</span>
                     </th>
                   </tr>
                 </thead>
-                <tbody className="bg-white divide-y divide-gray-200">
-                  {data?.workplaceMembers
-                    ? data?.workplaceMembers.map((i: any) => (
+                <tbody className="bg-white divide-y divide-gray-200 rounded-xl ">
+                  {workplaceMembers
+                    ? workplaceMembers.map((i: any) => (
                         <tr key={i.workplaceMember.email}>
-                          <td className="py-5 pl-4 pr-3 text-sm whitespace-nowrap sm:pl-0">
+                          <td className="py-5 pl-4 pr-3 text-sm whitespace-nowrap ">
                             <div className="flex items-center">
                               <div className="flex-shrink-0 h-11 w-11">
                                 <img
@@ -113,8 +110,8 @@ export default function Index() {
                               Active
                             </span>
                           </td>
-                          <td className="relative py-5 pl-3 pr-4 text-sm font-medium text-right whitespace-nowrap sm:pr-0">
-                            {data?.isOwner ? (
+                          <td className="relative py-5 pl-3 pr-4 text-sm font-medium text-right whitespace-nowrap ">
+                            {isOwner ? (
                               <a
                                 href="/"
                                 className="text-red-600 hover:text-red-900"

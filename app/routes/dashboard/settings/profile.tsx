@@ -1,7 +1,7 @@
 import type { LoaderArgs } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
-import { requireUser } from "~/services/auth.server";
 import { ProfileCard } from "~/components/profilecard";
+import { requireUser } from "~/services/auth.server";
 import type { TUser } from "~/types";
 export async function loader({ request }: LoaderArgs) {
   const user = await requireUser(request);

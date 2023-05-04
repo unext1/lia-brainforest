@@ -1,4 +1,3 @@
-import { useNavigation } from "@remix-run/react";
 import { type WPschema } from "~/types";
 
 export const ImageComponent = ({
@@ -8,11 +7,10 @@ export const ImageComponent = ({
   description,
 }: {
   navigation: any;
-  tags: any;
+  tags: string | string[];
   data: WPschema;
-  description: any;
+  description: string;
 }) => {
-  console.log(navigation.state);
   return (
     <>
       <div className="grid grid-cols-2 gap-10">

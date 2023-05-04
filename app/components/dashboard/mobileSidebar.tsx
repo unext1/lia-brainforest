@@ -1,7 +1,7 @@
-import { Form, Link, useSubmit } from "@remix-run/react";
-import React, { Fragment, useRef } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-import type { TWorkplace, Navigation } from "~/types";
+import { Form, Link } from "@remix-run/react";
+import React, { Fragment } from "react";
+import type { Navigation } from "~/types";
 import { NavList } from "./NavList";
 export const MobileSidebar = ({
   setState,
@@ -11,7 +11,6 @@ export const MobileSidebar = ({
   setState: React.Dispatch<React.SetStateAction<boolean>>;
   state: boolean;
   navigation: Navigation;
-  workplaces: TWorkplace[];
 }) => {
   return (
     <Transition.Root show={state} as={Fragment}>

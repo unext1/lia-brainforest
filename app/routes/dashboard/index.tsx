@@ -1,11 +1,11 @@
-import { LoaderFunction, json } from "@remix-run/node";
-import { Link, useLoaderData } from "@remix-run/react";
+import { json, type LoaderFunction } from "@remix-run/node";
+import { useLoaderData } from "@remix-run/react";
 import DashboardTitle from "~/components/dashboardTitle";
 import { ProfileCard } from "~/components/profilecard";
 import WorkplaceCard from "~/components/workplaceCard";
 import { requireUser } from "~/services/auth.server";
 import { GetUserWorkplaces } from "~/services/hasura.server";
-import { TWorkplace } from "~/types";
+import { type TWorkplace } from "~/types";
 
 export const loader: LoaderFunction = async ({ request }) => {
   const user = await requireUser(request);

@@ -23,7 +23,7 @@ export const links: LinksFunction = () => [
 ];
 
 export function meta() {
-  return { title: "Image to Text" };
+  return { title: "LIA Website" };
 }
 
 // https://remix.run/api/conventions#default-export

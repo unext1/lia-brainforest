@@ -1,4 +1,4 @@
-import { type LoaderArgs, json, type ActionArgs } from "@remix-run/node";
+import { json, type ActionArgs, type LoaderArgs } from "@remix-run/node";
 import {
   Form,
   useActionData,
@@ -11,15 +11,20 @@ import { GetWorkplaceById } from "~/services/hasura.server";
 import { type WPschema } from "~/types";
 
 export async function action({ request, params }: ActionArgs) {
+  const { workplaceId } = params;
+
   const formData = await request.formData();
   const values = Object.fromEntries(formData);
-  const obj = {
+
+  //FIX WITH ZODIX IF POSSIBLE
+  const aiInputs = {
     title: values.title,
     alt_text: values.description,
     description: values.description,
   };
-  const { workplaceId } = params;
+
   const user = await requireUser(request);
+
   try {
     const workplace = await GetWorkplaceById({
       token: user?.token!,
@@ -33,13 +38,11 @@ export async function action({ request, params }: ActionArgs) {
           Authorization: `Basic ${workplace.token}`,
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(obj),
+        body: JSON.stringify(aiInputs),
       }
     );
     const data = await response.json();
-    if (data.code === "jwt_auth_invalid_token") {
-      return json({ errormessage: data });
-    } else return json(data);
+    return json(data);
   } catch (error) {
     console.log(error);
     return json({ errormessage: error });
@@ -48,17 +51,20 @@ export async function action({ request, params }: ActionArgs) {
 
 export async function loader({ params, request }: LoaderArgs) {
   const { img, workplaceId } = params;
+
   const user = await requireUser(request);
-  const workplace = await GetWorkplaceById({
-    token: user?.token!,
-    id: workplaceId!,
-  });
 
   try {
+    const workplace = await GetWorkplaceById({
+      token: user?.token!,
+      id: workplaceId!,
+    });
+
     const imageResponse = await fetch(
       `${workplace.url}wp-json/wp/v2/media/${img}`
     );
-    const data = (await imageResponse.json()) as WPschema;
+
+    const data: WPschema = await imageResponse.json();
     const aiResponse = await fetch(
       "https://northeurope.api.cognitive.microsoft.com/vision/v3.2/describe?maxCandidates=1&language=en&model-version=latest",
       {
@@ -74,42 +80,40 @@ export async function loader({ params, request }: LoaderArgs) {
       }
     );
 
-    const aiText = await aiResponse.json();
+    const aiData = await aiResponse.json();
 
-    if (!aiText) return json({ tags: "", description: "" });
-    const aiTextDescription: string = aiText.description.captions
-      ? aiText.description.captions.map((caption: any) => caption.text)
+    if (!aiData) return json({ tags: "", description: "" });
+
+    const aiTextDescription: string = aiData.description.captions
+      ? aiData.description.captions.map((caption: any) => caption.text)
       : "";
 
-    const htmlDescription = data.description.rendered;
-
-    const description =
-      htmlDescription.split("</p>").length > 1
-        ? htmlDescription.split("</p>")[1].slice(4)
+    const wordpressDescription =
+      data.description.rendered.split("</p>").length > 1
+        ? data.description.rendered.split("</p>")[1].slice(4)
         : "";
 
     return json({
-      tags: aiText.description.tags,
+      tags: aiData.description.tags,
       description: aiTextDescription,
-      data: { ...data, description: { rendered: description } },
+      data: { ...data, description: { rendered: wordpressDescription } },
     });
   } catch (err: any) {
     if (err.code === "ERR_INVALID_URL")
       return {
-        error_message: "Invalid Url, try entering your url in home page.",
+        error_message: "Invalid Url",
       };
     return { error_message: "Error" };
   }
 }
 const ImageForm = () => {
+  const actionData = useActionData();
   const { data, error_message, tags, description } = useLoaderData<{
-    tags: any;
-    description: any;
+    tags: string | string[];
+    description: string;
     data: WPschema;
     error_message: string;
   }>();
-
-  const actionData = useActionData();
 
   const navigation = useNavigation();
 
@@ -142,9 +146,9 @@ const ImageForm = () => {
               description={description}
             />
           </Form>
-          {/* {actionData && actionData.errormessage
+          {actionData && actionData.errormessage
             ? actionData.errormessage.code
-            : null} */}
+            : null}
         </div>
       </div>
     </div>

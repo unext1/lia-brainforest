@@ -4,15 +4,16 @@ import { Form, useLoaderData } from "@remix-run/react";
 import { useState } from "react";
 import {
   GetPublicUsers,
-  hasuraClient,
   INVITEUSERTOWORKPLACE,
   IsOwnerOfWorkplace,
+  hasuraClient,
 } from "~/services/hasura.server";
 
 import type { ActionArgs } from "@remix-run/node";
-import { requireUser } from "~/services/auth.server";
-import { zx } from "zodix";
 import { z } from "zod";
+import { zx } from "zodix";
+import { requireUser } from "~/services/auth.server";
+import { type TUser } from "~/types";
 
 export async function action({ request }: ActionArgs) {
   const user = await requireUser(request);
@@ -33,25 +34,34 @@ export async function action({ request }: ActionArgs) {
 export async function loader({ params, request }: LoaderArgs) {
   const { workplaceId } = params;
   const user = await requireUser(request);
+
   const isOwner = await IsOwnerOfWorkplace({
     token: user?.token!,
     workplaceId: workplaceId!,
     userId: user?.id!,
   });
+
   if (!isOwner) return redirect(`/dashboard/workplaces/${workplaceId}`);
+
   const users = await GetPublicUsers();
+
   return json({ users, workplaceId });
 }
 
 const AddUser = () => {
-  const { users, workplaceId } = useLoaderData<typeof loader>();
-  const [selectedPerson, setSelectedPerson] = useState<typeof users[0]>({});
+  const { users, workplaceId } = useLoaderData<{
+    users: TUser[];
+    workplaceId: string;
+  }>();
+
+  const [selectedPerson, setSelectedPerson] = useState<TUser>();
+
   const [query, setQuery] = useState("");
 
   const filteredUsers =
     query === ""
       ? users
-      : users.filter((user: any) => {
+      : users.filter((user) => {
           return user.email.toLowerCase().includes(query.toLowerCase());
         });
 

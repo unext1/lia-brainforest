@@ -1,9 +1,11 @@
 import { GraphQLClient } from "graphql-request";
 import jwt from "jsonwebtoken";
-import { env } from "./env.server";
 import { graphql } from "~/_gql";
-import type { TWorkplace, TLiaWorkplaceMember, TWorkplaceOwner } from "~/types";
+import type { TWorkplace } from "~/types";
+import { env } from "./env.server";
+
 const HASURA_URL = `${env.HASURA_GRAPHQL_URL}/v1/graphql`;
+
 export const createHasuraToken = (userId: string | undefined): string => {
   const payload = {
     "https://hasura.io/jwt/claims": {
@@ -160,7 +162,7 @@ export const REMOVEWORKPLACEMEMBERS: any = graphql(`
     }
   }
 `);
-// CHANGE THIS TO GET IT WITH HASURA CLIENT AND IN PROPS PASS TOKEN
+
 export const GetUserWorkplaces = async ({ token }: { token: string }) => {
   return (
     await hasuraClient(token).request<{ liaWorkplace: TWorkplace[] }>(
@@ -203,6 +205,7 @@ export const GetWorkplaceById = async ({
   id: string;
 }) =>
   (await hasuraClient(token).request(GETWORKPLACEBYID, { id })).liaWorkplace[0];
+
 export const GetWorkplaceByURL = async ({
   token,
   url,

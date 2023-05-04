@@ -20,10 +20,7 @@ const TOTAL_IMAGES_PER_PAGE = 20;
 export async function loader({ request, params }: LoaderArgs) {
   const user = await requireUser(request);
   const { workplaceId } = params;
-  const workplace = await GetWorkplaceById({
-    token: user?.token!,
-    id: workplaceId!,
-  });
+
   const res = zx.parseQuerySafe(request, {
     page: z.string().optional(),
     search: z.string().optional(),
@@ -39,20 +36,28 @@ export async function loader({ request, params }: LoaderArgs) {
   });
 
   let urlParams;
+
   if (res.success) {
     urlParams = new URLSearchParams(
       Object.entries(res.data).filter(([_, v]) => v)
     ).toString();
   }
+
   const searchParams = new URL(request.url).searchParams;
   const pageParam = searchParams.get("page");
   const page = pageParam ? Number(pageParam) : 1;
+
   try {
-    const imageResponse = await fetch(
+    const workplace = await GetWorkplaceById({
+      token: user?.token!,
+      id: workplaceId!,
+    });
+    const imagesResponse = await fetch(
       `${workplace.url}wp-json/wp/v2/media?media_type=image&per_page=${TOTAL_IMAGES_PER_PAGE}&${urlParams}`
     );
-    const totalPages = imageResponse.headers.get("x-wp-totalpages");
-    const data = (await imageResponse.json()) as WPschema[];
+    const totalPages = imagesResponse.headers.get("x-wp-totalpages");
+    const data = (await imagesResponse.json()) as WPschema[];
+
     return json({
       data: data,
       currentPage: page,
@@ -62,7 +67,7 @@ export async function loader({ request, params }: LoaderArgs) {
   } catch (err: any) {
     if (err.code === "ERR_INVALID_URL")
       return {
-        error_message: "Invalid Url, try entering your url in home page.",
+        error_message: "Invalid Url",
       };
     return { error_message: "error" };
   }
@@ -79,13 +84,15 @@ const LayoutImage = () => {
     }>();
 
   const { search, pathname } = useLocation();
-  console.log(search);
+
   const params = Object.fromEntries(new URLSearchParams(search).entries());
+
   const scrollableRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     scrollableRef?.current?.scrollTo(0, 0);
   }, [currentPage]);
+
   return (
     <div>
       <Form action="/dashboard/images">
