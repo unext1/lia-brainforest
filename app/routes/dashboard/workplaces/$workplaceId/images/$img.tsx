@@ -6,6 +6,7 @@ import {
   useNavigation,
 } from "@remix-run/react";
 import { ImageComponent } from "~/components/imageform";
+import { requireUser } from "~/services/auth.server";
 import { GetWorkplaceById } from "~/services/hasura.server";
 import { type WPschema } from "~/types";
 
@@ -17,9 +18,13 @@ export async function action({ request, params }: ActionArgs) {
     alt_text: values.description,
     description: values.description,
   };
-
+  const { workplaceId } = params;
+  const user = await requireUser(request);
   try {
-    const workplace = await GetWorkplaceById(params.workplaceId!);
+    const workplace = await GetWorkplaceById({
+      token: user?.token!,
+      id: workplaceId!,
+    });
     const response = await fetch(
       `${workplace.url}wp-json/wp/v2/media/${values.id}`,
       {
@@ -43,7 +48,11 @@ export async function action({ request, params }: ActionArgs) {
 
 export async function loader({ params, request }: LoaderArgs) {
   const { img, workplaceId } = params;
-  const workplace = await GetWorkplaceById(workplaceId!);
+  const user = await requireUser(request);
+  const workplace = await GetWorkplaceById({
+    token: user?.token!,
+    id: workplaceId!,
+  });
 
   try {
     const imageResponse = await fetch(

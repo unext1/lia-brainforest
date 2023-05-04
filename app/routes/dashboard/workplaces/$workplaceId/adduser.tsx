@@ -1,11 +1,12 @@
 import { Combobox } from "@headlessui/react";
-import { json, type LoaderArgs } from "@remix-run/node";
+import { json, redirect, type LoaderArgs } from "@remix-run/node";
 import { Form, useLoaderData } from "@remix-run/react";
 import { useState } from "react";
 import {
   GetPublicUsers,
   hasuraClient,
   INVITEUSERTOWORKPLACE,
+  IsOwnerOfWorkplace,
 } from "~/services/hasura.server";
 
 import type { ActionArgs } from "@remix-run/node";
@@ -29,9 +30,15 @@ export async function action({ request }: ActionArgs) {
   } else throw Error("Unauthorized");
 }
 
-export async function loader({ params }: LoaderArgs) {
+export async function loader({ params, request }: LoaderArgs) {
   const { workplaceId } = params;
-
+  const user = await requireUser(request);
+  const isOwner = await IsOwnerOfWorkplace({
+    token: user?.token!,
+    workplaceId: workplaceId!,
+    userId: user?.id!,
+  });
+  if (!isOwner) return redirect(`/dashboard/workplaces/${workplaceId}`);
   const users = await GetPublicUsers();
   return json({ users, workplaceId });
 }

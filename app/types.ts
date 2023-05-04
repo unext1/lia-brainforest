@@ -45,6 +45,7 @@ export type TUser = {
   image: string;
   id: string;
 };
+export type TUserWToken = TUser & { token: string };
 export type TWorkplaceOwner = {
   owner: TUser;
 }[];

@@ -9,7 +9,7 @@ import { btoa } from "@remix-run/node/dist/base64";
 import { Form, useActionData } from "@remix-run/react";
 import { SetupComponent } from "~/components/setup";
 import { requireUser } from "~/services/auth.server";
-import { CreateWorkplace } from "~/services/hasura.server";
+import { CreateWorkplace, IsOwnerOfWorkplace } from "~/services/hasura.server";
 
 export const action: ActionFunction = async ({ request }: ActionArgs) => {
   const formData = await request.formData();
@@ -71,7 +71,7 @@ export const action: ActionFunction = async ({ request }: ActionArgs) => {
     return json({ error_url, error_username, error_password });
   }
 };
-export const loader: LoaderFunction = async ({ request }) => {
+export const loader: LoaderFunction = async ({ request, params }) => {
   const user = await requireUser(request);
   return user;
 };

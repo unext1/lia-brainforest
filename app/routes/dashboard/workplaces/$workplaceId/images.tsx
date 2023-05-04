@@ -10,6 +10,7 @@ import { useEffect, useRef } from "react";
 import { z } from "zod";
 import { zx } from "zodix";
 import Images from "~/components/images";
+import { requireUser } from "~/services/auth.server";
 import { GetWorkplaceById } from "~/services/hasura.server";
 
 import { type WPschema } from "~/types";
@@ -17,8 +18,12 @@ import { type WPschema } from "~/types";
 const TOTAL_IMAGES_PER_PAGE = 20;
 
 export async function loader({ request, params }: LoaderArgs) {
+  const user = await requireUser(request);
   const { workplaceId } = params;
-  const workplace = await GetWorkplaceById(workplaceId!);
+  const workplace = await GetWorkplaceById({
+    token: user?.token!,
+    id: workplaceId!,
+  });
   const res = zx.parseQuerySafe(request, {
     page: z.string().optional(),
     search: z.string().optional(),
