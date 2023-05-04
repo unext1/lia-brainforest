@@ -9,6 +9,7 @@ import {
 import { useEffect, useRef } from "react";
 import { z } from "zod";
 import { zx } from "zodix";
+import Btn from "~/components/button";
 import Images from "~/components/images";
 import { requireUser } from "~/services/auth.server";
 import { GetWorkplaceById } from "~/services/hasura.server";
@@ -95,18 +96,38 @@ const LayoutImage = () => {
 
   return (
     <div>
-      <Form action="/dashboard/images">
+      <Form action="/dashboard/images" className="flex gap-4">
         <input type="hidden" name="page" value="1" />
-        <input type="text" name="search" />
-        <label htmlFor="ai_generated_text">Image Type</label>
-        <select name="ai_generated_text">
+        <input
+          type="text"
+          name="search"
+          placeholder="Search"
+          className="border border-transparent rounded-md bg-gray-50 hover:bg-white hover:border-gray-200 focus:ring-2 focus:ring-red-200 focus:border-red-400 "
+        />
+        <select
+          name="ai_generated_text"
+          className="border border-transparent rounded-md bg-gray-50 hover:bg-white hover:border-gray-200 focus:ring-2 focus:ring-red-200 focus:border-red-400 "
+        >
           <option value="0">All Images</option>
           <option value="1">Edited Images</option>
           <option value="2">Unedited Images</option>
         </select>
-        <input type="date" name="after" />
-        <input type="date" name="before" />
-        <button type="submit">Submit</button>
+        <input
+          type="date"
+          name="after"
+          className="border border-transparent rounded-md bg-gray-50 hover:bg-white hover:border-gray-200 focus:ring-2 focus:ring-red-200 focus:border-red-400 "
+        />
+        <input
+          type="date"
+          name="before"
+          className="border border-transparent rounded-md bg-gray-50 hover:bg-white hover:border-gray-200 focus:ring-2 focus:ring-red-200 focus:border-red-400 "
+        />
+        <button
+          type="submit"
+          className="py-1 text-white transition-all transform bg-red-500 border border-transparent rounded-md shadow-md hover:scale-105 px-14 hover:cursor-pointer active:ring-2 active:ring-red-200 active:border-red-400"
+        >
+          Submit
+        </button>
       </Form>
       <div className="lg:block xl:flex">
         <div>
