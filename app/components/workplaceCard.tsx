@@ -2,7 +2,7 @@ import { Link } from "@remix-run/react";
 
 const WorkplaceCard = ({ workplace }: { workplace: any }) => {
   return (
-    <div className="w-full h-full p-5 bg-gray-50 rounded-xl" key={workplace.id}>
+    <div className="w-full h-full p-5 bg-white rounded-xl" key={workplace.id}>
       <Link to={`/dashboard/workplaces/${workplace.id}`}>
         <div className="flex">
           <svg

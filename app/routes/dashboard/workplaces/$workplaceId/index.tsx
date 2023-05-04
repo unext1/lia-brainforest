@@ -1,5 +1,5 @@
-import { LoaderArgs, json } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
+import { type LoaderArgs, json } from "@remix-run/node";
+import { Link, useLoaderData, useLocation } from "@remix-run/react";
 import { requireUser } from "~/services/auth.server";
 import { GetUsersFromWorkplace } from "~/services/hasura.server";
 export async function loader({ request, params }: LoaderArgs) {
@@ -19,6 +19,7 @@ export async function loader({ request, params }: LoaderArgs) {
 
 export default function Index() {
   const workplaceMembers = useLoaderData();
+  const location = useLocation();
   return (
     <div>
       <div className="mt-5">
@@ -30,12 +31,12 @@ export default function Index() {
             <p className="mt-2 text-sm text-gray-700"></p>
           </div>
           <div className="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
-            <button
-              type="button"
+            <Link
+              to={`${location.pathname}/adduser`}
               className="block px-3 py-2 text-sm font-semibold text-center text-white bg-red-600 rounded-md shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600"
             >
               Add user
-            </button>
+            </Link>
           </div>
         </div>
         <div className="flow-root mt-8">

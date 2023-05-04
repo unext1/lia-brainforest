@@ -30,7 +30,6 @@ export async function action({ request }: ActionArgs) {
 }
 
 export async function loader({ params }: LoaderArgs) {
-  //   await requireUser();
   const { workplaceId } = params;
 
   const users = await GetPublicUsers();

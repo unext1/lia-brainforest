@@ -107,19 +107,18 @@ const ImageForm = () => {
   return (
     <div className="max-h-screen overflow-hidden">
       {error_message}
-      <div className="grid grid-cols-2 gap-20 mt-10 ">
-        <div className="w-full">
-          <img
-            src={data?.source_url}
-            alt={data?.source_url}
-            className="mx-auto my-auto h-3/4"
-          />
-        </div>
-
-        <div className="p-10 my-auto bg-gray-50 rounded-xl">
-          <div className="mb-5 text-lg font-semibold">
+      <div className="grid grid-cols-3 gap-10 mt-10 ">
+        <div className="w-full col-span-3 p-10 bg-white rounded-xl ">
+          <p className="text-sm tracking-wider text-gray-600">AI GENERATE</p>
+          <div className="text-lg font-semibold ">
             {data?.title.rendered.replace(/,/g, " ")}
           </div>
+        </div>
+        <div className="w-full col-span-2 bg-white rounded-xl">
+          <img src={data?.source_url} alt={data?.source_url} className="" />
+        </div>
+
+        <div className="p-10 bg-white rounded-xl">
           <Form method="post">
             <ImageComponent
               tags={tags}
@@ -128,9 +127,9 @@ const ImageForm = () => {
               description={description}
             />
           </Form>
-          {actionData && actionData.errormessage
+          {/* {actionData && actionData.errormessage
             ? actionData.errormessage.code
-            : null}
+            : null} */}
         </div>
       </div>
     </div>

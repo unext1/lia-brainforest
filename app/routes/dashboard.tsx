@@ -122,7 +122,7 @@ const Dashboard = () => {
           navigation={params.workplaceId ? workplaceNav : dashboardNav}
           workplaces={loaderData.workplaces}
         />
-        <div className="lg:pl-72">
+        <div className="min-h-screen bg-gray-100 lg:pl-72">
           <main className="">
             <div className="px-4 pt-5 sm:px-6 lg:px-8">
               <Outlet />
