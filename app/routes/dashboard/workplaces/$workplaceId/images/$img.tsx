@@ -119,7 +119,7 @@ const ImageForm = () => {
       <div className="grid grid-cols-5 gap-10 mt-10 ">
         <div className="col-span-5 p-10 bg-white md:col-span-3 rounded-xl">
           <div className="mb-10 ">
-            <p className="text-sm tracking-wider text-gray-600">AI GENERATE</p>
+            <p className="text-sm tracking-wider text-gray-600">AI GENERATOR</p>
             <div className="text-lg font-semibold ">
               {data?.title.rendered.replace(/,/g, " ")}
             </div>
