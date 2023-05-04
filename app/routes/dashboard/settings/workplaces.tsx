@@ -26,7 +26,7 @@ const Workspaces = () => {
     remove: boolean;
   }>();
   return (
-    <div className="w-[80%]">
+    <div className=" max-w-full lg:w-[80%]">
       <div className="flex justify-between w-full px-1 pb-2 border-b border-b-gray-300">
         <p>Name</p>
         {/* <div className="flex gap-10">

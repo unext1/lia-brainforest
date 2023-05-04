@@ -35,7 +35,7 @@ const Dashboard = () => {
           <h2 className="font-semibold text-red-500">Your </h2>
           <h2>workplaces</h2>
         </div>
-        <div className="grid grid-cols-1 gap-10 mb-4 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
+        <div className="grid grid-cols-1 gap-6 mb-4 lg:gap-10 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
           {workplaces ? (
             workplaces.map((workplace: TWorkplace) => (
               <WorkplaceCard workplace={workplace} key={workplace.id} />

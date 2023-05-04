@@ -102,6 +102,11 @@ export type LiaPublicUserMutationResponse = {
   returning: Array<LiaPublicUser>;
 };
 
+/** input type for inserting object relation for remote table "lia.public_user" */
+export type LiaPublicUserObjRelInsertInput = {
+  data: LiaPublicUserInsertInput;
+};
+
 /** Ordering options when selecting data from "lia.public_user". */
 export type LiaPublicUserOrderBy = {
   email?: InputMaybe<OrderBy>;
@@ -512,6 +517,8 @@ export type LiaWorkplaceMember = {
   /** An object relationship */
   workplace: LiaWorkplace;
   workplaceId: Scalars['uuid'];
+  /** An object relationship */
+  workplaceMember?: Maybe<LiaPublicUser>;
 };
 
 /** aggregated selection of "lia.workplace_member" */
@@ -557,6 +564,7 @@ export type LiaWorkplaceMemberBoolExp = {
   userId?: InputMaybe<UuidComparisonExp>;
   workplace?: InputMaybe<LiaWorkplaceBoolExp>;
   workplaceId?: InputMaybe<UuidComparisonExp>;
+  workplaceMember?: InputMaybe<LiaPublicUserBoolExp>;
 };
 
 /** unique or primary key constraints on table "lia.workplace_member" */
@@ -570,6 +578,7 @@ export type LiaWorkplaceMemberInsertInput = {
   userId?: InputMaybe<Scalars['uuid']>;
   workplace?: InputMaybe<LiaWorkplaceObjRelInsertInput>;
   workplaceId?: InputMaybe<Scalars['uuid']>;
+  workplaceMember?: InputMaybe<LiaPublicUserObjRelInsertInput>;
 };
 
 /** aggregate max on columns */
@@ -605,6 +614,7 @@ export type LiaWorkplaceMemberOrderBy = {
   userId?: InputMaybe<OrderBy>;
   workplace?: InputMaybe<LiaWorkplaceOrderBy>;
   workplaceId?: InputMaybe<OrderBy>;
+  workplaceMember?: InputMaybe<LiaPublicUserOrderBy>;
 };
 
 /** primary key columns input for table: lia.workplace_member */
