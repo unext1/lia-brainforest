@@ -5,10 +5,13 @@ import { requireUser } from "~/services/auth.server";
 import { GetWorkplaceById } from "~/services/hasura.server";
 
 export const loader: LoaderFunction = async ({ request, params }) => {
-  await requireUser(request);
+  const user = await requireUser(request);
 
   const { workplaceId } = params;
-  const workplace = await GetWorkplaceById(workplaceId!);
+  const workplace = await GetWorkplaceById({
+    token: user?.token!,
+    id: workplaceId!,
+  });
   if (!workplace) return redirect("/dashboard/workplaces");
   return { workplace };
 };

@@ -1,24 +1,31 @@
 import { type LoaderArgs, json } from "@remix-run/node";
 import { Link, useLoaderData, useLocation } from "@remix-run/react";
 import { requireUser } from "~/services/auth.server";
-import { GetUsersFromWorkplace } from "~/services/hasura.server";
+import {
+  GetUsersFromWorkplace,
+  IsOwnerOfWorkplace,
+} from "~/services/hasura.server";
 export async function loader({ request, params }: LoaderArgs) {
   const user = await requireUser(request);
-
   const { workplaceId } = params;
-
   if (workplaceId) {
     const workplaceMembers = await GetUsersFromWorkplace({
-      token: user.token,
+      token: user?.token!,
       workplaceId: workplaceId,
     });
-    return json(workplaceMembers);
+    const isOwner = await IsOwnerOfWorkplace({
+      token: user?.token!,
+      userId: user?.id!,
+      workplaceId: workplaceId!,
+    });
+    return json({ workplaceMembers, isOwner: isOwner });
   }
   return {};
 }
 
 export default function Index() {
-  const workplaceMembers = useLoaderData();
+  const data = useLoaderData();
+
   const location = useLocation();
   return (
     <div>
@@ -30,14 +37,18 @@ export default function Index() {
             </h1>
             <p className="mt-2 text-sm text-gray-700"></p>
           </div>
-          <div className="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
-            <Link
-              to={`${location.pathname}/adduser`}
-              className="block px-3 py-2 text-sm font-semibold text-center text-white bg-red-600 rounded-md shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600"
-            >
-              Add user
-            </Link>
-          </div>
+          {data?.isOwner ? (
+            <div className="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
+              <Link
+                to={`${location.pathname}/adduser`}
+                className="block px-3 py-2 text-sm font-semibold text-center text-white bg-red-600 rounded-md shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600"
+              >
+                Add user
+              </Link>
+            </div>
+          ) : (
+            ""
+          )}
         </div>
         <div className="flow-root mt-8">
           <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -73,8 +84,8 @@ export default function Index() {
                   </tr>
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200">
-                  {workplaceMembers
-                    ? workplaceMembers.map((i: any) => (
+                  {data?.workplaceMembers
+                    ? data?.workplaceMembers.map((i: any) => (
                         <tr key={i.workplaceMember.email}>
                           <td className="py-5 pl-4 pr-3 text-sm whitespace-nowrap sm:pl-0">
                             <div className="flex items-center">
@@ -102,17 +113,20 @@ export default function Index() {
                               Active
                             </span>
                           </td>
-
                           <td className="relative py-5 pl-3 pr-4 text-sm font-medium text-right whitespace-nowrap sm:pr-0">
-                            <a
-                              href="/"
-                              className="text-red-600 hover:text-red-900"
-                            >
-                              Edit
-                              <span className="sr-only">
-                                , {i.workplaceMember.name}
-                              </span>
-                            </a>
+                            {data?.isOwner ? (
+                              <a
+                                href="/"
+                                className="text-red-600 hover:text-red-900"
+                              >
+                                Edit
+                                <span className="sr-only">
+                                  , {i.workplaceMember.name}
+                                </span>
+                              </a>
+                            ) : (
+                              ""
+                            )}
                           </td>
                         </tr>
                       ))

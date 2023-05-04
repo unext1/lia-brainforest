@@ -3,7 +3,8 @@ import { GoogleStrategy } from "remix-auth-google";
 import { graphql } from "~/_gql";
 import { createHasuraToken, hasuraAdminClient } from "./hasura.server";
 import { sessionStore } from "~/services/session.server";
-import { redirect } from "@remix-run/node";
+import { json, redirect } from "@remix-run/node";
+import { TUserWToken } from "~/types";
 
 type UserSession = {
   id: string;
@@ -54,7 +55,7 @@ export const requireUser = async (request: Request) => {
     });
 
     if (user?.user && user.user?.id) {
-      return { ...user.user, token: sessionUser.token };
+      return { ...user.user, token: sessionUser?.token } as TUserWToken;
     }
     throw Error("Unauthorized");
   } catch (error) {

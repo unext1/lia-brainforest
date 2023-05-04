@@ -111,7 +111,15 @@ export const GETWORKPLACES: any = graphql(`
     }
   }
 `);
-
+export const GETOWNEROFWORKPLACE: any = graphql(`
+  query GetOwnerofWorkplace($userId: uuid, $workplaceId: uuid) {
+    liaWorkplace(
+      where: { _and: { ownerId: { _eq: $userId }, id: { _eq: $workplaceId } } }
+    ) {
+      id
+    }
+  }
+`);
 const GETWORKPLACEMEMBERS = graphql(`
   query GetWorkplaceMemebers($workplaceId: uuid!) {
     liaWorkplaceMember(where: { workplaceId: { _eq: $workplaceId } }) {
@@ -161,6 +169,22 @@ export const GetUserWorkplaces = async ({ token }: { token: string }) => {
   ).liaWorkplace;
 };
 
+export const IsOwnerOfWorkplace = async ({
+  token,
+  userId,
+  workplaceId,
+}: {
+  token: string;
+  userId: string;
+  workplaceId: string;
+}) => {
+  const liaWorkplace = (
+    await hasuraClient(token).request<{
+      liaWorkplace: { id: string }[];
+    }>(GETOWNEROFWORKPLACE, { userId, workplaceId })
+  ).liaWorkplace;
+  return liaWorkplace.length > 0 ? true : false;
+};
 export const GetUsersFromWorkplace = async ({
   token,
   workplaceId,
@@ -171,10 +195,23 @@ export const GetUsersFromWorkplace = async ({
   (await hasuraClient(token).request(GETWORKPLACEMEMBERS, { workplaceId }))
     .liaWorkplaceMember;
 
-export const GetWorkplaceById = async (id: string) =>
-  (await hasuraAdminClient.request(GETWORKPLACEBYID, { id })).liaWorkplace[0];
-export const GetWorkplaceByURL = async (url: string) =>
-  (await hasuraAdminClient.request(GETWORKPLACEBYURL, { url })).liaWorkplace[0];
+export const GetWorkplaceById = async ({
+  token,
+  id,
+}: {
+  token: string;
+  id: string;
+}) =>
+  (await hasuraClient(token).request(GETWORKPLACEBYID, { id })).liaWorkplace[0];
+export const GetWorkplaceByURL = async ({
+  token,
+  url,
+}: {
+  token: string;
+  url: string;
+}) =>
+  (await hasuraClient(token).request(GETWORKPLACEBYURL, { url }))
+    .liaWorkplace[0];
 
 export const GETPUBLICUSERS = graphql(`
   query GetPublicUsers {
