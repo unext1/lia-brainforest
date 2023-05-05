@@ -1,10 +1,21 @@
-import { json, type LoaderArgs } from "@remix-run/node";
-import { Link, useLoaderData, useLocation } from "@remix-run/react";
+import { Dialog, Transition } from "@headlessui/react";
+import { json, type LoaderArgs, type ActionArgs } from "@remix-run/node";
+import {
+  Form,
+  Link,
+  useActionData,
+  useLoaderData,
+  useLocation,
+} from "@remix-run/react";
+import { Fragment, useEffect, useState } from "react";
+import { Toaster, toast } from "react-hot-toast";
 import { requireUser } from "~/services/auth.server";
 import {
   GetUsersFromWorkplace,
   IsOwnerOfWorkplace,
+  RemoveWorkplaceMember,
 } from "~/services/hasura.server";
+import { type TUser } from "~/types";
 export async function loader({ request, params }: LoaderArgs) {
   const user = await requireUser(request);
   const { workplaceId } = params;
@@ -19,15 +30,45 @@ export async function loader({ request, params }: LoaderArgs) {
       userId: user?.id!,
       workplaceId: workplaceId!,
     });
-    return json({ workplaceMembers, isOwner });
+    return json({ workplaceMembers, isOwner, workplaceId });
   }
   return {};
 }
+export async function action({ request }: ActionArgs) {
+  const formData = await request.formData();
+  const user = await requireUser(request);
+  const { userId, workplaceId } = Object.fromEntries(formData) as {
+    userId: string;
+    workplaceId: string;
+  };
+
+  const deletedMember = await RemoveWorkplaceMember({
+    token: user?.token!,
+    userId,
+    workplaceId,
+  });
+  return deletedMember;
+}
 
 export default function Index() {
-  const { workplaceMembers, isOwner } = useLoaderData();
+  const { workplaceMembers, isOwner, workplaceId } = useLoaderData();
+  const [isOpen, setIsOpen] = useState(false);
+  const [selectedUser, SetSelectedUser] = useState<TUser | null>(null);
+  const deletedMember = useActionData();
+  useEffect(() => {
+    if (deletedMember) {
+      toast.success("Member is now deleted", { duration: 4000 });
+    }
+  }, [deletedMember]);
+  function closeModal() {
+    setIsOpen(false);
+  }
 
+  function openModal() {
+    setIsOpen(true);
+  }
   const location = useLocation();
+
   return (
     <div>
       <div className="mt-5">
@@ -37,6 +78,7 @@ export default function Index() {
               Workplace Members
             </h1>
           </div>
+          <Toaster position="top-right" />
           {isOwner ? (
             <div className="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
               <Link
@@ -52,7 +94,7 @@ export default function Index() {
         </div>
         <div className="flow-root mt-8">
           <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-            <div className="min-w-full py-2 align-middle  sm:px-6 lg:px-8">
+            <div className="min-w-full py-2 align-middle sm:px-6 lg:px-8">
               <table className="min-w-full divide-y divide-gray-300">
                 <thead>
                   <tr>
@@ -112,15 +154,18 @@ export default function Index() {
                           </td>
                           <td className="relative py-5 pl-3 pr-4 text-sm font-medium text-right whitespace-nowrap ">
                             {isOwner ? (
-                              <a
-                                href="/"
+                              <button
+                                onClick={() => {
+                                  SetSelectedUser(i.workplaceMember);
+                                  openModal();
+                                }}
                                 className="text-red-600 hover:text-red-900"
                               >
                                 Edit
                                 <span className="sr-only">
                                   , {i.workplaceMember.name}
                                 </span>
-                              </a>
+                              </button>
                             ) : (
                               ""
                             )}
@@ -134,6 +179,81 @@ export default function Index() {
           </div>
         </div>
       </div>
+      <Transition appear show={isOpen} as={Fragment}>
+        <Dialog as="div" className="relative z-10" onClose={closeModal}>
+          <Transition.Child
+            as={Fragment}
+            enter="ease-out duration-300"
+            enterFrom="opacity-0"
+            enterTo="opacity-100"
+            leave="ease-in duration-200"
+            leaveFrom="opacity-100"
+            leaveTo="opacity-0"
+          >
+            <div className="fixed inset-0 bg-black bg-opacity-25" />
+          </Transition.Child>
+
+          <div className="fixed inset-0 overflow-y-auto">
+            <div className="flex items-center justify-center min-h-full p-4 text-center">
+              <Transition.Child
+                as={Fragment}
+                enter="ease-out duration-300"
+                enterFrom="opacity-0 scale-95"
+                enterTo="opacity-100 scale-100"
+                leave="ease-in duration-200"
+                leaveFrom="opacity-100 scale-100"
+                leaveTo="opacity-0 scale-95"
+              >
+                <Dialog.Panel className="w-full max-w-md p-6 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
+                  <Dialog.Title
+                    as="h3"
+                    className="text-lg font-medium leading-6 text-gray-900"
+                  >
+                    Remove User
+                  </Dialog.Title>
+                  <div className="mt-2">
+                    <p className="text-sm text-gray-500">
+                      Are you sure you want to remove {selectedUser?.name} ?
+                    </p>
+                  </div>
+
+                  <div className="flex justify-between mt-4">
+                    <Form method="post" className="w-full">
+                      <input
+                        name="userId"
+                        value={selectedUser?.id}
+                        type="hidden"
+                      />
+                      <input
+                        name="workplaceId"
+                        value={workplaceId}
+                        type="hidden"
+                      />
+                      <div className="">
+                        <button
+                          type="submit"
+                          onClick={closeModal}
+                          className="inline-flex justify-center px-8 py-1.5 text-sm font-medium text-white bg-red-400 border border-transparent rounded-md hover:bg-red-500 focus:outline-none "
+                        >
+                          Yes
+                        </button>
+                      </div>
+                    </Form>
+                    <div className="">
+                      <button
+                        onClick={closeModal}
+                        className="inline-flex justify-center px-8 py-1.5 text-sm font-medium text-black bg-gray-100 border border-transparent rounded-md hover:bg-gray-200 focus:outline-none "
+                      >
+                        No
+                      </button>
+                    </div>
+                  </div>
+                </Dialog.Panel>
+              </Transition.Child>
+            </div>
+          </div>
+        </Dialog>
+      </Transition>
     </div>
   );
 }

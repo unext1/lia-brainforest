@@ -188,12 +188,15 @@ export const RemoveWorkplaceMember = async ({
   token: string;
   userId: string;
   workplaceId: string;
-}) => {
-  return await hasuraClient(token).request(REMOVEWORKPLACEMEMBER, {
-    userId,
-    workplaceId,
-  });
-};
+}) =>
+  (
+    await hasuraClient(token).request<{
+      deleteLiaWorkplaceMember: { affected_rows: number };
+    }>(REMOVEWORKPLACEMEMBER, {
+      userId,
+      workplaceId,
+    })
+  ).deleteLiaWorkplaceMember;
 export const IsOwnerOfWorkplace = async ({
   token,
   userId,

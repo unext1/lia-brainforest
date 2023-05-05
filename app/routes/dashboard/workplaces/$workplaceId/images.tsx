@@ -57,9 +57,7 @@ export async function loader({ request, params }: LoaderArgs) {
     );
     const totalPages = imagesResponse.headers.get("x-wp-totalpages");
     const data = (await imagesResponse.json()) as WPschema[];
-    console.log(
-      `${workplace.url}wp-json/wp/v2/media?media_type=image&per_page=${TOTAL_IMAGES_PER_PAGE}&${urlParams}`
-    );
+
     return json({
       data: data,
       currentPage: page,
