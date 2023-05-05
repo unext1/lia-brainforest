@@ -63,7 +63,6 @@ export const action: ActionFunction = async ({ request }: ActionArgs) => {
         }
       );
       const titleData = await titleResponse.json();
-      console.log(titleData);
       if (titleData.code)
         if (titleData.code === "rest_forbidden")
           return json({
@@ -78,7 +77,6 @@ export const action: ActionFunction = async ({ request }: ActionArgs) => {
 
       return redirect(`/dashboard/workplaces/${workplace.id}`, {});
     } catch (err) {
-      console.log(err);
       return { error_message: "there was an error." };
     }
   } else {
