@@ -37,7 +37,11 @@ const Dashboard = () => {
         <div className="grid grid-cols-1 gap-6 mb-4 lg:gap-10 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
           {workplaces ? (
             workplaces.map((workplace: TWorkplace) => (
-              <WorkplaceCard workplace={workplace} key={workplace.id} />
+              <WorkplaceCard
+                remove={false}
+                workplace={workplace}
+                key={workplace.id}
+              />
             ))
           ) : (
             <p>U dont have any workplaces...</p>
