@@ -7,25 +7,32 @@ export const Profile = ({ user }: { user: TUser | undefined }) => {
   return (
     <>
       <Menu as="div" className="relative">
-        <Menu.Button className="flex items-center h-20 pl-4">
+        <Menu.Button className="flex pl-4 mb-5">
           <span className="sr-only">Open user menu</span>
           <img
-            className="w-10 h-10 rounded-full bg-gray-50"
+            className="w-10 h-10 my-auto rounded-full bg-gray-50"
             src={user?.image}
             alt=""
           />
-          <span className="flex items-center">
-            <span
-              className="ml-4 text-sm font-semibold leading-6 text-gray-900 capitalize lg:text-base"
+          <div className="ml-4 ">
+            <div
+              className="text-xs leading-6 text-left text-gray-500 uppercase "
+              aria-hidden="true"
+            >
+              {user?.email}
+            </div>
+            <div
+              className="-mt-1 text-sm font-semibold leading-6 text-left text-black capitalize "
               aria-hidden="true"
             >
               {user?.name}
-            </span>
+            </div>
+
             {/* <ChevronDownIcon
               className="w-5 h-5 ml-2 text-gray-400"
               aria-hidden="true"
             /> */}
-          </span>
+          </div>
         </Menu.Button>
         <Transition
           as={Fragment}

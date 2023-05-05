@@ -99,10 +99,10 @@ const LayoutImage = () => {
     <div>
       <Form
         action={`/dashboard/workplaces/${workplaceId}/images`}
-        className="flex space-x-5 space-y-3"
+        className="space-y-3 "
       >
         <input type="hidden" name="page" value="1" />
-        <div>
+        <div className="inline-block mr-3">
           <input
             type="text"
             name="search"
@@ -110,7 +110,7 @@ const LayoutImage = () => {
             className="border border-transparent rounded-md bg-gray-50 hover:bg-white hover:border-gray-200 focus:ring-2 focus:ring-red-200 focus:border-red-400 "
           />
         </div>
-        <div>
+        <div className="inline-block mr-3">
           <select
             name="ai_generated_text"
             className="border border-transparent rounded-md bg-gray-50 hover:bg-white hover:border-gray-200 focus:ring-2 focus:ring-red-200 focus:border-red-400 "
@@ -120,14 +120,14 @@ const LayoutImage = () => {
             <option value="2">Unedited Images</option>
           </select>
         </div>
-        <div>
+        <div className="inline-block mr-3">
           <input
             type="date"
             name="after"
             className="border border-transparent rounded-md bg-gray-50 hover:bg-white hover:border-gray-200 focus:ring-2 focus:ring-red-200 focus:border-red-400 "
           />
         </div>
-        <div>
+        <div className="inline-block mr-3 ">
           <input
             type="date"
             name="before"
@@ -138,7 +138,7 @@ const LayoutImage = () => {
           type="submit"
           className="py-1 text-white transition-all transform bg-red-500 border border-transparent rounded-md shadow-md hover:scale-105 px-14 hover:cursor-pointer active:ring-2 active:ring-red-200 active:border-red-400"
         >
-          Submit
+          Filter
         </button>
       </Form>
       <div className="lg:block xl:flex">
@@ -150,7 +150,7 @@ const LayoutImage = () => {
             navigation={search}
             workplaceId={workplaceId!}
           />
-          <div className="flex flex-row justify-between">
+          <div className="flex flex-row justify-between mt-2">
             <Link
               to={`${pathname}?${new URLSearchParams({
                 ...params,
@@ -158,12 +158,16 @@ const LayoutImage = () => {
                   ? Math.max(Number(params.page) - 1, 1).toString()
                   : "1",
               })}`}
-              className={Number(currentPage) <= 1 ? "invisible" : "block"}
+              className={
+                Number(currentPage) <= 1
+                  ? "invisible text-sm font-semibold"
+                  : "block text-sm font-semibold"
+              }
             >
-              Previous
+              {"<"}
             </Link>
-            <div>
-              {currentPage} {totalPages > 0 ? "/" : ""}
+            <div className="my-auto mt-1 text-xs font-semibold">
+              {currentPage} {totalPages > 0 ? "/" : ""}{" "}
               {totalPages > 0 ? totalPages : ""}
             </div>
             <Link
@@ -171,18 +175,26 @@ const LayoutImage = () => {
                 ...params,
                 page: params?.page
                   ? Math.min(Number(params.page) + 1).toString()
-                  : "1",
+                  : "2",
               })}`}
               className={
-                Number(currentPage) >= totalPages ? "invisible" : "block"
+                Number(currentPage) >= totalPages
+                  ? "invisible text-sm font-semibold"
+                  : "block text-sm font-semibold"
               }
             >
-              Next
+              {">"}
             </Link>
           </div>
         </div>
         <div className="flex-1 xl:pl-10">
-          <Outlet />
+          {data.length > 1 ? (
+            <Outlet />
+          ) : (
+            <div className="flex items-center justify-center w-full h-full">
+              <h1>No images found.</h1>
+            </div>
+          )}
         </div>
       </div>
     </div>

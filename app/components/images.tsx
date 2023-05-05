@@ -13,7 +13,7 @@ const Images = forwardRef<HTMLDivElement, Props>(function Images(
   ref
 ) {
   return (
-    <div className="w-full m-2  mt-5 bg-white xl:mt-10 rounded-xl max-h-[80vh]">
+    <div className="w-full mr-4  mt-5 bg-white xl:mt-10 rounded-xl max-h-[80vh]">
       <div
         ref={ref}
         className=" flex xl:block xl:h-[700px] xl:py-5  overflow-x-auto snap-x space-x-10 xl:space-x-0 xl:overflow-y-auto  snap-mandatory xl:snap-y xl:space-y-10 max-h-[70vh]"
@@ -21,10 +21,10 @@ const Images = forwardRef<HTMLDivElement, Props>(function Images(
         {data?.map((image) => (
           <div
             key={image.id}
-            className="relative flex-shrink-0 p-5 snap-center"
+            className="relative flex-shrink-0 pl-4 snap-center"
           >
             <div
-              className={` absolute top-5 w-4 h-4 rounded-full right-4 ${
+              className={` absolute top-0 w-4 h-4 rounded-full right-3 ${
                 image.ai_generated_text ? "bg-green-500" : "bg-red-500"
               }`}
             ></div>

@@ -71,7 +71,7 @@ const Dashboard = () => {
     },
     {
       name: "Images",
-      href: `/dashboard/workplaces/${params.workplaceId}/images?page=1`,
+      href: `/dashboard/workplaces/${params.workplaceId}/images`,
       svg: (
         <svg
           xmlns="http://www.w3.org/2000/svg"
