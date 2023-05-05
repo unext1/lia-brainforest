@@ -17,7 +17,7 @@ export const ImageComponent = ({
                 <div className='flex flex-col'>
                     <label
                         htmlFor='title'
-                        className='mb-2 text-xs font-semibold tracking-wider uppercase'
+                        className='mb-2 text-s font-semibold tracking-wider uppercase'
                     >
                         Wordpress title
                     </label>
@@ -33,7 +33,7 @@ export const ImageComponent = ({
                 <div className='flex flex-col'>
                     <label
                         htmlFor='title'
-                        className='mb-2 text-xs font-semibold tracking-wider uppercase'
+                        className='mb-2 text-s font-semibold tracking-wider uppercase'
                     >
                         Generated title
                     </label>
@@ -50,7 +50,7 @@ export const ImageComponent = ({
                 <div className='flex flex-col'>
                     <label
                         htmlFor='description'
-                        className='mb-2 text-xs font-semibold tracking-wider uppercase'
+                        className='mb-2 text-s font-semibold tracking-wider uppercase'
                     >
                         Wordpress description
                     </label>
@@ -66,7 +66,7 @@ export const ImageComponent = ({
                 <div className='flex flex-col'>
                     <label
                         htmlFor='description'
-                        className='mb-2 text-xs font-semibold tracking-wider uppercase'
+                        className='mb-2 text-s font-semibold tracking-wider uppercase'
                     >
                         Generated description
                     </label>
@@ -84,7 +84,7 @@ export const ImageComponent = ({
                 <div className='flex flex-col'>
                     <label
                         htmlFor='title'
-                        className='mb-2 text-xs font-semibold tracking-wider uppercase'
+                        className='mb-2 text-s font-semibold tracking-wider uppercase'
                     >
                         Wordpress alt tag
                     </label>
@@ -100,7 +100,7 @@ export const ImageComponent = ({
                 <div className='flex flex-col'>
                     <label
                         htmlFor='alt-tag'
-                        className='mb-2 text-xs font-semibold tracking-wider uppercase'
+                        className='mb-2 text-s font-semibold tracking-wider uppercase'
                     >
                         Generated alt tag
                     </label>
