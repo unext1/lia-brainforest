@@ -17,18 +17,17 @@ export const loader: LoaderFunction = async ({ request }) => {
 };
 
 const Dashboard = () => {
-  const { workplaces, user } = useLoaderData<typeof loader>();
+  const { workplaces } = useLoaderData<typeof loader>();
 
   return (
     <div>
       <DashboardTitle title="Dashboard" />
-      <div className="">
+      {/* <div className="">
         <div className="flex py-2 space-x-1 text-xl">
           <h2 className="font-semibold text-red-500">Your </h2>
           <h2>profile</h2>
         </div>
-        <ProfileCard name={user.name} email={user.email} image={user.image} />
-      </div>
+      </div> */}
 
       <div className="mt-2">
         <div className="flex py-4 space-x-1 text-xl">

@@ -6,7 +6,7 @@ export const SetupComponent = () => {
       </h2>
       <p className="mt-3 text-sm ">
         Step 1: Download our
-        <a className="mx-1 text-blue-400" href="/Metadata-plugin.zip" download>
+        <a className="mx-1 text-blue-400" href="/metadata-plugin.zip" download>
           Metadata plugin.
         </a>
         and add the zip file to plugins

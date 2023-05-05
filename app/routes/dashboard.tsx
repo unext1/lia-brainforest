@@ -1,18 +1,18 @@
 import { type LoaderArgs } from "@remix-run/node";
-import { Outlet, useParams } from "@remix-run/react";
+import { Outlet, useLoaderData, useParams } from "@remix-run/react";
 import { useState } from "react";
 import { MobileSidebar } from "~/components/dashboard/mobileSidebar";
 import { Sidebar } from "~/components/dashboard/sidebar";
 import { requireUser } from "~/services/auth.server";
 
 export const loader = async ({ request }: LoaderArgs) => {
-  await requireUser(request);
-  return {};
+  const user = await requireUser(request);
+  return user;
 };
 
 const Dashboard = () => {
+  const user = useLoaderData();
   const [sidebarOpen, setSidebarOpen] = useState(false);
-
   const params = useParams();
 
   const dashboardNav = [
@@ -92,11 +92,13 @@ const Dashboard = () => {
           setState={setSidebarOpen}
           state={sidebarOpen}
           navigation={params.workplaceId ? workplaceNav : dashboardNav}
+          user={user}
         />
         <Sidebar
           setState={setSidebarOpen}
           state={sidebarOpen}
           navigation={params.workplaceId ? workplaceNav : dashboardNav}
+          user={user}
         />
         <div className="min-h-screen bg-gray-100 lg:pl-72">
           <main className="">
