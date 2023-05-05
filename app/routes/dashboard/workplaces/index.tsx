@@ -1,10 +1,23 @@
 import { json, type LoaderFunction } from "@remix-run/node";
 import { Link, useLoaderData } from "@remix-run/react";
 import DashboardTitle from "~/components/dashboardTitle";
-import WorkplaceCard from "~/components/workplaceCard";
 import { requireUser } from "~/services/auth.server";
-import { GetUserWorkplaces } from "~/services/hasura.server";
+import { GetUserWorkplaces, RemoveWorkplace } from "~/services/hasura.server";
 import { type TWorkplace } from "~/types";
+
+import type { ActionArgs } from "@remix-run/node";
+import WorkplaceCard from "~/components/workplaceCard";
+
+export async function action({ request }: ActionArgs) {
+  const formData = await request.formData();
+  const { workplaceId } = Object.fromEntries(formData);
+  if (workplaceId) {
+    await RemoveWorkplace(workplaceId as string);
+    return { deleted: true };
+  }
+
+  return {};
+}
 
 export const loader: LoaderFunction = async ({ request }) => {
   const user = await requireUser(request);
@@ -12,10 +25,10 @@ export const loader: LoaderFunction = async ({ request }) => {
     token: user?.token!,
   });
 
-  return json(workplaces);
+  return json({ workplaces, user });
 };
 export default function Index() {
-  const workplaces = useLoaderData<typeof loader>();
+  const { workplaces, user } = useLoaderData<typeof loader>();
 
   return (
     <>
@@ -23,7 +36,11 @@ export default function Index() {
       <div className="grid grid-cols-1 gap-10 mb-4 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-3">
         {workplaces ? (
           workplaces.map((workplace: TWorkplace) => (
-            <WorkplaceCard key={workplace.id} workplace={workplace} />
+            <WorkplaceCard
+              key={workplace.id}
+              workplace={workplace}
+              remove={workplace.ownerId === user.id}
+            />
           ))
         ) : (
           <p>U dont have any workplaces...</p>

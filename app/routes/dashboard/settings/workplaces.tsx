@@ -21,6 +21,7 @@ export async function action({ request }: ActionArgs) {
   }
   return {};
 }
+
 const Workspaces = () => {
   const { workplaces } = useLoaderData();
   const actionData = useActionData();
