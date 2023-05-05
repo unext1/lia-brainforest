@@ -134,7 +134,17 @@ const GETWORKPLACEMEMBERS = graphql(`
     }
   }
 `);
-
+export const REMOVEWORKPLACEMEMBER: any = graphql(`
+  mutation RemoveWorkplaceMember($userId: uuid, $workplaceId: uuid) {
+    deleteLiaWorkplaceMember(
+      where: {
+        _and: { userId: { _eq: $userId }, workplaceId: { _eq: $workplaceId } }
+      }
+    ) {
+      affected_rows
+    }
+  }
+`);
 export const REMOVEWORKPLACE: any = graphql(`
   mutation DeleteWorkplace($id: uuid) {
     deleteLiaWorkplace(where: { id: { _eq: $id } }) {
@@ -170,7 +180,20 @@ export const GetUserWorkplaces = async ({ token }: { token: string }) => {
     )
   ).liaWorkplace;
 };
-
+export const RemoveWorkplaceMember = async ({
+  token,
+  userId,
+  workplaceId,
+}: {
+  token: string;
+  userId: string;
+  workplaceId: string;
+}) => {
+  return await hasuraClient(token).request(REMOVEWORKPLACEMEMBER, {
+    userId,
+    workplaceId,
+  });
+};
 export const IsOwnerOfWorkplace = async ({
   token,
   userId,

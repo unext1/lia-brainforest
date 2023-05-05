@@ -63,7 +63,7 @@ export const action: ActionFunction = async ({ request }: ActionArgs) => {
         }
       );
       const titleData = await titleResponse.json();
-
+      console.log(titleData);
       if (titleData.code)
         if (titleData.code === "rest_forbidden")
           return json({
